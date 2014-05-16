@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.sonatype.oss</groupId>
+    <artifactId>oss-parent</artifactId>
+    <version>7</version>
+  </parent>
+  <groupId>com.redhat.lightblue</groupId>
+  <artifactId>lightblue-applications</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>lightblue-applications: ${project.groupId}|${project.artifactId}</name>
+  <description>Management applications for lightblue-powered services</description>
+    <url>https://github.com/bserdar/lightblue</url>
+    <licenses>
+        <license>
+            <name>GNU GENERAL PUBLIC LICENSE, Version 3, 29 June 2007</name>
+            <url>http://www.gnu.org/licenses/gpl-3.0-standalone.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <scm>
+        <connection>scm:git:https://github.com/lightblue-platform/lightblue-applications.git</connection>
+        <developerConnection>scm:git:git@github.com:lightblue-platform/lightblue-applications.git</developerConnection>
+        <url>https://github.com/lightblue-platform/lightblue-applications</url>
+    </scm>
+    <developers>
+        <developer>
+            <id>bserdar</id>
+            <name>Burak Serdar</name>
+            <email>bserdar@redhat.com</email>
+            <organization>Red Hat</organization>
+        </developer>
+        <developer>
+            <id>nmalik</id>
+            <name>Naveen Malik</name>
+            <email>nmalik@redhat.com</email>
+            <organization>Red Hat</organization>
+            <roles>
+                <role>architect</role>
+                <role>developer</role>
+            </roles>
+            <timezone>-5</timezone>
+        </developer>
+        <developer>
+            <id>dhaynes</id>
+            <name>Derek Haynes</name>
+            <email>dhaynes@redhat.com</email>
+            <organization>Red Hat</organization>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>-5</timezone>
+        </developer>
+        <developer>
+            <id>lcestari</id>
+            <name>Luan Cestari</name>
+            <email>lcestari@redhat.com</email>
+            <organization>Red Hat</organization>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>-3</timezone>
+        </developer>
+    </developers>
+    <dependencies>
+	    <dependency>
+	        <groupId>org.jboss.spec</groupId>
+	        <artifactId>jboss-javaee-6.0</artifactId>
+	        <version>3.0.2.Final</version>
+	        <type>pom</type>
+	        <exclusions>
+	            <exclusion>
+	                <artifactId>xalan</artifactId>
+	                <groupId>xalan</groupId>
+	            </exclusion>
+	        </exclusions>
+	    </dependency>
+        <dependency>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+          <version>4.11</version>
+        </dependency>
+    </dependencies>
+    <modules>
+        <module>metadata-mgmt</module>
+    <module>data-mgmt</module>
+  </modules>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
