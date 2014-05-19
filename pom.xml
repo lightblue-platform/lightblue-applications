@@ -84,9 +84,9 @@
         </dependency>
     </dependencies>
  <modules>
+    <module>apps-common</module>
     <module>metadata-mgmt</module>
     <module>data-mgmt</module>
-    <module>apps-common</module>
  </modules>
     <build>
         <plugins>
