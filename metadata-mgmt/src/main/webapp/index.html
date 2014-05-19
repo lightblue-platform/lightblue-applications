@@ -124,44 +124,20 @@
           </li>
           </ul>
           
-          <ul class="nav navbar-nav navbar-right">
-          <li><p class="navbar-text">Legend</p></li>
-          <li>
-            <form class="navbar-form">
-            <div class="form-group">
-              <button class="btn btn-default" disabled>array</button>
-              <button class="btn btn-primary" disabled>object</button>
-              <button class="btn btn-success" disabled>string</button>
-              <button class="btn btn-info" disabled>number</button>
-              <button class="btn btn-warning" disabled>boolean</button>
-              <button class="btn btn-danger" disabled>null</button>
-            </div>
-            </form>
-          </li>
-          <li>
-            <form class="navbar-form">
-            <div class="form-group">
-              <button type="button" id="expander" class="btn btn-default">Expand all</button>
-            </div>
-            </form>
-          </li>
-          </ul>
+          
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
     </nav>
-    
 
 	<div class="container">
-    	<ol class="breadcrumb">
-          <li class="active">Action</li>
-          <li class="active">Entity</li>
-          <li class="active">Version</li>
-        </ol>
-        <div class="alert alert-warning">Remove item by deleting a property name.</div>
-
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h4 class="panel-title"><a data-toggle="collapse" href="#json-editor">View/edit JSON</a></h4>
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" href="#json-editor">
+                    <i class="glyphicon glyphicon-edit"></i>
+                        View/edit JSON
+                    </a>
+                </h4>
             </div>
             <div id="json-editor" class="panel-collapse collapse">
                 <div class="panel-body" id="rawJsonEditor">
@@ -178,22 +154,42 @@
                 </div>
             </div>
         </div>
-                    
     	<div class="panel panel-default">
-          <div class="panel-body">
-            <div id="editor" class="json-editor"></div>
-          </div>
           <div class="panel-footer" id="rawJsonButton">
-  			<button type="button" class="btn btn-default btn-lg" data-toggle="collapse" data-target="#json-editor">
-				<i class="glyphicon glyphicon-edit"></i> View JSON Text
-			</button>
-			<button type="button" class="btn btn-default btn-lg">
-				<i class="glyphicon glyphicon-save"></i> Save
-			</button>
-			<button type="button" class="btn btn-default btn-lg">
-				<i class="glyphicon glyphicon-remove"></i> Cancel
-			</button>
+            <button type="button" class="btn btn-default btn-lg">
+                <i class="glyphicon glyphicon-save"></i> Save
+            </button>
+            <button type="button" class="btn btn-default btn-lg">
+                <i class="glyphicon glyphicon-remove"></i> Cancel
+            </button>
+            <ul class="nav navbar-nav navbar-right">
+              <li><p class="navbar-text">Legend</p></li>
+              <li>
+                <form class="navbar-form">
+                <div class="form-group">
+                  <button class="btn btn-primary" disabled>array</button>
+                  <button class="btn btn-warning" disabled>object</button>
+                  <button class="btn btn-success" disabled>string</button>
+                  <button class="btn btn-info" disabled>number</button>
+                  <button class="btn btn-success" disabled>boolean</button>
+                  <button class="btn btn-success" disabled>null</button>
+                </div>
+                </form>
+              </li>
+              <li>
+                <form class="navbar-form">
+                <div class="form-group">
+                  <button type="button" id="expander" class="btn btn-default">Expand all</button>
+                </div>
+                </form>
+              </li>
+          </ul> 
           </div>
+          <div class="panel-body">
+            <div class="alert alert-warning">Remove item by deleting a property name.</div>
+          
+            <div id="editor" class="json-editor"></div>
+          </div>  
     	</div>
         
     </div>
