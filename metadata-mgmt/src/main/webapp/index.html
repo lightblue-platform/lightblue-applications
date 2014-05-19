@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lightblue Metadata Management Application</title>
+
+  <link rel="stylesheet" href="framework/jquery-ui-1.10.4.custom/development-bundle/themes/blitzer/jquery-ui.css">
+  <link rel="stylesheet" href="framework/jquery-ui-1.10.4.custom/css/blitzer/jquery-ui-1.10.4.custom.css">
+  <link rel="stylesheet" href="framework/bootstrap-3.1.1-dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="framework/flexi-json-editor/jsoneditor.css"/>
+<!--
+  <link rel="stylesheet" href="css/metadata-mgmt.css"/>
+  <link rel="stylesheet" href="css/style.css"/>
+-->
+  
+  <script src="framework/jquery-ui-1.10.4.custom/js/jquery-1.10.2.js"></script>
+  <script src="framework/jquery-ui-1.10.4.custom/js/jquery-ui-1.10.4.custom.js"></script>
+  <script src="js/bootstrap.min.js"></script>  
+  <script src="js/metadata-mgmt.js"></script>
+  <script src="framework/flexi-json-editor/jquery.jsoneditor.js"></script>
+  <script src="framework/flexi-json-editor/jsoneditor.js"></script>
+  
+  <script type="text/javascript">
+
+  $(document).ready(function() {
+
+	  var metadataServicePath = "http://localhost:8080/metadata/";
+	  
+	  var entitySelect = $("#entities");
+	  var versionSelect = $("#versions");
+	  var submitButton = $("#load-content-btn");
+
+	  var jsonTextArea = $("#json");
+	  var jsonTreeEditor = $("#editor");
+	  
+      $.getJSON( metadataServicePath, function( json ) {
+	      var items = [];
+	      $.each( json, function( key, val ) {
+	    	  $.each( val, function( arrayVal ) {
+	    		  entitySelect.append("<option value='" + val[arrayVal] + "'>" + val[arrayVal] + "</option>");
+	          });   	  
+	      });
+       });
+
+      entitySelect.change(function() {
+    	  versionSelect.empty();
+    	  versionSelect.append("<option value='' disabled selected>Version:</option>");
+          $.getJSON( metadataServicePath + entitySelect.val(), function( json ) {
+              $.each( json, function( versions, details ) {
+                  $.each(details, function( arrayIndex ) {
+                 	  $.each(details[arrayIndex], function(attributeName, value) {
+                 		   if(attributeName == "value") {
+                 			  versionSelect.append("<option value='" + value + "'>" + value + "</option>");
+                 		   }                		    
+                 	  });
+                  });         
+              });
+           });
+      });
+
+      submitButton.click(function() {
+        $.getJSON( metadataServicePath + entitySelect.val() + "/" + versionSelect.val(), function( json ) {
+        	jsonTextArea.val(JSON.stringify(json));
+        	jsonTreeEditor.jsonEditor(json, { change: updateJSON, propertyclick: showPath });
+        });
+      });
+           
+  });
+
+  </script>
+  
+   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+	<nav class="navbar navbar-default" role="navigation">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Lightblue</a>
+        </div>
+    
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+          <ul class="nav navbar-nav navbar-left">
+          <li>
+          <div class="navbar-form">
+            <div class="form-group"><!-- class="ui-widget" -->
+				<select  class="form-control" name="Action"><!-- id="combobox" -->
+					<option value="" disabled selected>Action:</option>
+					<option value="view">View Entity</option>
+					<option value="edit">Edit Entity</option>
+					<option value="new">Create Entity</option>
+					<option value="version">Create Version</option>
+					<option value="roles">View Roles</option>
+					<option value="summary">View Summary</option>
+				</select>
+				<button id="toggle" class="btn btn-default" style="display:none">Show underlying select</button>
+				<select id="entities" class="form-control" name="Entity"><!-- id="combobox2" -->
+					<option value="" disabled selected>Entity:</option>
+				</select>	
+				<button id="toggle" class="btn btn-default" style="display:none">Show underlying select</button>			
+				<select id="versions" class="form-control" name="Version"><!-- id="combobox3" -->
+					<option value="" disabled selected>Version:</option>
+				</select>
+				<button id="toggle" class="btn btn-default" style="display:none">Show underlying select</button>
+                <button type="submit" class="btn btn-default" id="load-content-btn" data-loading-text="Loading...">Submit</button>
+            </div>
+          </div>
+          </li>
+          </ul>
+          
+          <ul class="nav navbar-nav navbar-right">
+          <li><p class="navbar-text">Legend</p></li>
+          <li>
+            <form class="navbar-form">
+            <div class="form-group">
+              <button class="btn btn-default" disabled>array</button>
+              <button class="btn btn-primary" disabled>object</button>
+              <button class="btn btn-success" disabled>string</button>
+              <button class="btn btn-info" disabled>number</button>
+              <button class="btn btn-warning" disabled>boolean</button>
+              <button class="btn btn-danger" disabled>null</button>
+            </div>
+            </form>
+          </li>
+          <li>
+            <form class="navbar-form">
+            <div class="form-group">
+              <button type="button" id="expander" class="btn btn-default">Expand all</button>
+            </div>
+            </form>
+          </li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+    
+
+	<div class="container">
+    	<ol class="breadcrumb">
+          <li class="active">Action</li>
+          <li class="active">Entity</li>
+          <li class="active">Version</li>
+        </ol>
+        <div class="alert alert-warning">Remove item by deleting a property name.</div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title"><a data-toggle="collapse" href="#json-editor">View/edit JSON</a></h4>
+            </div>
+            <div id="json-editor" class="panel-collapse collapse">
+                <div class="panel-body" id="rawJsonEditor">
+                    <div class="alert alert-info">Note that you can edit your JSON directly in the textarea below. The JSON viewer will get updated when you leave the field.</div>
+        			<div id="paste" class="form form-horizontal" role="form">                   
+            			<textarea id="json" class="form-control json-textarea" rows="10"></textarea>
+			            <button id="beautify" class="btn btn-default btn-lg" title="Expand JSON text">
+			                <span class="glyphicon glyphicon-collapse-down"></span>
+			            </button>
+			            <button id="uglify" class="btn btn-default btn-lg" title="Collapse JSON text">
+			                <span class="glyphicon glyphicon-collapse-up"></span>
+			            </button>
+        			</div>
+                </div>
+            </div>
+        </div>
+                    
+    	<div class="panel panel-default">
+          <div class="panel-body">
+            <div id="editor" class="json-editor"></div>
+          </div>
+          <div class="panel-footer" id="rawJsonButton">
+  			<button type="button" class="btn btn-default btn-lg" data-toggle="collapse" data-target="#json-editor">
+				<i class="glyphicon glyphicon-edit"></i> View JSON Text
+			</button>
+			<button type="button" class="btn btn-default btn-lg">
+				<i class="glyphicon glyphicon-save"></i> Save
+			</button>
+			<button type="button" class="btn btn-default btn-lg">
+				<i class="glyphicon glyphicon-remove"></i> Cancel
+			</button>
+          </div>
+    	</div>
+        
+    </div>
+
+</body>
+</html>

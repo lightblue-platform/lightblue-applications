@@ -83,10 +83,11 @@
           <version>4.11</version>
         </dependency>
     </dependencies>
-    <modules>
-        <module>metadata-mgmt</module>
+ <modules>
+    <module>metadata-mgmt</module>
     <module>data-mgmt</module>
-  </modules>
+    <module>apps-common</module>
+ </modules>
     <build>
         <plugins>
             <plugin>

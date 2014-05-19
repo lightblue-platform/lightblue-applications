@@ -1,0 +1,74 @@
+    .custom-combobox {
+      position: relative;
+      display: inline-block;
+    }
+    .custom-combobox-toggle {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      margin-left: -1px;
+      padding: 0;
+      /* support: IE7 */
+      *height: 1.7em;
+      *top: 0.1em;
+    }
+    .custom-combobox-input {
+      margin: 0;
+      padding: 0.3em;
+    }
+
+    #json {
+      margin: 10px 10px 10px 32px;
+      width: 50%;
+      min-height: 70px;
+    }
+
+    #column,#content {
+      float:left;
+    }
+    #sidebar {width:0%;}
+    #content {width:100%}
+
+    .left {
+      width: 20%;
+      float:left;
+      min-height: 30px;
+      margin-right: 10px;
+    }
+
+    .clear {
+      clear:both;
+    }
+
+    form.cont {
+      margin: 35px 0;
+      padding: 5px;
+    }
+    form.cont .legend > string  { background-color: rgba(0, 148, 8, 0.8); }
+    .cont .legend > array   { background-color: rgba(45, 91, 137, 0.8); }
+    .cont .legend > object  { background-color: rgba(225, 112, 0, 0.8); }
+    .cont .legend > number  { background-color: rgba(73, 123, 141, 0.8); }
+
+    .contentleft {
+      width: 60%;
+      float:left;
+      border:0px solid #444;
+      min-height:30px;
+      margin-right: 10px;
+    }
+
+    #bigger {
+      height: 45px;
+    }
+  }
+
+  body {    
+    background: url(./banner-image1.jpg) repeat-x;
+    color: #555555;
+    font: 12px/1.4 "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+  }
+  
+    .cont .legend > string  { background-color: rgba(0, 148, 8, 0.8); }
+    .cont .legend > array   { background-color: rgba(45, 91, 137, 0.8); }
+    .cont .legend > object  { background-color: rgba(225, 112, 0, 0.8); }
+    .cont .legend > number  { background-color: rgba(73, 123, 141, 0.8); }
