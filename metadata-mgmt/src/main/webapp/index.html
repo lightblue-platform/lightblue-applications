@@ -16,55 +16,6 @@
   <script src="framework/flexi-json-editor/jsoneditor.js"></script>
   <script src="js/lightblue-apps.js"></script>
   
-  <script type="text/javascript">
-
-  $(document).ready(function() {
-
-	  var metadataServicePath = "http://localhost:8080/metadata/";
-	  
-	  var entitySelect = $("#entities");
-	  var versionSelect = $("#versions");
-	  var submitButton = $("#load-content-btn");
-
-	  var jsonTextArea = $("#json");
-	  var jsonTreeEditor = $("#editor");
-	  
-      $.getJSON( metadataServicePath, function( json ) {
-	      var items = [];
-	      $.each( json, function( key, val ) {
-	    	  $.each( val, function( arrayVal ) {
-	    		  entitySelect.append("<option value='" + val[arrayVal] + "'>" + val[arrayVal] + "</option>");
-	          });   	  
-	      });
-       });
-
-      entitySelect.change(function() {
-    	  versionSelect.empty();
-    	  versionSelect.append("<option value='' disabled selected>Version:</option>");
-          $.getJSON( metadataServicePath + entitySelect.val(), function( json ) {
-              $.each( json, function( versions, details ) {
-                  $.each(details, function( arrayIndex ) {
-                 	  $.each(details[arrayIndex], function(attributeName, value) {
-                 		   if(attributeName == "value") {
-                 			  versionSelect.append("<option value='" + value + "'>" + value + "</option>");
-                 		   }                		    
-                 	  });
-                  });         
-              });
-           });
-      });
-
-      submitButton.click(function() {
-        $.getJSON( metadataServicePath + entitySelect.val() + "/" + versionSelect.val(), function( json ) {
-        	jsonTextArea.val(JSON.stringify(json));
-        	jsonTreeEditor.jsonEditor(json, { change: updateJSON, propertyclick: showPath });
-        });
-      });
-           
-  });
-
-  </script>
-  
    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -117,8 +68,6 @@
           </div>
           </li>
           </ul>
-          
-          
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
     </nav>

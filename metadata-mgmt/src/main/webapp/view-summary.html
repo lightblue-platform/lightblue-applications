@@ -43,38 +43,29 @@
 
           <ul class="nav navbar-nav navbar-left">
           <li>
-          <form class="navbar-form" role="navigation">
+          <div class="navbar-form">
             <div class="form-group"><!-- class="ui-widget" -->
-				<select  class="form-control" name="Action"><!-- id="combobox" -->
-					<option value="" disabled selected>Action:</option>
-					<option value="View Entity">View Entity</option>
-					<option value="Edit Entity">Edit Entity</option>
-					<option value="Create Entity">Create Entity</option>
-					<option value="Create Version">Create Version</option>
-					<option value="View Roles">View Roles</option>
-					<option value="View Summary">View Summary</option>
-				</select>
-				<button id="toggle" class="btn btn-default" style="display:none">Show underlying select</button>
-				<select class="form-control" name="Entity"><!-- id="combobox2" -->
-					<option value="" disabled selected>Entity:</option>
-					<option value="Customer">Customer</option>
-					<option value="Terms & Conditions">Terms & Conditions</option>
-					<option value="User">User</option>
-				</select>	
-				<button id="toggle" class="btn btn-default" style="display:none">Show underlying select</button>			
-				<select class="form-control" name="Version"><!-- id="combobox3" -->
-					<option value="" disabled selected>Version:</option>
-					<option value="1.0.0">1.0.0</option>
-					<option value="1.0.1">1.0.1</option>
-					<option value="1.0.2">1.0.2</option>
-					<option value="1.1.0">1.1.0</option>
-					<option value="1.1.1">1.1.1</option>
-					<option value="1.2.0">1.2.0</option>
-				</select>
-				<button id="toggle" class="btn btn-default" style="display:none">Show underlying select</button>
+                <select  class="form-control" name="Action"><!-- id="combobox" -->
+                    <option value="" disabled selected>Action:</option>
+                    <option value="view">View Entity</option>
+                    <option value="edit">Edit Entity</option>
+                    <option value="new">Create Entity</option>
+                    <option value="version">Create Version</option>
+                    <option value="roles">View Roles</option>
+                    <option value="summary">View Summary</option>
+                </select>
+                <button id="toggle" class="btn btn-default" style="display:none">Show underlying select</button>
+                <select id="entities" class="form-control" name="Entity"><!-- id="combobox2" -->
+                    <option value="" disabled selected>Entity:</option>
+                </select>   
+                <button id="toggle" class="btn btn-default" style="display:none">Show underlying select</button>            
+                <select id="versions" class="form-control" name="Version"><!-- id="combobox3" -->
+                    <option value="" disabled selected>Version:</option>
+                </select>
+                <button id="toggle" class="btn btn-default" style="display:none">Show underlying select</button>
                 <button type="submit" class="btn btn-default" id="load-content-btn" data-loading-text="Loading...">Submit</button>
             </div>
-          </form>
+          </div>
           </li>
           </ul>
           
@@ -91,8 +82,6 @@
       </div><!-- /.container-fluid -->
     </nav>
     <div class="container">
-      <div class="panel-group" id="accordion">
-      
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title">
@@ -181,9 +170,7 @@
                     </ul>
                 </div>
             </div>
-        </div>
-      </div>
-	</div>
-
+        </div> <!-- /. panel panel-default -->
+	</div> <!-- /.container-fluid -->
 </body>
 </html>
