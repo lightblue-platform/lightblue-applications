@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>lightblue Metadata Management Application</title>
+
+  <link rel="stylesheet" href="framework/bootstrap/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="framework/flexi-json-editor/jsoneditor.css"/>
+  <link rel="stylesheet" href="css/lightblue-apps.css"/>  
+  
+  <script src="framework/jquery/jquery.min.js"></script>
+  <script src="framework/bootstrap/js/bootstrap.min.js"></script>
+  <script src="framework/flexi-json-editor/jquery.jsoneditor.js"></script>
+  <script src="framework/flexi-json-editor/jsoneditor.js"></script>
+  <script src="js/lightblue-apps.js"></script>
+  
+   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+</head>
+<body>
+    <nav class="navbar navbar-default" role="navigation">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">lightblue Metadata Management</a>
+        </div>
+    
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+          <ul class="nav navbar-nav navbar-left">
+          <li>
+          <form class="navbar-form" role="navigation">
+            <div class="form-group"><!-- class="ui-widget" -->
+				<select  class="form-control" name="Action"><!-- id="combobox" -->
+					<option value="" disabled selected>Action:</option>
+					<option value="View Entity">View Entity</option>
+					<option value="Edit Entity">Edit Entity</option>
+					<option value="Create Entity">Create Entity</option>
+					<option value="Create Version">Create Version</option>
+					<option value="View Roles">View Roles</option>
+					<option value="View Summary">View Summary</option>
+				</select>
+				<button id="toggle" class="btn btn-default" style="display:none">Show underlying select</button>
+				<select class="form-control" name="Entity"><!-- id="combobox2" -->
+					<option value="" disabled selected>Entity:</option>
+					<option value="Customer">Customer</option>
+					<option value="Terms & Conditions">Terms & Conditions</option>
+					<option value="User">User</option>
+				</select>	
+				<button id="toggle" class="btn btn-default" style="display:none">Show underlying select</button>			
+				<select class="form-control" name="Version"><!-- id="combobox3" -->
+					<option value="" disabled selected>Version:</option>
+					<option value="1.0.0">1.0.0</option>
+					<option value="1.0.1">1.0.1</option>
+					<option value="1.0.2">1.0.2</option>
+					<option value="1.1.0">1.1.0</option>
+					<option value="1.1.1">1.1.1</option>
+					<option value="1.2.0">1.2.0</option>
+				</select>
+				<button id="toggle" class="btn btn-default" style="display:none">Show underlying select</button>
+                <button type="submit" class="btn btn-default" id="load-content-btn" data-loading-text="Loading...">Submit</button>
+            </div>
+          </form>
+          </li>
+          </ul>
+          
+          <ul class="nav navbar-nav navbar-right">
+          <li>
+            <form class="navbar-form">
+            <div class="form-group">
+              <button type="button" id="download" class="btn btn-default">Download Results</button>
+            </div>
+            </form>
+          </li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+    <div class="container">
+      <div class="panel-group" id="accordion">
+      
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#customer">
+                Customer
+                </a>
+                </h3>
+            </div>
+            <div id="customer" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <h4>Default Version</h4>
+                    <ul>
+                      <li>
+                        <a href="http://lightblue/rest/metadata/customer/1.2.0" >1.2.0</a>
+                      </li>
+                    </ul>
+                    <h4>Active Versions</h4>
+                    <ul>
+                      <li>
+                        <a href="http://lightblue/rest/metadata/customer/1.1.0" >1.1.0</a>
+                      </li>
+                      <li>
+                        <a href="http://lightblue/rest/metadata/customer/1.2.0" >1.2.0</a>
+                      </li>
+                    </ul>
+                    <h4>Inactive Versions</h4>
+                    <ul>
+                      <li>
+                        <a href="http://lightblue/rest/metadata/customer/1.0.0" >1.0.0</a>
+                      </li>
+                      <li>
+                        <a href="http://lightblue/rest/metadata/customer/1.0.1" >1.0.1</a>
+                      </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+              
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#termscond">
+                Terms & Conditions
+                </a>
+                </h3>
+            </div>
+            <div id="termscond" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <h4>Active Versions</h4>
+                    <ul>
+                      <li>
+                        <a href="http://lightblue/rest/metadata/terms/1.0.1" >1.0.1</a>
+                      </li>
+                      <li>
+                        <a href="http://lightblue/rest/metadata/terms/1.1.0" >1.1.0</a>
+                      </li>
+                    </ul>
+                    <h4>Inactive Versions</h4>
+                    <ul>
+                      <li>
+                        <a href="http://lightblue/rest/metadata/terms/1.0.0" >1.0.0</a>
+                      </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#user">
+                User
+                </a>
+                </h3>
+            </div>
+            <div id="user" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <h4>Active Versions</h4>
+                    <ul>
+                      <li>
+                        <a href="http://lightblue/rest/metadata/terms/1.0.0" >1.0.0</a>
+                      </li>
+                      <li>
+                        <a href="http://lightblue/rest/metadata/terms/1.1.0" >1.1.0</a>
+                      </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+      </div>
+	</div>
+
+</body>
+</html>
