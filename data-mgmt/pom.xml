@@ -3,18 +3,16 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>com.redhat.lightblue</groupId>
-    <artifactId>lightblue-applications</artifactId>
+    <groupId>com.redhat.lightblue.applications</groupId>
+    <artifactId>pom</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <groupId>com.redhat.lightblue</groupId>
   <artifactId>data-mgmt</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
   <name>data-mgmt</name>
   <dependencies>
     <dependency>
-      <groupId>com.redhat.lightblue</groupId>
+      <groupId>com.redhat.lightblue.applications</groupId>
       <artifactId>apps-common</artifactId>
       <version>${project.version}</version>
       <type>war</type>
@@ -30,7 +28,7 @@
         <configuration>
           <overlays>
             <overlay>
-              <groupId>com.redhat.lightblue</groupId>
+              <groupId>com.redhat.lightblue.applications</groupId>
               <artifactId>apps-common</artifactId>
             </overlay>
           </overlays>

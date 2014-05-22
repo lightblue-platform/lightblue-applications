@@ -3,13 +3,11 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>com.redhat.lightblue</groupId>
-    <artifactId>lightblue-applications</artifactId>
+    <groupId>com.redhat.lightblue.applications</groupId>
+    <artifactId>pom</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <groupId>com.redhat.lightblue</groupId>
   <artifactId>apps-common</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
   <name>apps-common</name>
   <url>http://maven.apache.org</url>  

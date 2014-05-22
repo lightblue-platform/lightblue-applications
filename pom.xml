@@ -6,13 +6,13 @@
     <artifactId>oss-parent</artifactId>
     <version>7</version>
   </parent>
-  <groupId>com.redhat.lightblue</groupId>
-  <artifactId>lightblue-applications</artifactId>
+  <groupId>com.redhat.lightblue.applications</groupId>
+  <artifactId>pom</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>lightblue-applications: ${project.groupId}|${project.artifactId}</name>
   <description>Management applications for lightblue-powered services</description>
-    <url>https://github.com/bserdar/lightblue</url>
+    <url>https://github.com/lightblue-platform/lightblue-applications</url>
     <licenses>
         <license>
             <name>GNU GENERAL PUBLIC LICENSE, Version 3, 29 June 2007</name>
