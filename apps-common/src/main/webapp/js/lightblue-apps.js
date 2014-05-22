@@ -1,6 +1,4 @@
   $(document).ready(function() {
-
-	  var metadataServicePath = "http://localhost:8080/metadata/";
 	  
 	  var entitySelect = $("#entities");
 	  var versionSelect = $("#versions");
