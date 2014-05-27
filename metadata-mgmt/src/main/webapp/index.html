@@ -45,7 +45,7 @@
           <li>
           <div class="navbar-form">
             <div class="form-group"><!-- class="ui-widget" -->
-				<select  class="form-control" name="Action"><!-- id="combobox" -->
+				<select  class="form-control" name="Action" id="actions"><!-- id="combobox" -->
 					<option value="" disabled selected>Action:</option>
 					<option value="view">View Entity</option>
 					<option value="edit">Edit Entity</option>
@@ -129,7 +129,7 @@
           </ul> 
           </div>
           <div class="panel-body">
-            <div class="alert alert-warning">Remove item by deleting a property name.</div>
+            <div class="alert alert-warning" id="removeItemHowToMessage">Remove item by deleting a property name.</div>
           
             <div id="editor" class="json-editor"></div>
           </div>  

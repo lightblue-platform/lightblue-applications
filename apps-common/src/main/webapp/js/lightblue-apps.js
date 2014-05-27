@@ -1,3 +1,26 @@
+  function onActionSubmit(event) {
+      switch (event.action) {
+          case 'view':
+              $("#removeItemHowToMessage").hide();
+              return false;
+          default:
+              $("#removeItemHowToMessage").show();
+              return true;
+      }
+  }
+
+  function afterActionSubmit(event) {
+      switch (event.action) {
+          case 'version':
+              var entityInfoDiv = $("#editor input[title='entityInfo']").parent();
+              entityInfoDiv.find("input").attr('disabled', true);
+              entityInfoDiv.find("button").hide();
+              break;
+          default:
+              ;
+      }
+  }
+
   $(document).ready(function() {
 	  
 	  var entitySelect = $("#entities");
@@ -32,10 +55,19 @@
       });
 
       submitButton.click(function() {
+
+        var submitActionEvent = new Object();
+        submitActionEvent.action = $("#actions").val();
+
+        var editable = onActionSubmit(submitActionEvent);
+
         $.getJSON( metadataServicePath + entitySelect.val() + "/" + versionSelect.val(), function( json ) {
         	jsonTextArea.val(JSON.stringify(json));
-        	jsonTreeEditor.jsonEditor(json, { change: updateJSON, propertyclick: showPath });
+		jsonTreeEditor.jsonEditor(json, { change: updateJSON, propertyclick: showPath, isEditable: editable });
+
+                afterActionSubmit(submitActionEvent);
         });
+
       });
            
   });
