@@ -32,6 +32,40 @@
       }
   }
 
+  function onViewRoles(event) {
+      $.getJSON( metadataServicePath + event.entity + "/" + event.version + "/roles", function( json ) {
+          $("#view-roles").empty();
+          var roles = json.processed;
+          $.each(roles, function(i, role) {
+              $("#view-roles").append(createRoleDiv(role));
+          });
+      });
+  }
+
+  function createRoleDiv(role) {
+      var divPanel = $('<div class="panel panel-default"/>');
+      var divHeading = $('<div class="panel-heading"><h3 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#user-cred-write"></a></h3></div>');
+      $('a', divHeading).text(role.role).attr('href', "#"+role.role);
+
+      var divCollapse = $('<div id="'+role.role+'" class="panel-collapse collapse"><div class="panel-body"></div></div>');
+
+      $.each(role, function(key, paths) {
+          if (key != 'role') {
+              var td = $('<dt>'+key+'</dt>');
+              var dd = $('<dd>'+paths.join('<br/>')+'</dd>');
+
+              var dl = $('<dl>').append(td).append(dd);
+
+              $("div.panel-body", divCollapse).append(dl);
+          }
+      });
+
+      divPanel.append(divHeading);
+      divPanel.append(divCollapse)
+
+      return divPanel;
+  }
+
   $(document).ready(function() {
 
       var entitySelect = $("#entities");
@@ -69,18 +103,23 @@
 
         var submitActionEvent = new Object();
         submitActionEvent.action = $("#actions").val();
+        submitActionEvent.entity = entitySelect.val();
+        submitActionEvent.version = versionSelect.val();
         submitActionEvent.isJsonEditorView = $.inArray(submitActionEvent.action, ['view', 'edit', 'new', 'version']) > -1;
         submitActionEvent.isEditable = submitActionEvent.action != 'view';
 
         onActionSubmit(submitActionEvent);
 
         if (submitActionEvent.isJsonEditorView) {
-            $.getJSON( metadataServicePath + entitySelect.val() + "/" + versionSelect.val(), function( json ) {
+            $.getJSON( metadataServicePath + submitActionEvent.entity + "/" + submitActionEvent.version, function( json ) {
                 jsonTextArea.val(JSON.stringify(json));
                 jsonTreeEditor.jsonEditor(json, { change: updateJSON, propertyclick: showPath, isEditable: submitActionEvent.isEditable });
 
                 onJsonEditorReady(submitActionEvent);
             });
+        }
+        else if (submitActionEvent.action == 'roles') {
+            onViewRoles(submitActionEvent);
         }
 
       });
