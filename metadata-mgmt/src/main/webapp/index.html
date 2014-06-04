@@ -135,7 +135,29 @@
                 </div>
             </div><!-- /. div.view-jsonEditor -->
             <div id="view-roles" class="view-div">
-                <div class="panel panel-default"></div>
+                <div id="role-accordion-template" class="panel panel-default" style="display: none;">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion"
+                                    href="#unique-role-name">unique-role-name</a>
+                            </h3>
+                        </div>
+                        <div id="unique-role-name" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <dl>
+                                    <dt>operation</dt>
+                                    <dd>path1</dd>
+                                    <dd>path2</dd>
+                                    <dd>...</dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="view-roles-container"><!-- role accordions go here --></div>
+
             </div><!-- /. div.view-roles -->
             <div id="view-summary" class="view-div">
                 <div class="panel panel-default">

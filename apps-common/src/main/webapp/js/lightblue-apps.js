@@ -34,34 +34,36 @@
 
   function onViewRoles(event) {
       $.getJSON( metadataServicePath + event.entity + "/" + event.version + "/roles", function( json ) {
-          $("#view-roles").empty();
           var roles = json.processed;
+
+          $("#view-roles-container").empty();
           $.each(roles, function(i, role) {
-              $("#view-roles").append(createRoleDiv(role));
+              $("#view-roles-container").append(createRoleDiv(role));
           });
       });
   }
 
   function createRoleDiv(role) {
-      var divPanel = $('<div class="panel panel-default"/>');
-      var divHeading = $('<div class="panel-heading"><h3 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#user-cred-write"></a></h3></div>');
-      $('a', divHeading).text(role.role).attr('href', "#"+role.role);
+      var divPanel = $('#role-accordion-template div:first').clone();
 
-      var divCollapse = $('<div id="'+role.role+'" class="panel-collapse collapse"><div class="panel-body"></div></div>');
+      var id = 'role-'+role.role;
+
+      $('div.panel-heading a', divPanel).attr('href', "#"+id).text(role.role);
+      $('div.panel-collapse', divPanel).attr('id', id);
+      $('div.panel-body', divPanel).empty();
 
       $.each(role, function(key, paths) {
           if (key != 'role') {
               var td = $('<dt>'+key+'</dt>');
-              var dd = $('<dd>'+paths.join('<br/>')+'</dd>');
+              var dl = $('<dl>').append(td);
 
-              var dl = $('<dl>').append(td).append(dd);
+              $.each(paths, function(i, path){
+                  $('<dd>').text(path).appendTo(dl);
+              });
 
-              $("div.panel-body", divCollapse).append(dl);
+              $("div.panel-body", divPanel).append(dl);
           }
       });
-
-      divPanel.append(divHeading);
-      divPanel.append(divCollapse)
 
       return divPanel;
   }
