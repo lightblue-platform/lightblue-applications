@@ -36,15 +36,51 @@
       $.getJSON( metadataServicePath + event.entity + "/" + event.version + "/roles", function( json ) {
           var roles = json.processed;
 
-          $("#view-roles-container").empty();
+          $("#view-roles").empty();
           $.each(roles, function(i, role) {
-              $("#view-roles-container").append(createRoleDiv(role));
+              $("#view-roles").append(createAccordionWidgetDiv('role', role.role, role));
           });
       });
   }
 
+  function onViewSummary(event) {
+      // TODO
+      /*$.getJSON( metadataServicePath, function( entities ) {
+          $.each(entities, function(i, entity) {
+              $("#view-summary").append(createAccordionWidgetDiv('enitity', entity));
+          });
+      });*/
+  }
+
+  function createAccordionWidgetDiv(type, title, ddStructure) {
+      var divPanel = $('#accordion-widget-template div:first').clone();
+
+      var id = type+'-'+title;
+
+      $('div.panel-heading a', divPanel).attr('href', "#"+id).text(title);
+      $('div.panel-collapse', divPanel).attr('id', id);
+      $('div.panel-body', divPanel).empty();
+
+      if(ddStructure instanceof Object) {
+          $.each(ddStructure, function(section, subsections) {
+              if (subsections instanceof Array) {
+                  var td = $('<dt>'+section+'</dt>');
+                  var dl = $('<dl>').append(td);
+
+                  $.each(subsections, function(i, subsection){
+                      $('<dd>').text(subsection).appendTo(dl);
+                  });
+
+                  $("div.panel-body", divPanel).append(dl);
+              }
+          });
+      }
+
+      return divPanel;
+  }
+
   function createRoleDiv(role) {
-      var divPanel = $('#role-accordion-template div:first').clone();
+      var divPanel = $('#accordion-widget-template div:first').clone();
 
       var id = 'role-'+role.role;
 
@@ -122,6 +158,9 @@
         }
         else if (submitActionEvent.action == 'roles') {
             onViewRoles(submitActionEvent);
+        }
+        else if (submitActionEvent.action == 'summary') {
+            onViewSummary(submitActionEvent);
         }
 
       });
