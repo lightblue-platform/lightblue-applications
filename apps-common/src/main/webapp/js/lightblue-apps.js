@@ -1,3 +1,15 @@
+  // validation successful on null
+  function validateActionSubmit(event, fieldsToValidate) {
+      var errors = new Array();
+      $.each(event, function(key, value) {
+          if (value == null && $.inArray(key, fieldsToValidate) > -1) {
+              errors.push(key);
+          }
+      });
+
+      return errors;
+  }
+
   function onActionSubmit(event) {
       showView(event);
 
@@ -8,6 +20,7 @@
           default:
               $("#removeItemHowToMessage").show();
       }
+
   }
 
   function onJsonEditorReady(event) {
@@ -141,6 +154,15 @@
         submitActionEvent.version = versionSelect.val();
         submitActionEvent.isJsonEditorView = $.inArray(submitActionEvent.action, ['view', 'edit', 'new', 'version']) > -1;
         submitActionEvent.isEditable = submitActionEvent.action != 'view';
+
+        // validation
+        if  (submitActionEvent.action != 'summary') {
+            var errors = validateActionSubmit(submitActionEvent, ['action', 'entity', 'version']);
+            if (errors.length > 0) {
+                alert(errors+" required!");
+                return;
+            }
+        }
 
         onActionSubmit(submitActionEvent);
 
