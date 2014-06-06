@@ -44,12 +44,39 @@
   }
 
   function onViewSummary(event) {
-      // TODO
-      /*$.getJSON( metadataServicePath, function( entities ) {
-          $.each(entities, function(i, entity) {
-              $("#view-summary").append(createAccordionWidgetDiv('enitity', entity));
+      $("#view-summary").empty();
+      $.getJSON( metadataServicePath, function( entities ) {
+          $.each(entities.entities, function(i, entity) {
+              $.getJSON( metadataServicePath + entity, function( versions ) {
+
+                  var entityVersions = new Object();
+                  entityVersions.active = new Array();
+                  entityVersions.deprecated = new Array();
+                  entityVersions.disabled = new Array();
+                  entityVersions.default = new Array();
+
+                  $.each(versions, function(j, version) {
+                      switch (version.status) {
+                          case 'active':
+                              entityVersions.active.push(version.version);
+                              break;
+                          case 'deprecated':
+                              entityVersions.deprecated.push(version.version);
+                              break;
+                          case 'disabled':
+                              entityVersions.disabled.push(version.version);
+                              break;
+                      }
+
+                      // service ensures there is only one default version
+                      if (version.defaultVersion)
+                          entityVersions.default.push(version.version);
+                  });
+
+                  $("#view-summary").append(createAccordionWidgetDiv('enitity', entity, entityVersions));
+              });
           });
-      });*/
+      });
   }
 
   function createAccordionWidgetDiv(type, title, ddStructure) {
@@ -75,31 +102,6 @@
               }
           });
       }
-
-      return divPanel;
-  }
-
-  function createRoleDiv(role) {
-      var divPanel = $('#accordion-widget-template div:first').clone();
-
-      var id = 'role-'+role.role;
-
-      $('div.panel-heading a', divPanel).attr('href', "#"+id).text(role.role);
-      $('div.panel-collapse', divPanel).attr('id', id);
-      $('div.panel-body', divPanel).empty();
-
-      $.each(role, function(key, paths) {
-          if (key != 'role') {
-              var td = $('<dt>'+key+'</dt>');
-              var dl = $('<dl>').append(td);
-
-              $.each(paths, function(i, path){
-                  $('<dd>').text(path).appendTo(dl);
-              });
-
-              $("div.panel-body", divPanel).append(dl);
-          }
-      });
 
       return divPanel;
   }
