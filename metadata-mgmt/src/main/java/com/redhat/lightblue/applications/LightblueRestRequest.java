@@ -1,6 +1,7 @@
 package com.redhat.lightblue.applications;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Properties;
 
 import javax.servlet.Servlet;
 import javax.servlet.http.HttpServlet;
@@ -21,7 +22,16 @@ public class LightblueRestRequest extends HttpServlet implements Servlet {
 
 	private static final long serialVersionUID = 1L;
 
-	private String serviceURI = "http://localhost:8080/metadata";
+	private String serviceURI;
+		
+	private String serviceURI() throws IOException {
+		if(serviceURI == null) {
+			Properties properties = new Properties();
+			properties.load(getClass().getClassLoader().getResourceAsStream("config.properties"));
+			serviceURI = properties.getProperty("serviceURI");	
+		}
+		return serviceURI;
+	}
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse res)  throws IOException {
 		HttpGet httpGet = new HttpGet(serviceURI(req.getRequestURI()));
@@ -51,8 +61,8 @@ public class LightblueRestRequest extends HttpServlet implements Servlet {
 		}
 	}
 
-	private String serviceURI(String thisURI) {
-		return serviceURI + thisURI.replace("/metadata-mgmt/rest-request", "");
+	private String serviceURI(String thisURI) throws IOException {
+		return serviceURI() + thisURI.replace("/metadata-mgmt/rest-request", "");
 	}
 	
 	private CloseableHttpClient getClient() throws Exception {
