@@ -3,4 +3,12 @@
         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 
   <display-name>lightblue Metadata Management</display-name>
+  <servlet>
+    <servlet-name>rest-request</servlet-name>
+    <servlet-class>com.redhat.lightblue.applications.LightblueRestRequest</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>rest-request</servlet-name>
+    <url-pattern>/rest-request/*</url-pattern>
+  </servlet-mapping>
 </web-app>
