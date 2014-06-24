@@ -9,10 +9,12 @@
   </parent>
   <artifactId>apps-common</artifactId>
   <packaging>war</packaging>
-  <name>apps-common</name>
+  <name>lightblue-applications: ${project.groupId}|${project.artifactId}</name>
   <url>http://maven.apache.org</url>  
+  <properties>
+    <rpm.install.basedir>/usr/share/jbossas/standalone/deployments</rpm.install.basedir>
+  </properties>
   <build>
-    <finalName>apps-common</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
