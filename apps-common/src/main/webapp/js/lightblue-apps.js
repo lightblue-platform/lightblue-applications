@@ -156,7 +156,7 @@
         submitActionEvent.isEditable = submitActionEvent.action != 'view';
 
         // validation
-        if  (submitActionEvent.action != 'summary') {
+        if  ($.inArray(submitActionEvent.action, ['summary', 'new', 'version']) == -1) {
             var errors = validateActionSubmit(submitActionEvent, ['action', 'entity', 'version']);
             if (errors.length > 0) {
                 alert(errors+" required!");
