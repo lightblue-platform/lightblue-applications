@@ -1,3 +1,0 @@
-[submodule "apps-common/src/main/webapp/framework/flexi-json-editor"]
-	path = apps-common/src/main/webapp/framework/flexi-json-editor
-	url = https://github.com/delix/FlexiJsonEditor
