@@ -10,8 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -33,6 +35,8 @@ public class LightblueRestRequest extends HttpServlet implements Servlet {
 		return serviceURI;
 	}
 	
+
+
 	public void doGet(HttpServletRequest req, HttpServletResponse res)  throws IOException {
 		HttpGet httpGet = new HttpGet(serviceURI(req.getRequestURI()));
 		serviceCall(httpGet, req, res);
@@ -41,6 +45,16 @@ public class LightblueRestRequest extends HttpServlet implements Servlet {
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException {
 		HttpPost httpPost = new HttpPost(serviceURI(req.getRequestURI()));
 		serviceCall(httpPost, req, res);
+	}
+
+	public void doPut(HttpServletRequest req, HttpServletResponse res) throws IOException {
+		HttpPut httpPut = new HttpPut(serviceURI(req.getRequestURI()));
+		serviceCall(httpPut, req, res);
+	}
+
+	public void doDelete(HttpServletRequest req, HttpServletResponse res) throws IOException {
+		HttpDelete httpDelete = new HttpDelete(serviceURI(req.getRequestURI()));
+		serviceCall(httpDelete, req, res);
 	}
 		
 	private void serviceCall(HttpRequestBase httpOperation, HttpServletRequest req, HttpServletResponse res) throws IOException {
