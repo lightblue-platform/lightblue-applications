@@ -14,11 +14,25 @@
 
   <security-constraint>
     <web-resource-collection>
-      <web-resource-name>All operations</web-resource-name>
+      <web-resource-name>Read operations</web-resource-name>
       <url-pattern>/*</url-pattern>
+      <http-method>GET</http-method>
     </web-resource-collection>
     <auth-constraint>
       <role-name>authenticated</role-name>
+    </auth-constraint>
+  </security-constraint>
+
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>Write operations</web-resource-name>
+      <url-pattern>/*</url-pattern>
+      <http-method>POST</http-method>
+      <http-method>PUT</http-method>
+      <http-method>DELETE</http-method>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>user-admin</role-name>
     </auth-constraint>
   </security-constraint>
 
