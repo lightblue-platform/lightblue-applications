@@ -1,3 +1,11 @@
+  // show/hide elements basing on user role
+  function authorizeVisibility() {
+      $(".roleElement").hide();
+      $.each(roles, function(i, role) {
+          $(".role-"+role).show();
+      });
+  }
+
   // validation successful on null
   function validateActionSubmit(event, fieldsToValidate) {
       var errors = new Array();
@@ -121,6 +129,8 @@
 
   $(document).ready(function() {
 
+      authorizeVisibility();
+
       var entitySelect = $("#entities");
       var versionSelect = $("#versions");
       var submitButton = $("#load-content-btn");
@@ -184,5 +194,5 @@
       });
 
       showView();
-           
+
   });
