@@ -1,9 +1,5 @@
-  // show/hide elements basing on user role
-  function authorizeVisibility() {
-      $(".roleElement").hide();
-      $.each(roles, function(i, role) {
-          $(".role-"+role).show();
-      });
+  function isAdmin() {
+      return $.inArray('user-admin', roles) > -1;
   }
 
   // validation successful on null
@@ -27,6 +23,13 @@
               break;
           default:
               $("#removeItemHowToMessage").show();
+      }
+
+      if (event.isEditable) {
+          $("#editButtons").css('display', 'inline-block');
+      }
+      else {
+          $("#editButtons").hide();
       }
 
   }
@@ -129,8 +132,6 @@
 
   $(document).ready(function() {
 
-      authorizeVisibility();
-
       var entitySelect = $("#entities");
       var versionSelect = $("#versions");
       var submitButton = $("#load-content-btn");
@@ -163,7 +164,12 @@
         submitActionEvent.entity = entitySelect.val();
         submitActionEvent.version = versionSelect.val();
         submitActionEvent.isJsonEditorView = $.inArray(submitActionEvent.action, ['view', 'edit', 'new', 'version']) > -1;
-        submitActionEvent.isEditable = submitActionEvent.action != 'view';
+        submitActionEvent.isEditable = $.inArray(submitActionEvent.action, ['edit', 'new', 'version']) > -1;
+
+        // authorize
+        if (!isAdmin()) {
+            submitActionEvent.isEditable = false;
+        }
 
         // validation
         if  ($.inArray(submitActionEvent.action, ['summary', 'new', 'version']) == -1) {
