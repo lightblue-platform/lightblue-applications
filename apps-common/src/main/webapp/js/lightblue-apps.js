@@ -215,6 +215,10 @@
   $(document).ready(function() {
       "use strict";
 
+      if (!isAdmin()) {
+          $(".role-user-admin").hide();
+      }
+
       var entitySelect = $("#entities");
       var versionSelect = $("#versions");
       var submitButton = $("#load-content-btn");
