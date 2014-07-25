@@ -37,10 +37,10 @@ public class RolesServlet extends HttpServlet {
 	// this is ugly, this is not scala...
 	public static String toJavascript(List<String> list) {
 		if (list == null || list.isEmpty()) {
-			return "var roles = [];";
+			return "window.roles = [];";
 		}
 		else {
-			return "var roles = ['"+StringUtils.join(list, "', '")+"'];";
+			return "window.roles = ['"+StringUtils.join(list, "', '")+"'];";
 		}
 	}
 
