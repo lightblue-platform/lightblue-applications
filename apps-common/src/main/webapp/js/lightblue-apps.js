@@ -1,24 +1,29 @@
   function showErrorMessage(message) {
+      "use strict";
       // TODO: show it on page
       alert("Error: " + message);
   }
 
   function showLightblueErrorMessage(jsonMessage) {
+      "use strict";
       // TODO: show it on page
       alert("Lightblue error: "+ jsonMessage.errorCode);
   }
 
   function showSuccessMessage(message) {
+      "use strict";
       // TODO: show it on page
       alert(message);
   }
 
   function isAdmin() {
-      return $.inArray('user-admin', roles) > -1;
+      "use strict";
+      return $.inArray('user-admin', window.roles) > -1;
   }
 
   // validation successful on null
   function validateActionSubmit(event, fieldsToValidate) {
+      "use strict";
       var errors = new Array();
       $.each(event, function(key, value) {
           if (value == null && $.inArray(key, fieldsToValidate) > -1) {
@@ -30,6 +35,8 @@
   }
 
   function onActionSubmit(event) {
+      "use strict";
+
       showView(event);
 
       switch (event.action) {
@@ -51,6 +58,7 @@
   }
 
   function onJsonEditorReady(event) {
+      "use strict";
       switch (event.action) {
           case 'version':
               var entityInfoDiv = $("#editor input[title='entityInfo']").parent();
@@ -63,6 +71,7 @@
   }
 
   function showView(event) {
+      "use strict";
       $("div.view-div").hide();
       if (typeof event !== "undefined") {
           if (event.isJsonEditorView)
@@ -73,6 +82,7 @@
   }
 
   function onViewRoles(event) {
+      "use strict";
       $.getJSON( metadataServicePath + event.entity + "/" + event.version + "/roles", function( json ) {
           var roles = json.processed;
 
@@ -84,6 +94,7 @@
   }
 
   function onViewSummary(event) {
+      "use strict";
       $("#view-summary").empty();
       $.getJSON( metadataServicePath, function( entities ) {
           $.each(entities.entities, function(i, entity) {
@@ -120,6 +131,7 @@
   }
 
   function createAccordionWidgetDiv(type, title, ddStructure) {
+      "use strict";
       var divPanel = $('#accordion-widget-template div:first').clone();
 
       var id = type+'-'+title;
@@ -148,7 +160,8 @@
 
   // save button clicked
   function onSave() {
-          switch (window.globalSubmitActionEvent.action) {
+      "use strict";
+      switch (window.globalSubmitActionEvent.action) {
           case 'new':
               onCreateEntitySave();
               break;
@@ -167,6 +180,7 @@
 
   // Save clicked in Create Entity view
   function onCreateEntitySave() {
+      "use strict";
       try {
           var json = JSON.parse($("#json").val());
 
@@ -199,6 +213,7 @@
   }
 
   $(document).ready(function() {
+      "use strict";
 
       var entitySelect = $("#entities");
       var versionSelect = $("#versions");
