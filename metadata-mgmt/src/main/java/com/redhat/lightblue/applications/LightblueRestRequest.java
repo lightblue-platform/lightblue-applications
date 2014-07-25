@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpDelete;
@@ -15,6 +16,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.client.LaxRedirectStrategy;
@@ -44,11 +46,13 @@ public class LightblueRestRequest extends HttpServlet implements Servlet {
 	
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException {
 		HttpPost httpPost = new HttpPost(serviceURI(req.getRequestURI()));
+		httpPost.setEntity(new StringEntity(IOUtils.toString(req.getReader())));
 		serviceCall(httpPost, req, res);
 	}
 
 	public void doPut(HttpServletRequest req, HttpServletResponse res) throws IOException {
 		HttpPut httpPut = new HttpPut(serviceURI(req.getRequestURI()));
+		httpPut.setEntity(new StringEntity(IOUtils.toString(req.getReader())));
 		serviceCall(httpPut, req, res);
 	}
 

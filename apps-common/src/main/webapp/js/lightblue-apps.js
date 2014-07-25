@@ -1,3 +1,18 @@
+  function showErrorMessage(message) {
+      // TODO: show it on page
+      alert("Error: " + message);
+  }
+
+  function showLightblueErrorMessage(jsonMessage) {
+      // TODO: show it on page
+      alert("Lightblue error: "+ jsonMessage.errorCode);
+  }
+
+  function showSuccessMessage(message) {
+      // TODO: show it on page
+      alert(message);
+  }
+
   function isAdmin() {
       return $.inArray('user-admin', roles) > -1;
   }
@@ -26,6 +41,7 @@
       }
 
       if (event.isEditable) {
+          // initialize save & reset buttons
           $("#editButtons").css('display', 'inline-block');
       }
       else {
@@ -130,6 +146,58 @@
       return divPanel;
   }
 
+  // save button clicked
+  function onSave() {
+          switch (window.globalSubmitActionEvent.action) {
+          case 'new':
+              onCreateEntitySave();
+              break;
+          case 'edit':
+              alert("Not implemented!");
+              // TODO
+              break;
+          case 'version':
+              alert("Not implemented!");
+              // TODO
+              break;
+          default:
+              ;
+      }
+  }
+
+  // Save clicked in Create Entity view
+  function onCreateEntitySave() {
+      try {
+          var json = JSON.parse($("#json").val());
+
+          var entityName = json.schema.name;
+          var entityVersion = json.schema.version.value;
+
+          var request = $.ajax({
+              type: "PUT",
+              url: metadataServicePath + entityName +'/' + entityVersion,
+              data: JSON.stringify(json)
+          });
+
+          request.done(function( msg ) {
+              if (msg.object_type === 'error') {
+                  showLightblueErrorMessage(msg);
+              }
+              else {
+                  showSuccessMessage( "Data Saved: " + JSON.stringify(msg) );
+                  // TODO: update entity list
+              }
+          });
+
+          request.fail(function( jqXHR, textStatus ) {
+              showErrorMessage( textStatus );
+          });
+      }
+      catch (e) {
+          showError('Error parsing json: ' + e);
+      }
+  }
+
   $(document).ready(function() {
 
       var entitySelect = $("#entities");
@@ -166,6 +234,9 @@
         submitActionEvent.isJsonEditorView = $.inArray(submitActionEvent.action, ['view', 'edit', 'new', 'version']) > -1;
         submitActionEvent.isEditable = $.inArray(submitActionEvent.action, ['edit', 'new', 'version']) > -1;
 
+        // make it global
+        window.globalSubmitActionEvent = submitActionEvent;
+
         // authorize
         if (!isAdmin()) {
             submitActionEvent.isEditable = false;
@@ -198,6 +269,8 @@
         }
 
       });
+
+      $("#saveButton").click(onSave);
 
       showView();
 
