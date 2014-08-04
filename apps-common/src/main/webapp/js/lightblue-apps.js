@@ -170,8 +170,7 @@
               // TODO
               break;
           case 'version':
-              alert("Not implemented!");
-              // TODO
+              onCreateVersionSave();
               break;
           default:
               ;
@@ -187,29 +186,51 @@
           var entityName = json.schema.name;
           var entityVersion = json.schema.version.value;
 
-          var request = $.ajax({
-              type: "PUT",
-              url: metadataServicePath + entityName +'/' + entityVersion,
-              data: JSON.stringify(json)
-          });
-
-          request.done(function( msg ) {
-              if (msg.object_type === 'error') {
-                  showLightblueErrorMessage(msg);
-              }
-              else {
-                  showSuccessMessage( "Data Saved: " + JSON.stringify(msg) );
-                  // TODO: update entity list
-              }
-          });
-
-          request.fail(function( jqXHR, textStatus ) {
-              showErrorMessage( textStatus );
-          });
+          callLightblue(entityName +'/' + entityVersion, json, 'PUT');
       }
       catch (e) {
           showError('Error parsing json: ' + e);
       }
+  }
+
+  // Save clicked in Create Version view
+  function onCreateVersionSave() {
+      "use strict";
+      try {
+          var json = JSON.parse($("#json").val());
+
+          var entityName = json.schema.name;
+          var entityVersion = json.schema.version.value;
+
+          callLightblue(entityName +'/schema=' + entityVersion, json.schema, 'PUT');
+      }
+      catch (e) {
+          showError('Error parsing json: ' + e);
+      }
+  }
+
+  function callLightblue(uri, jsonData, method) {
+      "use strict";
+
+      var request = $.ajax({
+          type: method,
+          url: metadataServicePath + uri,
+          data: JSON.stringify(jsonData)
+      });
+
+      request.done(function( msg ) {
+          if (msg.object_type === 'error') {
+              showLightblueErrorMessage(msg);
+          }
+          else {
+              showSuccessMessage( "Data Saved: " + JSON.stringify(msg) );
+              // TODO: update entity list
+          }
+      });
+
+      request.fail(function( jqXHR, textStatus ) {
+          showErrorMessage( textStatus );
+      });
   }
 
   $(document).ready(function() {
