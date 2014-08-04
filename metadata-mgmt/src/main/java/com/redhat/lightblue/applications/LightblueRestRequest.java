@@ -66,6 +66,7 @@ public class LightblueRestRequest extends HttpServlet implements Servlet {
 		PrintWriter out = res.getWriter();
 		try {
 	    	CloseableHttpClient httpClient = getClient();
+		httpOperation.setHeader("Content-Type", "application/json");
 	    	
 	    	CloseableHttpResponse httpResponse = httpClient.execute(httpOperation);
 	    	HttpEntity entity = httpResponse.getEntity();
