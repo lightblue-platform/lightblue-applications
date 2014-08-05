@@ -166,8 +166,7 @@
               onCreateEntitySave();
               break;
           case 'edit':
-              alert("Not implemented!");
-              // TODO
+              onEditEntitySave();
               break;
           case 'version':
               onCreateVersionSave();
@@ -203,6 +202,21 @@
           var entityVersion = json.schema.version.value;
 
           callLightblue(entityName +'/schema=' + entityVersion, json.schema, 'PUT');
+      }
+      catch (e) {
+          showError('Error parsing json: ' + e);
+      }
+  }
+
+  // Save clicked in Edit Entity view
+  function onEditEntitySave() {
+      "use strict";
+      try {
+          var json = JSON.parse($("#json").val());
+
+          var entityName = json.entityInfo.name;
+
+          callLightblue(entityName, json.entityInfo, 'PUT');
       }
       catch (e) {
           showError('Error parsing json: ' + e);
