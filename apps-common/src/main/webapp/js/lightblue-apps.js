@@ -326,6 +326,12 @@
 
       $("#saveButton").click(onSave);
 
+      $("#resetButton").click(function(){
+          // reload data in the editor
+          // this is essentially the same thing as clicking on the submit button
+          $("#load-content-btn").trigger('click');
+      });
+
       showView();
 
   });
