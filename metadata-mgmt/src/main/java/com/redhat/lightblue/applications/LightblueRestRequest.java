@@ -30,9 +30,13 @@ public class LightblueRestRequest extends HttpServlet implements Servlet {
 		
 	private String serviceURI() throws IOException {
 		if(serviceURI == null) {
-			Properties properties = new Properties();
-			properties.load(getClass().getClassLoader().getResourceAsStream("config.properties"));
-			serviceURI = properties.getProperty("serviceURI");	
+			serviceURI = System.getProperty("lightblueServiceURI");
+
+			if (serviceURI == null) {
+				Properties properties = new Properties();
+				properties.load(getClass().getClassLoader().getResourceAsStream("config.properties"));
+				serviceURI = properties.getProperty("serviceURI");
+			}
 		}
 		return serviceURI;
 	}
