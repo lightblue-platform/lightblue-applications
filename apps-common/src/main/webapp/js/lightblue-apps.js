@@ -18,7 +18,7 @@
 
   function isAdmin() {
       "use strict";
-      return $.inArray('user-admin', window.roles) > -1;
+      return $.inArray('lightblue-metadata-admin', window.roles) > -1;
   }
 
   // validation successful on null

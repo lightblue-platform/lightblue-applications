@@ -1,5 +1,15 @@
 <?xml version="1.0"?>
 <jboss-web>
-  <context-root>/metadata-mgmt</context-root>
-  <security-domain>java:/jaas/other</security-domain>
+    <context-root>/metadata-mgmt</context-root>
+    <!--security-domain>java:/jaas/other</security-domain-->
+    <security-domain>sp</security-domain>
+    <valve>
+        <class-name>
+            org.picketlink.identity.federation.bindings.tomcat.sp.ServiceProviderAuthenticator
+        </class-name>
+        <param>
+            <param-name>issuerID</param-name>
+            <param-value>lightblue</param-value>
+        </param>
+    </valve>
 </jboss-web>

@@ -1,0 +1,8 @@
+<jboss-deployment-structure>
+	<deployment>
+	    <dependencies>
+	        <module name="org.picketlink" />
+	        <module name="com.redhat.saml.internal" />
+	    </dependencies>
+	</deployment>
+</jboss-deployment-structure>

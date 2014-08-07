@@ -42,7 +42,7 @@
       <http-method>DELETE</http-method>
     </web-resource-collection>
     <auth-constraint>
-      <role-name>user-admin</role-name>
+      <role-name>lightblue-metadata-admin</role-name>
     </auth-constraint>
   </security-constraint>
 
@@ -50,7 +50,7 @@
     <role-name>authenticated</role-name>
   </security-role>
   <security-role>
-    <role-name>user-admin</role-name>
+    <role-name>lightblue-metadata-admin</role-name>
   </security-role>
 
   <login-config>
