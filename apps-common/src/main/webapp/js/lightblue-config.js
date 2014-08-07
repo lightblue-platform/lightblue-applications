@@ -1,1 +1,1 @@
-var metadataServicePath = "http://localhost:8080/metadata-mgmt/rest-request/";
+var metadataServicePath = "/metadata-mgmt/rest-request/";
