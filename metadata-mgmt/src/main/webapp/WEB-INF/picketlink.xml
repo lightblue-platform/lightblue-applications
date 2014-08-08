@@ -1,3 +1,4 @@
+<!-- Keys in this file are defined as system properties in stadanlone.xml -->
 <PicketLink xmlns="urn:picketlink:identity-federation:config:2.1">
     <PicketLinkSP xmlns="urn:picketlink:identity-federation:config:1.0" ServerEnvironment="tomcat" BindingType="POST" SupportsSignatures="true">
         <IdentityURL>${IdentityURL}</IdentityURL>
