@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/lightblue-platform/lightblue-applications.svg?branch=master)](https://travis-ci.org/lightblue-platform/lightblue-applications)
+
 lightblue-applications
 ======================
 
