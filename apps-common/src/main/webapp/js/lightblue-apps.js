@@ -332,6 +332,18 @@
           $("#load-content-btn").trigger('click');
       });
 
+      $('#beautify').click(function(evt) {
+          evt.preventDefault();
+          var jsonText = $('#json').val();
+          $('#json').val(JSON.stringify(JSON.parse(jsonText), null, 4));
+      });
+          
+      $('#uglify').click(function(evt) {
+          evt.preventDefault();
+          var jsonText = $('#json').val();
+          $('#json').val(JSON.stringify(JSON.parse(jsonText)));
+      });
+      
       showView();
 
   });
