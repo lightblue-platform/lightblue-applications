@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/lightblue-platform/lightblue-applications.svg?branch=master)](https://travis-ci.org/lightblue-platform/lightblue-applications)
+[![Build Status](https://travis-ci.org/lightblue-platform/lightblue-applications.svg?branch=master)](https://travis-ci.org/lightblue-platform/lightblue-applications) [![Coverage Status](https://coveralls.io/repos/lightblue-platform/lightblue-applications/badge.png)](https://coveralls.io/r/lightblue-platform/lightblue-applications)
 
 lightblue-applications
 ======================
