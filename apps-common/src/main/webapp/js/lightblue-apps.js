@@ -233,7 +233,7 @@
       });
 
       request.done(function( msg ) {
-          if (msg.object_type === 'error') {
+          if (msg.objectType === 'error') {
               showLightblueErrorMessage(msg);
           }
           else {
