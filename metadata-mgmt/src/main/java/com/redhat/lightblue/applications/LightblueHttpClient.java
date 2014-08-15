@@ -6,10 +6,10 @@ import org.apache.http.impl.client.LaxRedirectStrategy;
 
 public class LightblueHttpClient {
 
-	public CloseableHttpClient getClient() {
-		CloseableHttpClient httpclient = HttpClients.custom()
-		.setRedirectStrategy(new LaxRedirectStrategy())
-		.build();
-		return httpclient;
-	}
+    public CloseableHttpClient getClient() {
+        CloseableHttpClient httpclient = HttpClients.custom()
+                .setRedirectStrategy(new LaxRedirectStrategy())
+                .build();
+        return httpclient;
+    }
 }

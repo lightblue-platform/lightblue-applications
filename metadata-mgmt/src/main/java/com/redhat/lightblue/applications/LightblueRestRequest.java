@@ -1,4 +1,5 @@
 package com.redhat.lightblue.applications;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Properties;
@@ -24,68 +25,70 @@ import org.slf4j.LoggerFactory;
 
 public class LightblueRestRequest extends HttpServlet implements Servlet {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String serviceURI;
+    private String serviceURI;
 
-	private final Logger LOGGER = LoggerFactory.getLogger(LightblueRestRequest.class);
-	
-	private String serviceURI() throws IOException {
-		if(serviceURI == null) {
-			serviceURI = System.getProperty("lightblueServiceURI");
+    private static final Logger LOGGER = LoggerFactory.getLogger(LightblueRestRequest.class);
 
-			if (serviceURI == null) {
-				Properties properties = new Properties();
-				properties.load(getClass().getClassLoader().getResourceAsStream("config.properties"));
-				serviceURI = properties.getProperty("serviceURI");
-			}
-		}
-		return serviceURI;
-	}
+    private String serviceURI() throws IOException {
+        if (serviceURI == null) {
+            serviceURI = System.getProperty("lightblueServiceURI");
 
-	public void doGet(HttpServletRequest req, HttpServletResponse res)  throws IOException {
-		HttpGet httpGet = new HttpGet(serviceURI(req.getRequestURI()));
-		serviceCall(httpGet, req, res);
-	}
-	
-	public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException {
-		HttpPost httpPost = new HttpPost(serviceURI(req.getRequestURI()));
-		httpPost.setEntity(new StringEntity(IOUtils.toString(req.getReader())));
-		serviceCall(httpPost, req, res);
-	}
+            if (serviceURI == null) {
+                Properties properties = new Properties();
+                properties.load(getClass().getClassLoader().getResourceAsStream("config.properties"));
+                serviceURI = properties.getProperty("serviceURI");
+            }
+        }
+        return serviceURI;
+    }
 
-	public void doPut(HttpServletRequest req, HttpServletResponse res) throws IOException {
-		HttpPut httpPut = new HttpPut(serviceURI(req.getRequestURI()));
-		httpPut.setEntity(new StringEntity(IOUtils.toString(req.getReader())));
-		serviceCall(httpPut, req, res);
-	}
+    @Override
+    public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
+        HttpGet httpGet = new HttpGet(serviceURI(req.getRequestURI()));
+        serviceCall(httpGet, req, res);
+    }
 
-	public void doDelete(HttpServletRequest req, HttpServletResponse res) throws IOException {
-		HttpDelete httpDelete = new HttpDelete(serviceURI(req.getRequestURI()));
-		serviceCall(httpDelete, req, res);
-	}
-		
-	private void serviceCall(HttpRequestBase httpOperation, HttpServletRequest req, HttpServletResponse res) throws IOException {
-		res.setContentType("application/json");
-		PrintWriter out = res.getWriter();
-		try {
-	    	CloseableHttpClient httpClient = new LightblueHttpClient().getClient();
-		httpOperation.setHeader("Content-Type", "application/json");
-	    	
-	    	CloseableHttpResponse httpResponse = httpClient.execute(httpOperation);
-	    	HttpEntity entity = httpResponse.getEntity();
-	    	LOGGER.debug("Response received from service" + EntityUtils.toString(entity));
-	    	
-	    	httpResponse.close();
-	    	httpClient.close();
-		} catch (RuntimeException e) {
-			out.println("{error:\"There was a problem calling the lightblue service\"}");
-			LOGGER.error("There was a problem calling the lightblue service" + e);
-		}
-	}
+    @Override
+    public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException {
+        HttpPost httpPost = new HttpPost(serviceURI(req.getRequestURI()));
+        httpPost.setEntity(new StringEntity(IOUtils.toString(req.getReader())));
+        serviceCall(httpPost, req, res);
+    }
 
-	private String serviceURI(String thisURI) throws IOException {
-		return serviceURI() + thisURI.replace("/metadata-mgmt/rest-request", "");
-	}
+    @Override
+    public void doPut(HttpServletRequest req, HttpServletResponse res) throws IOException {
+        HttpPut httpPut = new HttpPut(serviceURI(req.getRequestURI()));
+        httpPut.setEntity(new StringEntity(IOUtils.toString(req.getReader())));
+        serviceCall(httpPut, req, res);
+    }
 
+    @Override
+    public void doDelete(HttpServletRequest req, HttpServletResponse res) throws IOException {
+        HttpDelete httpDelete = new HttpDelete(serviceURI(req.getRequestURI()));
+        serviceCall(httpDelete, req, res);
+    }
+
+    private void serviceCall(HttpRequestBase httpOperation, HttpServletRequest req, HttpServletResponse res) throws IOException {
+        res.setContentType("application/json");
+        PrintWriter out = res.getWriter();
+        try {
+            try (CloseableHttpClient httpClient = new LightblueHttpClient().getClient()) {
+                httpOperation.setHeader("Content-Type", "application/json");
+                
+                try (CloseableHttpResponse httpResponse = httpClient.execute(httpOperation)) {
+                    HttpEntity entity = httpResponse.getEntity();
+                    LOGGER.debug("Response received from service" + EntityUtils.toString(entity));
+                }
+            }
+        } catch (RuntimeException e) {
+            out.println("{error:\"There was a problem calling the lightblue service\"}");
+            LOGGER.error("There was a problem calling the lightblue service" + e);
+        }
+    }
+
+    private String serviceURI(String thisURI) throws IOException {
+        return serviceURI() + thisURI.replace("/metadata-mgmt/rest-request", "");
+    }
 }
