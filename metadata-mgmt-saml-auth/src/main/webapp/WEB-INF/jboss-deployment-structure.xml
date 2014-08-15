@@ -1,0 +1,9 @@
+<jboss-deployment-structure>
+	<deployment>
+	    <dependencies>
+	        <module name="org.picketlink" />
+                <!-- Saml certs are in this jboss module -->
+	        <module name="com.redhat.saml.internal" />
+	    </dependencies>
+	</deployment>
+</jboss-deployment-structure>

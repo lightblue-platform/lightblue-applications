@@ -1,0 +1,61 @@
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+
+  <display-name>lightblue Metadata Management</display-name>
+
+  <servlet>
+    <servlet-name>rest-request</servlet-name>
+    <servlet-class>com.redhat.lightblue.applications.LightblueRestRequest</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>rest-request</servlet-name>
+    <url-pattern>/rest-request/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>roles</servlet-name>
+    <servlet-class>com.redhat.lightblue.applications.RolesServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>roles</servlet-name>
+    <url-pattern>/js/lightblue-roles.js</url-pattern>
+  </servlet-mapping>
+
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>Read operations</web-resource-name>
+      <url-pattern>/*</url-pattern>
+      <http-method>GET</http-method>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>authenticated</role-name>
+    </auth-constraint>
+  </security-constraint>
+
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>Write operations</web-resource-name>
+      <url-pattern>/*</url-pattern>
+      <http-method>POST</http-method>
+      <http-method>PUT</http-method>
+      <http-method>DELETE</http-method>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>lightblue-metadata-admin</role-name>
+    </auth-constraint>
+  </security-constraint>
+
+  <security-role>
+    <role-name>authenticated</role-name>
+  </security-role>
+  <security-role>
+    <role-name>lightblue-metadata-admin</role-name>
+  </security-role>
+
+  <login-config>
+    <auth-method>BASIC</auth-method>
+    <realm-name>ApplicationRealm</realm-name>
+  </login-config>
+
+</web-app>
