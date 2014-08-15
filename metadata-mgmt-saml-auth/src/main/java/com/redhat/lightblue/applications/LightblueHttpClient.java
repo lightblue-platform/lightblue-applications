@@ -32,13 +32,13 @@ public class LightblueHttpClient {
     public LightblueHttpClient() {
         try {
             Properties properties = new Properties();
-            properties.load(getClass().getClassLoader().getResourceAsStream("config.properties"));
+            properties.load(getClass().getClassLoader().getResourceAsStream("appconfig.properties"));
             caFilePath = properties.getProperty("caFilePath");
             certFilePath = properties.getProperty("certFilePath");
             certPassword = properties.getProperty("certPassword");
             certAlias = properties.getProperty("certAlias");
         } catch (IOException io) {
-            LOGGER.error("config.properties could not be found/read" + io);
+            LOGGER.error("appconfig.properties could not be found/read" + io);
             throw new RuntimeException(io);
         }
     }

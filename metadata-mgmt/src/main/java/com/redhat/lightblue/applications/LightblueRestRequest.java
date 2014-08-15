@@ -31,17 +31,24 @@ public class LightblueRestRequest extends HttpServlet implements Servlet {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LightblueRestRequest.class);
 
-    private String serviceURI() throws IOException {
-        if (serviceURI == null) {
-            serviceURI = System.getProperty("lightblueServiceURI");
+    private String serviceURI() {    	
+		try {
+			if (serviceURI == null) {
+				serviceURI = System.getProperty("lightblueServiceURI");
 
-            if (serviceURI == null) {
-                Properties properties = new Properties();
-                properties.load(getClass().getClassLoader().getResourceAsStream("config.properties"));
-                serviceURI = properties.getProperty("serviceURI");
-            }
-        }
-        return serviceURI;
+				if (serviceURI == null) {
+					Properties properties = new Properties();
+					properties.load(getClass().getClassLoader()
+							.getResourceAsStream("appconfig.properties"));
+					serviceURI = properties.getProperty("serviceURI");
+				}
+			}
+		} catch (IOException io) {
+			LOGGER.error("appconfig.properties could not be found/read" + io);
+			throw new RuntimeException(io);
+		}
+
+		return serviceURI;
     }
 
     @Override
