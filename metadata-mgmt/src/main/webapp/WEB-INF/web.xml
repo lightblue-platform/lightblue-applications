@@ -22,40 +22,4 @@
     <url-pattern>/js/lightblue-roles.js</url-pattern>
   </servlet-mapping>
 
-  <security-constraint>
-    <web-resource-collection>
-      <web-resource-name>Read operations</web-resource-name>
-      <url-pattern>/*</url-pattern>
-      <http-method>GET</http-method>
-    </web-resource-collection>
-    <auth-constraint>
-      <role-name>authenticated</role-name>
-    </auth-constraint>
-  </security-constraint>
-
-  <security-constraint>
-    <web-resource-collection>
-      <web-resource-name>Write operations</web-resource-name>
-      <url-pattern>/*</url-pattern>
-      <http-method>POST</http-method>
-      <http-method>PUT</http-method>
-      <http-method>DELETE</http-method>
-    </web-resource-collection>
-    <auth-constraint>
-      <role-name>lightblue-metadata-admin</role-name>
-    </auth-constraint>
-  </security-constraint>
-
-  <security-role>
-    <role-name>authenticated</role-name>
-  </security-role>
-  <security-role>
-    <role-name>lightblue-metadata-admin</role-name>
-  </security-role>
-
-  <login-config>
-    <auth-method>BASIC</auth-method>
-    <realm-name>ApplicationRealm</realm-name>
-  </login-config>
-
 </web-app>

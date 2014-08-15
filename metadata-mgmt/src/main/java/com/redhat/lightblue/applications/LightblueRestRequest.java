@@ -18,16 +18,18 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LightblueRestRequest extends HttpServlet implements Servlet {
 
 	private static final long serialVersionUID = 1L;
 
 	private String serviceURI;
-		
+
+	private final Logger LOGGER = LoggerFactory.getLogger(LightblueRestRequest.class);
+	
 	private String serviceURI() throws IOException {
 		if(serviceURI == null) {
 			serviceURI = System.getProperty("lightblueServiceURI");
@@ -40,8 +42,6 @@ public class LightblueRestRequest extends HttpServlet implements Servlet {
 		}
 		return serviceURI;
 	}
-	
-
 
 	public void doGet(HttpServletRequest req, HttpServletResponse res)  throws IOException {
 		HttpGet httpGet = new HttpGet(serviceURI(req.getRequestURI()));
@@ -69,31 +69,23 @@ public class LightblueRestRequest extends HttpServlet implements Servlet {
 		res.setContentType("application/json");
 		PrintWriter out = res.getWriter();
 		try {
-	    	CloseableHttpClient httpClient = getClient();
+	    	CloseableHttpClient httpClient = new LightblueHttpClient().getClient();
 		httpOperation.setHeader("Content-Type", "application/json");
 	    	
 	    	CloseableHttpResponse httpResponse = httpClient.execute(httpOperation);
 	    	HttpEntity entity = httpResponse.getEntity();
-	    	out.println(EntityUtils.toString(entity));
+	    	LOGGER.debug("Response received from service" + EntityUtils.toString(entity));
 	    	
 	    	httpResponse.close();
 	    	httpClient.close();
-		} catch (Exception e) {
-			out.println("Something bad happened");
-			e.printStackTrace();
+		} catch (RuntimeException e) {
+			out.println("{error:\"There was a problem calling the lightblue service\"}");
+			LOGGER.error("There was a problem calling the lightblue service" + e);
 		}
 	}
 
 	private String serviceURI(String thisURI) throws IOException {
 		return serviceURI() + thisURI.replace("/metadata-mgmt/rest-request", "");
-	}
-	
-	private CloseableHttpClient getClient() throws Exception {
-        CloseableHttpClient httpclient = HttpClients.custom()
-                .setRedirectStrategy(new LaxRedirectStrategy())
-                .build();
-        
-        return httpclient;
 	}
 
 }

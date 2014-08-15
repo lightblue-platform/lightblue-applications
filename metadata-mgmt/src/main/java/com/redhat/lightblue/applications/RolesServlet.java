@@ -15,7 +15,7 @@ public class RolesServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	public static String[] ROLES = new String[] {"lightblue-metadata-admin", "lightblue-user", "readonly", "updated", "user-admin", "authenticated"};
+	public static String[] ROLES = new String[] {"authenticated","lightblue-metadata-admin"};
 
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
