@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.redhat.lightblue.applications</groupId>
     <artifactId>pom</artifactId>
-    <version>0.9.0</version>
+    <version>0.9.1-SNAPSHOT</version>
   </parent>
   <artifactId>metadata-mgmt-saml-auth</artifactId>
   <packaging>war</packaging>
@@ -14,7 +14,7 @@
     <dependency>
         <groupId>com.redhat.lightblue.applications</groupId>
         <artifactId>metadata-mgmt</artifactId>
-        <version>0.9.0</version>
+        <version>0.9.1-SNAPSHOT</version>
         <type>war</type>
         <scope>compile</scope>
     </dependency>
