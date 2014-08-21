@@ -67,7 +67,6 @@
                           <mappings>
                               <mapping>
                                   <directory>${rpm.install.basedir}</directory>
-                                  <directoryIncluded>false</directoryIncluded>
                                   <sources>
                                       <source>
                                           <location>target/${project.artifactId}-${project.version}.${project.packaging}</location>
