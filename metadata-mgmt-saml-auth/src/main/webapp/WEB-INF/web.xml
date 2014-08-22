@@ -69,9 +69,4 @@
     <role-name>lightblue-metadata-admin</role-name>
   </security-role>
 
-  <login-config>
-    <auth-method>BASIC</auth-method>
-    <realm-name>ApplicationRealm</realm-name>
-  </login-config>
-
 </web-app>
