@@ -5,6 +5,15 @@
   <display-name>lightblue Metadata Management</display-name>
 
   <servlet>
+      <servlet-name>health</servlet-name>
+      <jsp-file>/health.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+      <servlet-name>health</servlet-name>
+      <url-pattern>/health</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
     <servlet-name>rest-request</servlet-name>
     <servlet-class>com.redhat.lightblue.applications.LightblueRestRequest</servlet-class>
   </servlet>
