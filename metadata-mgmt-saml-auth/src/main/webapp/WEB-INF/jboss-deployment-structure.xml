@@ -2,8 +2,7 @@
 	<deployment>
 	    <dependencies>
 	        <module name="org.picketlink" />
-                <!-- Saml certs are in this jboss module -->
-	        <module name="com.redhat.saml.internal" />
+            <module name="com.redhat.lightblue"/>
 	    </dependencies>
 	</deployment>
 </jboss-deployment-structure>
