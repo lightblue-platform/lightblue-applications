@@ -29,7 +29,7 @@ public class LightblueHttpClient {
                     .setSSLSocketFactory(sslsf)
                     .build();
     	} catch (GeneralSecurityException e) {
-    		LOGGER.error("Error creating jks from certificates: " + e);
+    		LOGGER.error("Error creating jks from certificates: ", e);
             throw new RuntimeException(e);
     	}
         return httpClient;
