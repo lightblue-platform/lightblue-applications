@@ -44,7 +44,7 @@ public class LightblueRestRequest extends HttpServlet implements Servlet {
 				}
 			}
 		} catch (IOException io) {
-			LOGGER.error("appconfig.properties could not be found/read" + io);
+			LOGGER.error("appconfig.properties could not be found/read", io);
 			throw new RuntimeException(io);
 		}
 
@@ -91,7 +91,7 @@ public class LightblueRestRequest extends HttpServlet implements Servlet {
             }
         } catch (RuntimeException e) {
             out.println("{error:\"There was a problem calling the lightblue service\"}");
-            LOGGER.error("There was a problem calling the lightblue service" + e);
+            LOGGER.error("There was a problem calling the lightblue service", e);
         }
     }
 

@@ -38,7 +38,7 @@ public class LightblueHttpClient {
             certPassword = properties.getProperty("certPassword");
             certAlias = properties.getProperty("certAlias");
         } catch (IOException io) {
-            LOGGER.error("appconfig.properties could not be found/read" + io);
+            LOGGER.error("appconfig.properties could not be found/read", io);
             throw new RuntimeException(io);
         }
     }
@@ -74,7 +74,7 @@ public class LightblueHttpClient {
             ctx = SSLContext.getInstance("TLSv1");
             ctx.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
         } catch (GeneralSecurityException | IOException e) {
-            LOGGER.error("Error creating jks from certificates: " + e);
+            LOGGER.error("Error creating jks from certificates: ", e);
             throw new RuntimeException(e);
         }
         return (ctx);
