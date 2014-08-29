@@ -20,16 +20,16 @@ import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class LightblueHttpClient {
+public class LightblueHttpClientCertAuth {
 
     private String caFilePath;
     private String certFilePath;
     private String certPassword;
     private String certAlias;
 
-    private final Logger LOGGER = LoggerFactory.getLogger(LightblueHttpClient.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(LightblueHttpClientCertAuth.class);
 
-    public LightblueHttpClient() {
+    public LightblueHttpClientCertAuth() {
         try {
             Properties properties = new Properties();
             properties.load(getClass().getClassLoader().getResourceAsStream("appconfig.properties"));
