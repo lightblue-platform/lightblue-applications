@@ -96,6 +96,6 @@ public class LightblueRestRequest extends HttpServlet implements Servlet {
     }
 
     private String serviceURI(String thisURI) throws IOException {
-        return serviceURI() + thisURI.replace("/metadata-mgmt/rest-request", "");
+        return serviceURI() + thisURI.replace("/app/metadata/rest-request", "");
     }
 }
