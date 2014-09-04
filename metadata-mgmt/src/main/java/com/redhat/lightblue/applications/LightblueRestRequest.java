@@ -87,6 +87,7 @@ public class LightblueRestRequest extends HttpServlet implements Servlet {
                 try (CloseableHttpResponse httpResponse = httpClient.execute(httpOperation)) {
                     HttpEntity entity = httpResponse.getEntity();
                     LOGGER.debug("Response received from service" + EntityUtils.toString(entity));
+                    out.println(EntityUtils.toString(entity));
                 }
             }
         } catch (RuntimeException e) {
