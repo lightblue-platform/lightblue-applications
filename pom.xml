@@ -147,6 +147,7 @@
         <sonar.jdbc.password>sonar</sonar.jdbc.password>
         <sonar.host.url>http://127.0.0.1:8080</sonar.host.url>
         <sonar.projectName>lightblue-applications</sonar.projectName>
+        <lightblue-client.version>1.0.0</lightblue-client.version>
     </properties>
     <modules>
         <module>apps-common</module>
