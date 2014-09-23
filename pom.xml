@@ -88,6 +88,7 @@
                 <artifactId>jboss-javaee-6.0</artifactId>
                 <version>3.0.2.Final</version>
                 <type>pom</type>
+                <scope>provided</scope>
                 <exclusions>
                     <exclusion>
                         <artifactId>xalan</artifactId>
