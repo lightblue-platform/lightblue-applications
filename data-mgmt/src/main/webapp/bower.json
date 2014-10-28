@@ -1,0 +1,25 @@
+{
+  "name": "lightblue-data-mockup",
+  "version": "0.1.0-SNAPSHOT",
+  "authors": [
+    "Alec Henninger <ahenning@redhat.com>"
+  ],
+  "description": "lightblue data management application mockup",
+  "main": "index.html",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "1.3.x",
+    "angular-mocks": "~1.3.x",
+    "jquery": "1.11.1",
+    "bootstrap": "~3.2.x",
+    "angular-route": "~1.3.x",
+    "angular-ui-ace": "bower"
+  }
+}
