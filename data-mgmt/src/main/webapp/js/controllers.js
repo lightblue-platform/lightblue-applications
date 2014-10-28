@@ -5,7 +5,7 @@ var dataManageControllers = angular.module("dataManageControllers", []);
 dataManageControllers.controller("FindCtrl", ["$scope", "lightblue",
   function($scope, lightblue) {
     $scope.requestCommon = {
-      entity: "Term"
+      entity: ""
     };
 
     $scope.requestBody = {
