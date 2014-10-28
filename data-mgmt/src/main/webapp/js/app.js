@@ -21,19 +21,3 @@ dataManageApp.config(["$routeProvider", function($routeProvider) {
 dataManageApp.config(["lightblueProvider", function(lightblueProvider) {
   lightblueProvider.setLightblueHost("http://localhost/~ahenning/app/data/lightblue-request");
 }]);
-
-/*
-{
-	"entity": "terms",
-	"version": "0.12.0-SNAPSHOT",
-	"query": {
-	    "field": "statusCode",
-	    "op": "$eq",
-	    "rvalue": "active"
-	},
-	"projection": {
-	    "field": "*",
-	    "include": true
-	}
-}
-*/
