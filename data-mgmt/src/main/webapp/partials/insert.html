@@ -1,0 +1,31 @@
+<form role="form" ng-submit="executeQuery()">
+  <div class="row">
+
+    <!-- Request body -->
+    <div class="col-md-12">
+      <div class="request-find">
+        <div class="page-header">
+          <h1>Insert</h1>
+        </div>
+
+        <div id="query-raw" ui-ace="{mode: 'json', onLoad: configAce}" ng-model="requestRaw" ng-model-options="{ debounce: 750 }"></div>
+
+        <button type="submit" class="btn btn-primary pull-right">
+          <span class="glyphicon glyphicon-flash"></span> Execute query
+        </button>
+      </div>
+    </div>
+
+  </div>
+</form>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="page-header">
+      <h1>Response</h1>
+    </div>
+
+    <div id="response-raw" ui-ace="{mode: 'json', onLoad: configResponseAce}" ng-model="responseRaw"></div>
+
+  </div>
+</div>

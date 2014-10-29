@@ -1,12 +1,11 @@
 {
-  "name": "lightblue-data-mockup",
+  "name": "lightblue-data-app",
   "version": "0.1.0-SNAPSHOT",
   "authors": [
     "Alec Henninger <ahenning@redhat.com>"
   ],
-  "description": "lightblue data management application mockup",
+  "description": "lightblue data management application",
   "main": "index.html",
-  "private": true,
   "ignore": [
     "**/.*",
     "node_modules",

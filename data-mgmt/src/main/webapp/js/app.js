@@ -13,6 +13,22 @@ dataManageApp.config(["$routeProvider", function($routeProvider) {
       templateUrl: "partials/find.html",
       controller: "FindCtrl"
     })
+    .when("/insert", {
+      templateUrl: "partials/insert.html",
+      controller: "InsertCtrl"
+    })
+    .when("/save", {
+      templateUrl: "partials/save.html",
+      controller: "SaveCtrl"
+    })
+    .when("/update", {
+      templateUrl: "partials/update.html",
+      controller: "UpdateCtrl"
+    })
+    .when("/delete", {
+      templateUrl: "partials/delete.html",
+      controller: "DeleteCtrl"
+    })
     .otherwise({
       redirectTo: "/find"
     });

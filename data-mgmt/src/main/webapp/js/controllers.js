@@ -2,59 +2,208 @@
 
 var dataManageControllers = angular.module("dataManageControllers", []);
 
-dataManageControllers.controller("FindCtrl", ["$scope", "lightblue",
-  function($scope, lightblue) {
-    $scope.requestCommon = {
-      entity: ""
-    };
+(function () {
+  // Returns an object that combines the request common and request body objects.
+  function makeRequest(request) {
+    return angular.extend({}, request.common, request.body);
+  }
 
-    $scope.requestBody = {
-      query: {},
-      projection: {}
-    };
+  // Serializes the request.
+  function getRequestRaw(request) {
+    return JSON.stringify(makeRequest(request), null, "\t");
+  }
 
-    $scope.requestRaw = JSON.stringify(
-      angular.extend({}, $scope.requestCommon, $scope.requestBody),
-      null, "\t");
+  // Deserializes the raw request. If the raw string is invalid json, returns
+  // null.
+  function tryParse(raw) {
+    var req;
 
-    // Try and parse raw data into model.
-    // There is probably a better way to do this.
-    $scope.$watch('requestRaw', function(newValue) {
-      try {
-        var req = JSON.parse(newValue);
-      } catch (e) {
-        // Invalid json
-        return;
+    try {
+      req = JSON.parse(raw);
+    } catch (e) {
+      // Invalid json
+      return null;
+    }
+
+    if (!(req instanceof Object)) {
+      // Also invalid json
+      return null;
+    }
+
+    return req;
+  }
+
+  dataManageControllers.controller("NavCtrl", ["$scope", "$location",
+    function($scope, $location) {
+      $scope.isActive = function(path) {
+        return path === $location.path();
       }
+    }]);
 
-      if (!(req instanceof Object)) {
-        // Also invalid json
-        return;
-      }
+  // DataCtrl adds functions to scope that are shared among all views.
+  dataManageControllers.controller("DataCtrl", ["$scope",
+    function($scope) {
+      $scope.configAce = function(editor) {
+        editor.setShowPrintMargin(false);
+        editor.setOption("maxLines", Infinity);
+      };
 
-      $scope.requestCommon.entity = req.entity;
-      $scope.requestCommon.version = req.version;
+      $scope.configResponseAce = function(editor) {
+        editor.setReadOnly(true);
+        editor.session.setOption("useWorker", false);
 
-      $scope.requestBody.query = req.query;
-      $scope.requestBody.projection = req.projection;
-    });
+        $scope.configAce(editor);
+      };
+    }]);
 
-    $scope.configAce = function(editor) {
-      editor.setShowPrintMargin(false);
-      editor.setOption("maxLines", Infinity);
-    };
+  dataManageControllers.controller("FindCtrl", ["$scope", "lightblue", "findService",
+    function($scope, lightblue, findService) {
+      $scope.request = findService.request;
 
-    $scope.configResponseAce = function(editor) {
-      editor.setReadOnly(true);
-      editor.session.setOption("useWorker", false);
+      $scope.requestRaw = getRequestRaw($scope.request);
 
-      $scope.configAce(editor);
-    };
+      // Try and parse raw data into model.
+      // There is probably a better way to do this.
+      $scope.$watch('requestRaw', function(newValue) {
+        var req = tryParse(newValue);
 
-    $scope.executeQuery = function() {
-      lightblue.find(angular.extend({}, $scope.requestCommon, $scope.requestBody))
-        .success(function(data, status, headers) {
-          $scope.responseRaw = JSON.stringify(data, null, "\t");
-        });
-    };
-  }]);
+        if (req === null) {
+          return;
+        }
+
+        $scope.request.common.entity = req.entity;
+        $scope.request.common.version = req.version;
+
+        $scope.request.body.query = req.query;
+        $scope.request.body.projection = req.projection;
+      });
+
+      $scope.executeQuery = function() {
+        lightblue.find(makeRequest($scope.request))
+          .success(function(data, status, headers) {
+            $scope.responseRaw = JSON.stringify(data, null, "\t");
+          });
+      };
+    }]);
+
+  dataManageControllers.controller("InsertCtrl", ["$scope", "lightblue", "insertService",
+    function($scope, lightblue, insertService) {
+      $scope.request = insertService.request;
+
+      $scope.requestRaw = getRequestRaw($scope.request);
+
+      // Try and parse raw data into model.
+      // There is probably a better way to do this.
+      $scope.$watch('requestRaw', function(newValue) {
+        var req = tryParse(newValue);
+
+        if (req === null) {
+          return;
+        }
+
+        $scope.request.common.entity = req.entity;
+        $scope.request.common.version = req.version;
+
+        $scope.request.body.data = req.data;
+        $scope.request.body.projection = req.projection;
+      });
+
+      $scope.executeQuery = function() {
+        lightblue.insert(makeRequest($scope.request))
+          .success(function(data, status, headers) {
+            $scope.responseRaw = JSON.stringify(data, null, "\t");
+          });
+      };
+    }]);
+
+  dataManageControllers.controller("SaveCtrl", ["$scope", "lightblue", "saveService",
+    function($scope, lightblue, saveService) {
+      $scope.request = saveService.request;
+
+      $scope.requestRaw = getRequestRaw($scope.request);
+
+      // Try and parse raw data into model.
+      // There is probably a better way to do this.
+      $scope.$watch('requestRaw', function(newValue) {
+        var req = tryParse(newValue);
+
+        if (req === null) {
+          return;
+        }
+
+        $scope.request.common.entity = req.entity;
+        $scope.request.common.version = req.version;
+
+        $scope.request.body.data = req.data;
+        $scope.request.body.upsert = req.upsert;
+        $scope.request.body.projection = req.projection;
+      });
+
+      $scope.executeQuery = function() {
+        lightblue.save(makeRequest($scope.request))
+          .success(function(data, status, headers) {
+            $scope.responseRaw = JSON.stringify(data, null, "\t");
+          });
+      };
+    }]);
+
+  dataManageControllers.controller("UpdateCtrl", ["$scope", "lightblue", "updateService",
+    function($scope, lightblue, updateService) {
+      $scope.request = updateService.request;
+
+      $scope.requestRaw = getRequestRaw($scope.request);
+
+      // Try and parse raw data into model.
+      // There is probably a better way to do this.
+      $scope.$watch('requestRaw', function(newValue) {
+        var req = tryParse(newValue);
+
+        if (req === null) {
+          return;
+        }
+
+        $scope.request.common.entity = req.entity;
+        $scope.request.common.version = req.version;
+
+        $scope.request.body.query = req.query;
+        $scope.request.body.update = req.update;
+        $scope.request.body.projection = req.projection;
+      });
+
+      $scope.executeQuery = function() {
+        lightblue.update(makeRequest($scope.request))
+          .success(function(data, status, headers) {
+            $scope.responseRaw = JSON.stringify(data, null, "\t");
+          });
+      };
+    }]);
+
+  dataManageControllers.controller("DeleteCtrl", ["$scope", "lightblue", "deleteService",
+    function($scope, lightblue, deleteService) {
+      $scope.request = deleteService.request;
+
+      $scope.requestRaw = getRequestRaw($scope.request);
+
+      // Try and parse raw data into model.
+      // There is probably a better way to do this.
+      $scope.$watch('requestRaw', function(newValue) {
+        var req = tryParse(newValue);
+
+        if (req === null) {
+          return;
+        }
+
+        $scope.request.common.entity = req.entity;
+        $scope.request.common.version = req.version;
+
+        $scope.request.body.query = req.query;
+      });
+
+      $scope.executeQuery = function() {
+        lightblue.delete(makeRequest($scope.request))
+          .success(function(data, status, headers) {
+            $scope.responseRaw = JSON.stringify(data, null, "\t");
+          });
+      };
+    }]);
+})();
