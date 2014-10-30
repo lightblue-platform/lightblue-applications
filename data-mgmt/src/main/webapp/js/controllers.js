@@ -13,8 +13,12 @@ var dataManageControllers = angular.module("dataManageControllers", []);
     return JSON.stringify(makeRequest(request), null, "\t");
   }
 
-  // Deserializes the raw request. If the raw string is invalid json, returns
-  // null.
+  // Serializes the response.
+  function getResponseRaw(response) {
+    return JSON.stringify(response, null, "\t");
+  }
+
+  // Deserializes the raw json. If the raw string is invalid json, returns null.
   function tryParse(raw) {
     var req;
 
@@ -59,8 +63,10 @@ var dataManageControllers = angular.module("dataManageControllers", []);
   dataManageControllers.controller("FindCtrl", ["$scope", "lightblue", "findService",
     function($scope, lightblue, findService) {
       $scope.request = findService.request;
+      $scope.response = findService.response;
 
       $scope.requestRaw = getRequestRaw($scope.request);
+      $scope.responseRaw = getResponseRaw($scope.response);
 
       // Try and parse raw data into model.
       // There is probably a better way to do this.
@@ -81,7 +87,8 @@ var dataManageControllers = angular.module("dataManageControllers", []);
       $scope.executeQuery = function() {
         lightblue.find(makeRequest($scope.request))
           .success(function(data, status, headers) {
-            $scope.responseRaw = JSON.stringify(data, null, "\t");
+            angular.copy(data, $scope.response);
+            $scope.responseRaw = getResponseRaw(data);
           });
       };
     }]);
@@ -89,8 +96,10 @@ var dataManageControllers = angular.module("dataManageControllers", []);
   dataManageControllers.controller("InsertCtrl", ["$scope", "lightblue", "insertService",
     function($scope, lightblue, insertService) {
       $scope.request = insertService.request;
+      $scope.response = insertService.response;
 
       $scope.requestRaw = getRequestRaw($scope.request);
+      $scope.responseRaw = getResponseRaw($scope.response);
 
       // Try and parse raw data into model.
       // There is probably a better way to do this.
@@ -111,7 +120,8 @@ var dataManageControllers = angular.module("dataManageControllers", []);
       $scope.executeQuery = function() {
         lightblue.insert(makeRequest($scope.request))
           .success(function(data, status, headers) {
-            $scope.responseRaw = JSON.stringify(data, null, "\t");
+            angular.copy(data, $scope.response);
+            $scope.responseRaw = getResponseRaw(data);
           });
       };
     }]);
@@ -119,8 +129,10 @@ var dataManageControllers = angular.module("dataManageControllers", []);
   dataManageControllers.controller("SaveCtrl", ["$scope", "lightblue", "saveService",
     function($scope, lightblue, saveService) {
       $scope.request = saveService.request;
+      $scope.response = saveService.response;
 
       $scope.requestRaw = getRequestRaw($scope.request);
+      $scope.responseRaw = getResponseRaw($scope.response);
 
       // Try and parse raw data into model.
       // There is probably a better way to do this.
@@ -142,7 +154,8 @@ var dataManageControllers = angular.module("dataManageControllers", []);
       $scope.executeQuery = function() {
         lightblue.save(makeRequest($scope.request))
           .success(function(data, status, headers) {
-            $scope.responseRaw = JSON.stringify(data, null, "\t");
+            angular.copy(data, $scope.response);
+            $scope.responseRaw = getResponseRaw(data);
           });
       };
     }]);
@@ -150,8 +163,10 @@ var dataManageControllers = angular.module("dataManageControllers", []);
   dataManageControllers.controller("UpdateCtrl", ["$scope", "lightblue", "updateService",
     function($scope, lightblue, updateService) {
       $scope.request = updateService.request;
+      $scope.response = updateService.response;
 
       $scope.requestRaw = getRequestRaw($scope.request);
+      $scope.responseRaw = getResponseRaw($scope.response);
 
       // Try and parse raw data into model.
       // There is probably a better way to do this.
@@ -173,7 +188,8 @@ var dataManageControllers = angular.module("dataManageControllers", []);
       $scope.executeQuery = function() {
         lightblue.update(makeRequest($scope.request))
           .success(function(data, status, headers) {
-            $scope.responseRaw = JSON.stringify(data, null, "\t");
+            angular.copy(data, $scope.response);
+            $scope.responseRaw = getResponseRaw(data);
           });
       };
     }]);
@@ -181,8 +197,10 @@ var dataManageControllers = angular.module("dataManageControllers", []);
   dataManageControllers.controller("DeleteCtrl", ["$scope", "lightblue", "deleteService",
     function($scope, lightblue, deleteService) {
       $scope.request = deleteService.request;
+      $scope.response = deleteService.response;
 
       $scope.requestRaw = getRequestRaw($scope.request);
+      $scope.responseRaw = getResponseRaw($scope.response);
 
       // Try and parse raw data into model.
       // There is probably a better way to do this.
@@ -202,7 +220,8 @@ var dataManageControllers = angular.module("dataManageControllers", []);
       $scope.executeQuery = function() {
         lightblue.delete(makeRequest($scope.request))
           .success(function(data, status, headers) {
-            $scope.responseRaw = JSON.stringify(data, null, "\t");
+            angular.copy(data, $scope.response);
+            $scope.responseRaw = getResponseRaw(data);
           });
       };
     }]);

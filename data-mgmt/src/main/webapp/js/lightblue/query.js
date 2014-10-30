@@ -28,9 +28,9 @@ function NaryLogicalExpression(op, expressions) {
 
   if (expressions instanceof Array) {
     var json = {};
-    
-    json[op] = expressions.map(function (e) { 
-      return e.asJson(); 
+
+    json[op] = expressions.map(function (e) {
+      return e.toJSON();
     });
   }
 
