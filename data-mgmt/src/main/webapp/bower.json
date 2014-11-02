@@ -19,6 +19,7 @@
     "jquery": "1.11.1",
     "bootstrap": "~3.2.x",
     "angular-route": "~1.3.x",
-    "angular-ui-ace": "bower"
+    "angular-ui-ace": "bower",
+    "lightblue.js": "~0.0.1"
   }
 }

@@ -1,5 +1,5 @@
 function NgLightblue($http, host) {
-  var _client = new LightblueClient(host);
+  var _client = lightblue.client(host);
 
   this.execute = function(request) {
     console.log(request);
