@@ -35,5 +35,5 @@ dataManageApp.config(["$routeProvider", function($routeProvider) {
 }]);
 
 dataManageApp.config(["lightblueProvider", function(lightblueProvider) {
-  lightblueProvider.setLightblueHost("http://localhost/~ahenning/app/data/lightblue-request");
+  lightblueProvider.setLightblueHost("/rest-request/");
 }]);
