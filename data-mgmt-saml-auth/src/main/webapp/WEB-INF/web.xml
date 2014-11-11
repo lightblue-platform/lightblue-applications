@@ -1,0 +1,72 @@
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+
+  <display-name>lightblue Metadata Management</display-name>
+
+  <servlet>
+      <servlet-name>health</servlet-name>
+      <jsp-file>/health.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+      <servlet-name>health</servlet-name>
+      <url-pattern>/health</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>rest-request</servlet-name>
+    <servlet-class>com.redhat.lightblue.client.http.LightblueProxyServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>rest-request</servlet-name>
+    <url-pattern>/rest-request/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>roles</servlet-name>
+    <servlet-class>com.redhat.lightblue.applications.RolesServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>roles</servlet-name>
+    <url-pattern>/js/lightblue-roles.js</url-pattern>
+  </servlet-mapping>
+
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>Health check servlet (Unauth)</web-resource-name>
+      <url-pattern>/health</url-pattern>
+    </web-resource-collection>
+  </security-constraint>
+
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>Simple find operation</web-resource-name>
+      <url-pattern>/*</url-pattern>
+      <http-method>GET</http-method>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>authenticated</role-name>
+    </auth-constraint>
+  </security-constraint>
+
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>Find and write operations</web-resource-name>
+      <url-pattern>/*</url-pattern>
+      <http-method>POST</http-method>
+      <http-method>PUT</http-method>
+      <http-method>DELETE</http-method>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>lightblue-data-admin</role-name>
+    </auth-constraint>
+  </security-constraint>
+
+  <security-role>
+    <role-name>authenticated</role-name>
+  </security-role>
+  <security-role>
+    <role-name>lightblue-data-admin</role-name>
+  </security-role>
+
+</web-app>
