@@ -20,6 +20,7 @@
     "bootstrap": "~3.2.x",
     "angular-route": "~1.3.x",
     "angular-ui-ace": "bower",
-    "lightblue.js": "~0.0.4"
+    "lightblue.js": "~0.0.4",
+    "angular-ui-select": "~0.8.3"
   }
 }

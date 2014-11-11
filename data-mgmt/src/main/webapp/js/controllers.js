@@ -75,6 +75,7 @@ var dataManageControllers = angular.module("dataManageControllers", []);
       $scope.responseRaw = getResponseRaw($scope.response);
 
       $scope.loading = false;
+      $scope.requestView = "raw";
 
       // Try and parse raw data into model.
       // There is probably a better way to do this.

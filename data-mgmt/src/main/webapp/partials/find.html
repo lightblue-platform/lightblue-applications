@@ -5,10 +5,31 @@
     <div class="col-md-12">
       <div class="request-find">
         <div class="page-header">
+          <div class="btn-group pull-right">
+            <label class="btn btn-default" ng-class="{active: requestView=='builder'}">
+              <input type="radio" name="find-view" id="request-builder" ng-model="requestView" value="builder">Builder
+            </label>
+            <label class="btn btn-default" ng-class="{active: requestView=='raw'}">
+              <input type="radio" name="find-view" id="request-raw" ng-model="requestView" value="raw">Raw
+            </label>
+          </div>
+
           <h1>Find</h1>
         </div>
 
-        <div id="query-raw" ui-ace="{mode: 'json', onLoad: configAce}" ng-model="requestRaw" ng-model-options="{ debounce: 750 }"></div>
+        <div id="query-raw" ui-ace="{mode: 'json', onLoad: configAce}" ng-hide="requestView != 'raw'" ng-model="requestRaw" ng-model-options="{ debounce: 750 }"></div>
+
+        <div class="row" id="query-builder" ng-hide="requestView != 'builder'">
+          <!-- Request common -->
+          <div class="col-md-3">
+
+          </div>
+
+          <!-- Find details -->
+          <div class="col-md-9">
+
+          </div>
+        </div>
 
         <button type="submit" class="btn btn-primary pull-right" ng-disabled="loading">
           <span class="glyphicon glyphicon-flash" ng-hide="loading"></span> {{!loading ? "Execute query" : "Executing..."}}

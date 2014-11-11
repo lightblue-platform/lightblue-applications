@@ -6,3 +6,10 @@ body {
 .ace_editor {
   margin-bottom: 1em;
 }
+
+div.btn-group > label.btn > input[type=radio] {
+  position: absolute;
+  z-index: -1;
+  filter: alpha(opacity=0);
+  opacity: 0;
+}
