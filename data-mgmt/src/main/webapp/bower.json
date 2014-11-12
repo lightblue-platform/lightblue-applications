@@ -20,6 +20,6 @@
     "bootstrap": "~3.2.x",
     "angular-route": "~1.3.x",
     "angular-ui-ace": "bower",
-    "lightblue.js": "~0.0.1"
+    "lightblue.js": "~0.0.4"
   }
 }
