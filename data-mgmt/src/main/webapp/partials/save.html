@@ -10,8 +10,8 @@
 
         <div id="query-raw" ui-ace="{mode: 'json', onLoad: configAce}" ng-model="requestRaw" ng-model-options="{ debounce: 750 }"></div>
 
-        <button type="submit" class="btn btn-primary pull-right">
-          <span class="glyphicon glyphicon-flash"></span> Execute query
+        <button type="submit" class="btn btn-primary pull-right" ng-disabled="loading">
+          <span class="glyphicon glyphicon-flash" ng-hide="loading"></span> {{!loading ? "Execute query" : "Executing..."}}
         </button>
       </div>
     </div>

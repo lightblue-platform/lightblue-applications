@@ -60,13 +60,21 @@ var dataManageControllers = angular.module("dataManageControllers", []);
       };
     }]);
 
-  dataManageControllers.controller("FindCtrl", ["$scope", "lightblue", "findService",
-    function($scope, lightblue, findService) {
-      $scope.request = findService.request;
-      $scope.response = findService.response;
+  dataManageControllers.controller("FindCtrl", crudController("find", ["query", "projection"]));
+  dataManageControllers.controller("InsertCtrl", crudController("insert", ["data", "projection"]));
+  dataManageControllers.controller("SaveCtrl", crudController("save", ["data", "upsert", "projection"]));
+  dataManageControllers.controller("UpdateCtrl", crudController("update", ["data", "update", "projection"]));
+  dataManageControllers.controller("DeleteCtrl", crudController("delete", ["query"]));
+
+  function crudController(op, properties) {
+    return ["$scope", "lightblue", getServiceForOp(op), function($scope, lightblue, service) {
+      $scope.request = service.request;
+      $scope.response = service.response;
 
       $scope.requestRaw = getRequestRaw($scope.request);
       $scope.responseRaw = getResponseRaw($scope.response);
+
+      $scope.loading = false;
 
       // Try and parse raw data into model.
       // There is probably a better way to do this.
@@ -80,149 +88,28 @@ var dataManageControllers = angular.module("dataManageControllers", []);
         $scope.request.common.entity = req.entity;
         $scope.request.common.version = req.version;
 
-        $scope.request.body.query = req.query;
-        $scope.request.body.projection = req.projection;
-      });
-
-      $scope.executeQuery = function() {
-        lightblue.find(makeRequest($scope.request))
-          .success(function(data, status, headers) {
-            angular.copy(data, $scope.response);
-            $scope.responseRaw = getResponseRaw(data);
-          });
-      };
-    }]);
-
-  dataManageControllers.controller("InsertCtrl", ["$scope", "lightblue", "insertService",
-    function($scope, lightblue, insertService) {
-      $scope.request = insertService.request;
-      $scope.response = insertService.response;
-
-      $scope.requestRaw = getRequestRaw($scope.request);
-      $scope.responseRaw = getResponseRaw($scope.response);
-
-      // Try and parse raw data into model.
-      // There is probably a better way to do this.
-      $scope.$watch('requestRaw', function(newValue) {
-        var req = tryParse(newValue);
-
-        if (req === null) {
-          return;
+        for (var i = 0; i < properties.length; i++) {
+          var prop = properties[i];
+          $scope.request.body[prop] = req[prop];
         }
-
-        $scope.request.common.entity = req.entity;
-        $scope.request.common.version = req.version;
-
-        $scope.request.body.data = req.data;
-        $scope.request.body.projection = req.projection;
       });
 
       $scope.executeQuery = function() {
-        lightblue.insert(makeRequest($scope.request))
+        $scope.loading = true;
+
+        lightblue[op](makeRequest($scope.request))
           .success(function(data, status, headers) {
             angular.copy(data, $scope.response);
             $scope.responseRaw = getResponseRaw(data);
+          })
+          .finally(function() {
+            $scope.loading = false;
           });
       };
-    }]);
+    }];
+  }
 
-  dataManageControllers.controller("SaveCtrl", ["$scope", "lightblue", "saveService",
-    function($scope, lightblue, saveService) {
-      $scope.request = saveService.request;
-      $scope.response = saveService.response;
-
-      $scope.requestRaw = getRequestRaw($scope.request);
-      $scope.responseRaw = getResponseRaw($scope.response);
-
-      // Try and parse raw data into model.
-      // There is probably a better way to do this.
-      $scope.$watch('requestRaw', function(newValue) {
-        var req = tryParse(newValue);
-
-        if (req === null) {
-          return;
-        }
-
-        $scope.request.common.entity = req.entity;
-        $scope.request.common.version = req.version;
-
-        $scope.request.body.data = req.data;
-        $scope.request.body.upsert = req.upsert;
-        $scope.request.body.projection = req.projection;
-      });
-
-      $scope.executeQuery = function() {
-        lightblue.save(makeRequest($scope.request))
-          .success(function(data, status, headers) {
-            angular.copy(data, $scope.response);
-            $scope.responseRaw = getResponseRaw(data);
-          });
-      };
-    }]);
-
-  dataManageControllers.controller("UpdateCtrl", ["$scope", "lightblue", "updateService",
-    function($scope, lightblue, updateService) {
-      $scope.request = updateService.request;
-      $scope.response = updateService.response;
-
-      $scope.requestRaw = getRequestRaw($scope.request);
-      $scope.responseRaw = getResponseRaw($scope.response);
-
-      // Try and parse raw data into model.
-      // There is probably a better way to do this.
-      $scope.$watch('requestRaw', function(newValue) {
-        var req = tryParse(newValue);
-
-        if (req === null) {
-          return;
-        }
-
-        $scope.request.common.entity = req.entity;
-        $scope.request.common.version = req.version;
-
-        $scope.request.body.query = req.query;
-        $scope.request.body.update = req.update;
-        $scope.request.body.projection = req.projection;
-      });
-
-      $scope.executeQuery = function() {
-        lightblue.update(makeRequest($scope.request))
-          .success(function(data, status, headers) {
-            angular.copy(data, $scope.response);
-            $scope.responseRaw = getResponseRaw(data);
-          });
-      };
-    }]);
-
-  dataManageControllers.controller("DeleteCtrl", ["$scope", "lightblue", "deleteService",
-    function($scope, lightblue, deleteService) {
-      $scope.request = deleteService.request;
-      $scope.response = deleteService.response;
-
-      $scope.requestRaw = getRequestRaw($scope.request);
-      $scope.responseRaw = getResponseRaw($scope.response);
-
-      // Try and parse raw data into model.
-      // There is probably a better way to do this.
-      $scope.$watch('requestRaw', function(newValue) {
-        var req = tryParse(newValue);
-
-        if (req === null) {
-          return;
-        }
-
-        $scope.request.common.entity = req.entity;
-        $scope.request.common.version = req.version;
-
-        $scope.request.body.query = req.query;
-      });
-
-      $scope.executeQuery = function() {
-        lightblue.delete(makeRequest($scope.request))
-          .success(function(data, status, headers) {
-            angular.copy(data, $scope.response);
-            $scope.responseRaw = getResponseRaw(data);
-          });
-      };
-    }]);
+  function getServiceForOp(op) {
+    return op + "Service";
+  }
 })();
