@@ -2,98 +2,84 @@
 
 var dataManageServices = angular.module("dataManageServices", []);
 
-dataManageServices.provider("lightblue", function LightblueProvider() {
-  var _host = "";
-
-  this.setLightblueHost = function(host) {
-    _host = host;
+(function() {
+  function initialRequest() {
+    return {
+      common: {
+        objectType: "",
+        version: ""
+      },
+      body: {}
+    }
   }
 
-  this.getLightblueHost = function() {
-    return _host;
+  function initialResponse() {
+    return {};
   }
 
-  this.$get = ["$http", function lightblueFactory($http) {
-    return new NgLightblue($http, _host);
-  }];
-});
+  dataManageServices.factory("findService", function () {
+    var request = initialRequest();
+    var response = initialResponse();
 
-function initialRequest() {
-  return {
-    common: {
-      entity: "",
-      version: ""
-    },
-    body: {}
-  }
-}
+    request.body.query = {};
+    request.body.projection = {};
 
-function initialResponse() {
-  return {};
-}
+    return {
+      request: request,
+      response: response
+    }
+  });
 
-dataManageServices.factory("findService", function () {
-  var request = initialRequest();
-  var response = initialResponse();
+  dataManageServices.factory("insertService", function () {
+    var request = initialRequest();
+    var response = initialResponse();
 
-  request.body.query = {};
-  request.body.projection = {};
+    request.body.data = [{}];
+    request.body.projection = {};
 
-  return {
-    request: request,
-    response: response
-  }
-});
+    return {
+      request: request,
+      response: response
+    }
+  });
 
-dataManageServices.factory("insertService", function () {
-  var request = initialRequest();
-  var response = initialResponse();
+  dataManageServices.factory("saveService", function () {
+    var request = initialRequest();
+    var response = initialResponse();
 
-  request.body.data = [{}];
-  request.body.projection = {};
+    request.body.data = [{}];
+    request.body.upsert = false;
+    request.body.projection = {};
 
-  return {
-    request: request,
-    response: response
-  }
-});
+    return {
+      request: request,
+      response: response
+    }
+  });
 
-dataManageServices.factory("saveService", function () {
-  var request = initialRequest();
-  var response = initialResponse();
+  dataManageServices.factory("updateService", function () {
+    var request = initialRequest();
+    var response = initialResponse();
 
-  request.body.data = [{}];
-  request.body.upsert = false;
-  request.body.projection = {};
+    request.body.query = {};
+    request.body.update = {};
+    request.body.projection = {};
 
-  return {
-    request: request,
-    response: response
-  }
-});
+    return {
+      request: request,
+      response: response
+    }
+  });
 
-dataManageServices.factory("updateService", function () {
-  var request = initialRequest();
-  var response = initialResponse();
+  dataManageServices.factory("deleteService", function () {
+    var request = initialRequest();
+    var response = initialResponse();
 
-  request.body.query = {};
-  request.body.update = {};
-  request.body.projection = {};
+    request.body.query = {};
 
-  return {
-    request: request,
-    response: response
-  }
-});
-
-dataManageServices.factory("deleteService", function () {
-  var request = initialRequest();
-  var response = initialResponse();
-
-  request.body.query = {};
-
-  return {
-    request: request,
-    response: response
-  }
-});
+    return {
+      request: request,
+      response: response
+    }
+  });
+})();

@@ -1,13 +1,21 @@
 "use strict";
 
-var dataManageApp = angular.module("dataManageApp", [
+var datamgmt = angular.module("datamgmt", [
+  // Angular
   "ngRoute",
+  "ngSanitize",
+
+  // datamgmt
   "dataManageControllers",
   "dataManageServices",
-  "ui.ace"
+  "lightblueServices",
+
+  // 3rd party
+  "ui.ace",
+  "ui.select"
 ]);
 
-dataManageApp.config(["$routeProvider", function($routeProvider) {
+datamgmt.config(["$routeProvider", function($routeProvider) {
   $routeProvider.
     when("/find", {
       templateUrl: "partials/find.html",
@@ -34,6 +42,10 @@ dataManageApp.config(["$routeProvider", function($routeProvider) {
     });
 }]);
 
-dataManageApp.config(["lightblueProvider", function(lightblueProvider) {
-  lightblueProvider.setLightblueHost("/rest-request/");
+datamgmt.config(["lightblueDataServiceProvider", function(dataServiceProvider) {
+  dataServiceProvider.setHost("/rest-request/data/");
+}]);
+
+datamgmt.config(["lightblueMetadataServiceProvider", function(metadataServiceProvider) {
+  metadataServiceProvider.setHost("/rest-request/metadata/");
 }]);

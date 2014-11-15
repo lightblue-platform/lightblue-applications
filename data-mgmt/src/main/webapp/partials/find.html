@@ -17,16 +17,40 @@
           <h1>Find</h1>
         </div>
 
-        <div id="query-raw" ui-ace="{mode: 'json', onLoad: configAce}" ng-hide="requestView != 'raw'" ng-model="requestRaw" ng-model-options="{ debounce: 750 }"></div>
+        <div id="query-raw" ui-ace="{mode: 'json', onLoad: configAce}" ng-hide="requestView != 'raw'" ng-model="requestRaw" ng-model-options="{ debounce: 750 }">Testing</div>
 
         <div class="row" id="query-builder" ng-hide="requestView != 'builder'">
           <!-- Request common -->
-          <div class="col-md-3">
-
+          <div class="col-sm-3">
+            <div class="form-group">
+              <label>Entity</label>
+              <ui-select ng-model="request.common.entity"
+                         reset-search-input="false"
+                         theme="bootstrap"
+                         ng-disabled="!entities"
+                         on-select="getVersions($item)">
+                <ui-select-match placeholder="{{entities ? 'Select an entity...' : 'Loading...'}}">{{$select.selected}}</ui-select-match>
+                <ui-select-choices repeat="entity in entities | filter: $select.search">
+                  <div ng-bind-html="entity | highlight: $select.search"></div>
+                </ui-select-choices>
+              </ui-select>
+            </div>
+            <div class="form-group">
+              <label>Version</label>
+              <ui-select ng-model="request.common.version"
+                         reset-search-input="false"
+                         theme="bootstrap"
+                         ng-disabled="!versions">
+                <ui-select-match placeholder="{{request.common.entity ? (versions ? 'Select a version...' : 'Loading...') : ''}}">{{$select.selected.version}}</ui-select-match>
+                <ui-select-choices repeat="version.version as version in versions | filter: {version: $select.search}">
+                  <div ng-bind-html="version.version | highlight: $select.search"></div>
+                </ui-select-choices>
+              </ui-select>
+            </div>
           </div>
 
           <!-- Find details -->
-          <div class="col-md-9">
+          <div class="col-sm-9">
 
           </div>
         </div>

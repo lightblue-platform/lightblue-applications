@@ -67,47 +67,61 @@ var dataManageControllers = angular.module("dataManageControllers", []);
   dataManageControllers.controller("DeleteCtrl", crudController("delete", ["query"]));
 
   function crudController(op, properties) {
-    return ["$scope", "lightblue", getServiceForOp(op), function($scope, lightblue, service) {
-      $scope.request = service.request;
-      $scope.response = service.response;
+    return ["$scope", "lightblueDataService", "lightblueMetadataService", getServiceForOp(op),
+        function($scope, dataService, metadataService, opService) {
+          $scope.request = opService.request;
+          $scope.response = opService.response;
 
-      $scope.requestRaw = getRequestRaw($scope.request);
-      $scope.responseRaw = getResponseRaw($scope.response);
+          $scope.requestRaw = getRequestRaw($scope.request);
+          $scope.responseRaw = getResponseRaw($scope.response);
 
-      $scope.loading = false;
-      $scope.requestView = "raw";
+          $scope.loading = false;
+          $scope.requestView = "builder";
 
-      // Try and parse raw data into model.
-      // There is probably a better way to do this.
-      $scope.$watch('requestRaw', function(newValue) {
-        var req = tryParse(newValue);
-
-        if (req === null) {
-          return;
-        }
-
-        $scope.request.common.entity = req.entity;
-        $scope.request.common.version = req.version;
-
-        for (var i = 0; i < properties.length; i++) {
-          var prop = properties[i];
-          $scope.request.body[prop] = req[prop];
-        }
-      });
-
-      $scope.executeQuery = function() {
-        $scope.loading = true;
-
-        lightblue[op](makeRequest($scope.request))
-          .success(function(data, status, headers) {
-            angular.copy(data, $scope.response);
-            $scope.responseRaw = getResponseRaw(data);
-          })
-          .finally(function() {
-            $scope.loading = false;
+          metadataService.getNames().success(function(data) {
+            $scope.entities = data.entities;
           });
-      };
-    }];
+
+          $scope.getVersions = function(entityName) {
+            delete $scope.versions;
+            delete $scope.request.common.version;
+
+            metadataService.getVersions(entityName).success(function(data) {
+              $scope.versions = data;
+            });
+          };
+
+          // Try and parse raw data into model.
+          // There is probably a better way to do this.
+          $scope.$watch('requestRaw', function(newValue) {
+            var req = tryParse(newValue);
+
+            if (req === null) {
+              return;
+            }
+
+            $scope.request.common.objectType = req.objectType;
+            $scope.request.common.version = req.version;
+
+            for (var i = 0; i < properties.length; i++) {
+              var prop = properties[i];
+              $scope.request.body[prop] = req[prop];
+            }
+          });
+
+          $scope.executeQuery = function() {
+            $scope.loading = true;
+
+            dataService[op](makeRequest($scope.request))
+              .success(function(data, status, headers) {
+                angular.copy(data, $scope.response);
+                $scope.responseRaw = getResponseRaw(data);
+              })
+              .finally(function() {
+                $scope.loading = false;
+              });
+          };
+      }];
   }
 
   function getServiceForOp(op) {
