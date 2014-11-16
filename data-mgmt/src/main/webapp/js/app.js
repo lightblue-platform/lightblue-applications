@@ -8,10 +8,11 @@ var datamgmt = angular.module("datamgmt", [
   // datamgmt
   "dataManageControllers",
   "dataManageServices",
+  "dataManageDirectives",
   "lightblueServices",
 
   // 3rd party
-  "ui.ace",
+  //"ui.ace",
   "ui.select"
 ]);
 

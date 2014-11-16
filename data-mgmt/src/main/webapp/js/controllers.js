@@ -5,7 +5,10 @@ var dataManageControllers = angular.module("dataManageControllers", []);
 (function () {
   // Returns an object that combines the request common and request body objects.
   function makeRequest(request) {
-    return angular.extend({}, request.common, request.body);
+    return angular.extend({}, {
+      objectType: request.common.entity,
+      version: request.common.version
+    }, request.body);
   }
 
   // Serializes the request.
@@ -54,8 +57,6 @@ var dataManageControllers = angular.module("dataManageControllers", []);
 
       $scope.configResponseAce = function(editor) {
         editor.setReadOnly(true);
-        editor.session.setOption("useWorker", false);
-
         $scope.configAce(editor);
       };
     }]);
@@ -72,7 +73,6 @@ var dataManageControllers = angular.module("dataManageControllers", []);
           $scope.request = opService.request;
           $scope.response = opService.response;
 
-          $scope.requestRaw = getRequestRaw($scope.request);
           $scope.responseRaw = getResponseRaw($scope.response);
 
           $scope.loading = false;
@@ -82,37 +82,31 @@ var dataManageControllers = angular.module("dataManageControllers", []);
             $scope.entities = data.entities;
           });
 
-          $scope.getVersions = function(entityName) {
-            delete $scope.versions;
-            delete $scope.request.common.version;
+          $scope.$watch("request.common.entity", function(newEntity, oldEntity) {
+            if (newEntity !== oldEntity) {
+              delete $scope.versions;
+              delete $scope.request.common.version;
+            }
 
-            metadataService.getVersions(entityName).success(function(data) {
-              $scope.versions = data;
-            });
-          };
-
-          // Try and parse raw data into model.
-          // There is probably a better way to do this.
-          $scope.$watch('requestRaw', function(newValue) {
-            var req = tryParse(newValue);
-
-            if (req === null) {
+            if (newEntity === "" || !angular.isDefined(newEntity)) {
               return;
             }
 
-            $scope.request.common.objectType = req.objectType;
-            $scope.request.common.version = req.version;
+            $scope.request.body.objectType = newEntity;
 
-            for (var i = 0; i < properties.length; i++) {
-              var prop = properties[i];
-              $scope.request.body[prop] = req[prop];
-            }
+            metadataService.getVersions(newEntity).success(function(data) {
+              $scope.versions = data;
+            });
+          });
+
+          $scope.$watch("request.common.version", function(newVersion) {
+            $scope.request.body.version = newVersion;
           });
 
           $scope.executeQuery = function() {
             $scope.loading = true;
 
-            dataService[op](makeRequest($scope.request))
+            dataService[op](angular.extend({}, $scope.request.common, $scope.request.body))
               .success(function(data, status, headers) {
                 angular.copy(data, $scope.response);
                 $scope.responseRaw = getResponseRaw(data);

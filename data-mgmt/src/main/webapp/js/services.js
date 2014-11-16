@@ -6,7 +6,7 @@ var dataManageServices = angular.module("dataManageServices", []);
   function initialRequest() {
     return {
       common: {
-        objectType: "",
+        entityName: "",
         version: ""
       },
       body: {}

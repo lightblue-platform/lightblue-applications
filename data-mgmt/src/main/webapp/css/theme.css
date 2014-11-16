@@ -3,7 +3,7 @@ body {
   padding-bottom: 30px;
 }
 
-.ace_editor {
+.jsoneditor {
   margin-bottom: 1em;
 }
 
@@ -12,4 +12,14 @@ div.btn-group > label.btn > input[type=radio] {
   z-index: -1;
   filter: alpha(opacity=0);
   opacity: 0;
+}
+
+.jsoneditor-hide {
+  height:0px !important;
+  margin:0px !important;
+  padding:0px !important;
+}
+
+.jsoneditor-hide > .jsoneditor {
+  border:none !important;
 }
