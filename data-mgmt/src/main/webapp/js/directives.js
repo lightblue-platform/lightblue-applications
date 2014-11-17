@@ -10,6 +10,7 @@ dataManageDirectives.directive("lbJsonEditor", function() {
       object: "@",
       mode: "@",
       //modes: "@", TODO: follow up on worker mem leak
+      search: "=",
       aceConfig: "="
     },
     link: function($scope, element, attributes, ngModel) {
@@ -48,7 +49,8 @@ dataManageDirectives.directive("lbJsonEditor", function() {
         },
         name: $scope.object,
         mode: $scope.mode,
-        modes: $scope.modes ? $scope.modes.split(",") : undefined
+        modes: $scope.modes ? $scope.modes.split(",") : undefined,
+        search: angular.isDefined($scope.search) ? $scope.search : true
       });
 
       if (editor.editor && $scope.aceConfig && $scope.aceConfig.onLoad) {

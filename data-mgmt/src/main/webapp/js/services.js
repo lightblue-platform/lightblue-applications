@@ -23,6 +23,8 @@ var dataManageServices = angular.module("dataManageServices", []);
 
     request.body.query = {};
     request.body.projection = {};
+    request.body.sort = {};
+    request.body.range = [];
 
     return {
       request: request,

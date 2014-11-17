@@ -78,4 +78,8 @@ function NgLightblueMetadataClient($http, host) {
   this.getRoles = function(entityName, version) {
     return _execute(_client.getRoles(entityName, version));
   }
+
+  this.getMetadata = function(entityName, version) {
+    return _execute(_client.getMetadata(entityName, version));
+  }
 }

@@ -61,19 +61,50 @@ var dataManageControllers = angular.module("dataManageControllers", []);
       };
     }]);
 
-  dataManageControllers.controller("FindCtrl", crudController("find", ["query", "projection"]));
-  dataManageControllers.controller("InsertCtrl", crudController("insert", ["data", "projection"]));
-  dataManageControllers.controller("SaveCtrl", crudController("save", ["data", "upsert", "projection"]));
-  dataManageControllers.controller("UpdateCtrl", crudController("update", ["data", "update", "projection"]));
-  dataManageControllers.controller("DeleteCtrl", crudController("delete", ["query"]));
+  dataManageControllers.controller("FindCtrl", crudController("find", function($scope) {
+    $scope.from = function(val) {
+      if (angular.isUndefined(val)) {
+        return $scope.request.body.range[0];
+      }
 
-  function crudController(op, properties) {
+      if (val === null) {
+        return;
+      }
+
+      if (!($scope.request.body.range instanceof Array)) {
+        $scope.request.body.range = [];
+      }
+
+      $scope.request.body.range[0] = val;
+    };
+
+    $scope.to = function(val) {
+      if (angular.isUndefined(val)) {
+        return $scope.request.body.range[1];
+      }
+
+      if (val === null) {
+        return;
+      }
+
+      if (!($scope.request.body.range instanceof Array)) {
+        $scope.request.body.range = [];
+      }
+
+      $scope.request.body.range[1] = val;
+    };
+  }));
+
+  dataManageControllers.controller("InsertCtrl", crudController("insert"));
+  dataManageControllers.controller("SaveCtrl", crudController("save"));
+  dataManageControllers.controller("UpdateCtrl", crudController("update"));
+  dataManageControllers.controller("DeleteCtrl", crudController("delete"));
+
+  function crudController(op, custom) {
     return ["$scope", "lightblueDataService", "lightblueMetadataService", getServiceForOp(op),
         function($scope, dataService, metadataService, opService) {
           $scope.request = opService.request;
           $scope.response = opService.response;
-
-          $scope.responseRaw = getResponseRaw($scope.response);
 
           $scope.loading = false;
           $scope.requestView = "builder";
@@ -103,18 +134,28 @@ var dataManageControllers = angular.module("dataManageControllers", []);
             $scope.request.body.version = newVersion;
           });
 
+          $scope.getMetadata = function() {
+            metadataService.getMetadata($scope.request.common.entity, $scope.request.common.version)
+              .success(function(data, status, headers) {
+                angular.copy(data, $scope.response);
+              });
+          };
+
           $scope.executeQuery = function() {
             $scope.loading = true;
 
             dataService[op](angular.extend({}, $scope.request.common, $scope.request.body))
               .success(function(data, status, headers) {
                 angular.copy(data, $scope.response);
-                $scope.responseRaw = getResponseRaw(data);
               })
               .finally(function() {
                 $scope.loading = false;
               });
           };
+
+          if (typeof custom === "function") {
+            custom($scope);
+          }
       }];
   }
 
