@@ -21,14 +21,19 @@ var dataManageServices = angular.module("dataManageServices", []);
     var request = initialRequest();
     var response = initialResponse();
 
-    request.body.query = {};
-    request.body.projection = {};
-    request.body.sort = {};
-    request.body.range = [];
+    function reset() {
+      request.body.query = {};
+      request.body.projection = {};
+      request.body.sort = {};
+      request.body.range = [];
+    }
+
+    reset();
 
     return {
       request: request,
-      response: response
+      response: response,
+      reset: reset
     }
   });
 

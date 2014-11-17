@@ -45,7 +45,7 @@
               </ui-select>
             </div>
             <div class="form-group">
-              <button ng-click="getMetadata()" type="button" class="btn btn-default">Get metadata</button>
+              <button ng-click="getMetadata()" type="button" class="btn btn-default" ng-disabled="!(request.common.entity && request.common.version)">Get metadata</button>
             </div>
           </div>
 
@@ -92,6 +92,7 @@
         <button type="submit" class="btn btn-primary pull-right" ng-disabled="loading">
           <span class="glyphicon glyphicon-flash" ng-hide="loading"></span> {{!loading ? "Execute query" : "Executing..."}}
         </button>
+        <button type="button" ng-click="reset()" class="btn btn-danger pull-right">Reset</button>
       </div>
     </div>
 

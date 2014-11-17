@@ -31,3 +31,7 @@ div.btn-group > label.btn > input[type=radio] {
 .ng-hide.wraps-json-editor .jsoneditor {
   border:none !important;
 }
+
+.btn.pull-right + .btn.pull-right {
+  margin-right: .5em;
+}

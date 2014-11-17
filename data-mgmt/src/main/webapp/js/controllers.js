@@ -153,6 +153,8 @@ var dataManageControllers = angular.module("dataManageControllers", []);
               });
           };
 
+          $scope.reset = opService.reset;
+
           if (typeof custom === "function") {
             custom($scope);
           }
