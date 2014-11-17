@@ -24,8 +24,11 @@ var dataManageServices = angular.module("dataManageServices", []);
     function reset() {
       request.body.query = {};
       request.body.projection = {};
-      request.body.sort = {};
-      request.body.range = [];
+      request.body.sort = {}; // TODO: same treatment as range for sort (use gettersetter)
+
+      if (request.body.range) {
+        delete request.body.range;
+      }
     }
 
     reset();

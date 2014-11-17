@@ -67,15 +67,17 @@ var dataManageControllers = angular.module("dataManageControllers", []);
         return $scope.request.body.range[0];
       }
 
-      if (val === null) {
-        return;
-      }
+      if ($scope.to && val) {
+        if (!($scope.request.body.range instanceof Array)) {
+          $scope.request.body.range = [];
+        }
 
-      if (!($scope.request.body.range instanceof Array)) {
-        $scope.request.body.range = [];
+        $scope.request.body.range[0] = val;
+      } else {
+        if ($scope.request.body.range) {
+          delete $scope.request.body.range;
+        }
       }
-
-      $scope.request.body.range[0] = val;
     };
 
     $scope.to = function(val) {
@@ -83,15 +85,17 @@ var dataManageControllers = angular.module("dataManageControllers", []);
         return $scope.request.body.range[1];
       }
 
-      if (val === null) {
-        return;
-      }
+      if ($scope.from && val) {
+        if (!($scope.request.body.range instanceof Array)) {
+          $scope.request.body.range = [];
+        }
 
-      if (!($scope.request.body.range instanceof Array)) {
-        $scope.request.body.range = [];
+        $scope.request.body.range[1] = val;
+      } else {
+        if ($scope.request.body.range) {
+          delete $scope.request.body.range;
+        }
       }
-
-      $scope.request.body.range[1] = val;
     };
   }));
 
