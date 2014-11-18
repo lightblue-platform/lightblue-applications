@@ -2,6 +2,13 @@
 
 var dataManageDirectives = angular.module("dataManageDirectives", []);
 
+dataManageDirectives.directive("requestCommon", function() {
+  return {
+    restrict: "E",
+    templateUrl: "templates/common.html"
+  };
+});
+
 dataManageDirectives.directive("lbJsonEditor", function() {
   return {
     restrict: "E",
