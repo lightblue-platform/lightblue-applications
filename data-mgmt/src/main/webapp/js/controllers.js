@@ -1,171 +1,135 @@
 "use strict";
 
-var dataManageControllers = angular.module("dataManageControllers", []);
+var dataManageControllers = angular.module("dataManageControllers", ["dataManageFilters"]);
 
-(function () {
-  // Returns an object that combines the request common and request body objects.
-  function makeRequest(request) {
-    return angular.extend({}, {
-      objectType: request.common.entity,
-      version: request.common.version
-    }, request.body);
-  }
-
-  // Serializes the request.
-  function getRequestRaw(request) {
-    return JSON.stringify(makeRequest(request), null, "\t");
-  }
-
-  // Serializes the response.
-  function getResponseRaw(response) {
-    return JSON.stringify(response, null, "\t");
-  }
-
-  // Deserializes the raw json. If the raw string is invalid json, returns null.
-  function tryParse(raw) {
-    var req;
-
-    try {
-      req = JSON.parse(raw);
-    } catch (e) {
-      // Invalid json
-      return null;
+dataManageControllers.controller("NavCtrl", ["$scope", "$location",
+  function($scope, $location) {
+    $scope.isActive = function(path) {
+      return path === $location.path();
     }
+  }]);
 
-    if (!(req instanceof Object)) {
-      // Also invalid json
-      return null;
-    }
-
-    return req;
-  }
-
-  dataManageControllers.controller("NavCtrl", ["$scope", "$location",
-    function($scope, $location) {
-      $scope.isActive = function(path) {
-        return path === $location.path();
-      }
-    }]);
-
-  // DataCtrl adds functions to scope that are shared among all views.
-  dataManageControllers.controller("DataCtrl", ["$scope",
-    function($scope) {
-      $scope.configAce = function(editor) {
-        editor.setShowPrintMargin(false);
-        editor.setOption("maxLines", Infinity);
-      };
-
-      $scope.configResponseAce = function(editor) {
-        editor.setReadOnly(true);
-        $scope.configAce(editor);
-      };
-    }]);
-
-  dataManageControllers.controller("FindCtrl", crudController("find", function($scope) {
-    $scope.from = function(val) {
-      if (angular.isUndefined(val)) {
-        return $scope.request.body.range[0];
-      }
-
-      if ($scope.to && val) {
-        if (!($scope.request.body.range instanceof Array)) {
-          $scope.request.body.range = [];
-        }
-
-        $scope.request.body.range[0] = val;
-      } else {
-        if ($scope.request.body.range) {
-          delete $scope.request.body.range;
-        }
-      }
+// DataCtrl adds functions to scope that are shared among all views.
+dataManageControllers.controller("DataCtrl", ["$scope",
+  function($scope) {
+    $scope.configAce = function(editor) {
+      editor.setShowPrintMargin(false);
+      editor.setOption("maxLines", Infinity);
     };
 
-    $scope.to = function(val) {
-      if (angular.isUndefined(val)) {
-        return $scope.request.body.range[1];
-      }
-
-      if ($scope.from && val) {
-        if (!($scope.request.body.range instanceof Array)) {
-          $scope.request.body.range = [];
-        }
-
-        $scope.request.body.range[1] = val;
-      } else {
-        if ($scope.request.body.range) {
-          delete $scope.request.body.range;
-        }
-      }
+    $scope.configResponseAce = function(editor) {
+      editor.setReadOnly(true);
+      $scope.configAce(editor);
     };
-  }));
+  }]);
 
-  dataManageControllers.controller("InsertCtrl", crudController("insert"));
-  dataManageControllers.controller("SaveCtrl", crudController("save"));
-  dataManageControllers.controller("UpdateCtrl", crudController("update"));
-  dataManageControllers.controller("DeleteCtrl", crudController("delete"));
+dataManageControllers.controller("FindCtrl", crudController("find", ["query", "projection", "sort", "range"]));
+dataManageControllers.controller("InsertCtrl", crudController("insert", ["data", "projection"]));
+dataManageControllers.controller("SaveCtrl", crudController("save", ["data", "upsert", "projection"]));
+dataManageControllers.controller("UpdateCtrl", crudController("update", ["query", "update", "projection"]));
+dataManageControllers.controller("DeleteCtrl", crudController("delete", ["query"]));
 
-  function crudController(op, custom) {
-    return ["$scope", "lightblueDataService", "lightblueMetadataService", getServiceForOp(op),
-        function($scope, dataService, metadataService, opService) {
-          $scope.request = opService.request;
-          $scope.response = opService.response;
+function crudController(view, properties) {
+  function makeLightblueRequest(requestBody) {
+    var request = {
+      entity: requestBody.objectType,
+      version: requestBody.version
+    };
 
-          $scope.loading = false;
-          $scope.requestView = "builder";
+    properties.forEach(function(prop) {
+      request[prop] = requestBody[prop];
+    });
 
-          metadataService.getNames().success(function(data) {
-            $scope.entities = data.entities;
-          });
+    return request;
+  }
 
-          $scope.$watch("request.common.entity", function(newEntity, oldEntity) {
-            if (newEntity !== oldEntity) {
-              delete $scope.versions;
-              delete $scope.request.common.version;
-            }
+  return ["$scope", "lightblueDataService", "lightblueMetadataService", getServiceForView(view), "emptyFilter",
+      function($scope, dataService, metadataService, viewService, emptyFilter) {
+        $scope.request = viewService.request;
+        $scope.response = viewService.response;
 
-            if (newEntity === "" || !angular.isDefined(newEntity)) {
-              return;
-            }
+        $scope.loading = false;
+        $scope.requestView = "builder";
 
-            $scope.request.body.objectType = newEntity;
+        metadataService.getNames().success(function(data) {
+          $scope.entities = data.entities;
+        });
 
-            metadataService.getVersions(newEntity).success(function(data) {
-              $scope.versions = data;
-            });
-          });
-
-          $scope.$watch("request.common.version", function(newVersion) {
-            $scope.request.body.version = newVersion;
-          });
-
-          $scope.getMetadata = function() {
-            metadataService.getMetadata($scope.request.common.entity, $scope.request.common.version)
-              .success(function(data, status, headers) {
-                angular.copy(data, $scope.response);
-              });
-          };
-
-          $scope.executeQuery = function() {
-            $scope.loading = true;
-
-            dataService[op](angular.extend({}, $scope.request.common, $scope.request.body))
-              .success(function(data, status, headers) {
-                angular.copy(data, $scope.response);
-              })
-              .finally(function() {
-                $scope.loading = false;
-              });
-          };
-
-          $scope.reset = opService.reset;
-
-          if (typeof custom === "function") {
-            custom($scope);
+        $scope.$watch("request.body.objectType", function(newEntity, oldEntity) {
+          if (newEntity !== oldEntity) {
+            delete $scope.versions;
+            delete $scope.request.body.version;
           }
-      }];
-  }
 
-  function getServiceForOp(op) {
-    return op + "Service";
-  }
-})();
+          if (newEntity === "" || !angular.isDefined(newEntity)) {
+            return;
+          }
+
+          $scope.request.body.objectType = newEntity;
+
+          metadataService.getVersions(newEntity).success(function(data) {
+            $scope.versions = data;
+          });
+        });
+
+        $scope.$watch("request.body.version", function(newVersion) {
+          $scope.request.body.version = newVersion;
+        });
+
+        $scope.getMetadata = function() {
+          metadataService.getMetadata($scope.request.body.objectType, $scope.request.body.version)
+            .success(function(data, status, headers) {
+              angular.copy(data, $scope.response);
+            });
+        };
+
+        $scope.executeQuery = function() {
+          $scope.loading = true;
+
+          var config = makeLightblueRequest(emptyFilter($scope.request.body));
+          
+          dataService[view](config)
+            .success(function(data, status, headers) {
+              angular.copy(data, $scope.response);
+            })
+            .finally(function() {
+              $scope.loading = false;
+            });
+        };
+
+        var requestRaw = {};
+
+        function getRequestRaw() {
+          return emptyFilter(angular.copy($scope.request.body, requestRaw), true);
+        }
+
+        function setRequestRaw(requestBody) {
+          properties.forEach(function(prop) {
+            // Use raw request value or default if value is not defined
+            if (angular.isDefined(requestBody[prop])) {
+              $scope.request.body[prop] = requestBody[prop];
+            } else {
+              $scope.request.body[prop] = viewService.newRequestBody()[prop];
+            }
+          });
+        }
+
+        $scope.requestRaw = function(requestBody) {
+          if (angular.isUndefined(requestBody)) {
+            return getRequestRaw();
+          }
+
+          setRequestRaw(requestBody);
+        };
+
+        $scope.reset = viewService.reset;
+
+        if (typeof custom === "function") {
+          custom($scope);
+        }
+    }];
+}
+
+function getServiceForView(view) {
+  return view + "Service";
+}

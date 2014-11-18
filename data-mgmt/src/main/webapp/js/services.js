@@ -3,13 +3,10 @@
 var dataManageServices = angular.module("dataManageServices", []);
 
 (function() {
-  function initialRequest() {
+  function initialRequestBody() {
     return {
-      common: {
-        entityName: "",
-        version: ""
-      },
-      body: {}
+      objectType: "",
+      version: ""
     }
   }
 
@@ -18,30 +15,36 @@ var dataManageServices = angular.module("dataManageServices", []);
   }
 
   dataManageServices.factory("findService", function () {
-    var request = initialRequest();
-    var response = initialResponse();
+    var service = {};
 
-    function reset() {
-      request.body.query = {};
-      request.body.projection = {};
-      request.body.sort = {}; // TODO: same treatment as range for sort (use gettersetter)
+    service.newRequestBody = function() {
+      var body = initialRequestBody();
 
-      if (request.body.range) {
-        delete request.body.range;
-      }
-    }
+      body.query = {};
+      body.projection = {};
+      body.sort = {};
+      body.range = [];
 
-    reset();
+      return body;
+    };
 
-    return {
-      request: request,
-      response: response,
-      reset: reset
-    }
+    service.reset = function() { 
+      // Wrap in object so the body can be overwritten with a new object
+      // reference and we will still maintain our top level reference (request).
+      service.request = {
+        body: service.newRequestBody()
+      };
+
+      return service;
+    };
+
+    service.response = initialResponse();
+
+    return service.reset();
   });
 
   dataManageServices.factory("insertService", function () {
-    var request = initialRequest();
+    var request = initialRequestBody();
     var response = initialResponse();
 
     request.body.data = [{}];
@@ -54,7 +57,7 @@ var dataManageServices = angular.module("dataManageServices", []);
   });
 
   dataManageServices.factory("saveService", function () {
-    var request = initialRequest();
+    var request = initialRequestBody();
     var response = initialResponse();
 
     request.body.data = [{}];
@@ -68,7 +71,7 @@ var dataManageServices = angular.module("dataManageServices", []);
   });
 
   dataManageServices.factory("updateService", function () {
-    var request = initialRequest();
+    var request = initialRequestBody();
     var response = initialResponse();
 
     request.body.query = {};
@@ -82,7 +85,7 @@ var dataManageServices = angular.module("dataManageServices", []);
   });
 
   dataManageServices.factory("deleteService", function () {
-    var request = initialRequest();
+    var request = initialRequestBody();
     var response = initialResponse();
 
     request.body.query = {};

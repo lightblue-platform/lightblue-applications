@@ -22,7 +22,7 @@
           <div class="col-sm-3">
             <div class="form-group">
               <label>Entity</label>
-              <ui-select ng-model="request.common.entity"
+              <ui-select ng-model="request.body.objectType"
                          reset-search-input="false"
                          theme="bootstrap"
                          ng-disabled="!entities">
@@ -34,18 +34,18 @@
             </div>
             <div class="form-group">
               <label>Version</label>
-              <ui-select ng-model="request.common.version"
+              <ui-select ng-model="request.body.version"
                          reset-search-input="false"
                          theme="bootstrap"
                          ng-disabled="!versions">
-                <ui-select-match placeholder="{{request.common.entity ? (versions ? 'Select a version...' : 'Loading...') : ''}}">{{$select.selected.version}}</ui-select-match>
+                <ui-select-match placeholder="{{request.body.objectType ? (versions ? 'Select a version...' : 'Loading...') : ''}}">{{$select.selected.version}}</ui-select-match>
                 <ui-select-choices repeat="version.version as version in versions | filter: {version: $select.search}">
                   <div ng-bind-html="version.version | highlight: $select.search"></div>
                 </ui-select-choices>
               </ui-select>
             </div>
             <div class="form-group">
-              <button ng-click="getMetadata()" type="button" class="btn btn-default" ng-disabled="!(request.common.entity && request.common.version)">Get metadata</button>
+              <button ng-click="getMetadata()" type="button" class="btn btn-default" ng-disabled="!(request.body.objectType && request.body.version)">Get metadata</button>
             </div>
           </div>
 
@@ -54,7 +54,7 @@
             <div id="query-raw">
               <div class="form-group wraps-json-editor" ng-show="requestView=='raw'">
                 <label>Request body</label>
-                <lb-json-editor ace-config="{onLoad: configAce}" ng-model="request.body" mode="code"></lb-json-editor>
+                <lb-json-editor ace-config="{onLoad: configAce}" ng-model="requestRaw" ng-model-options="{getterSetter:true}" mode="code"></lb-json-editor>
               </div>
             </div>
 
@@ -76,10 +76,10 @@
                   <label>Range</label>
                   <div class='row'>
                     <div class='col-xs-6'>
-                      <input type='number' id='range-from' ng-model="from" ng-model-options="{getterSetter:true}" class='form-control' placeholder='From'>
+                      <input type='number' min="0" id='range-from' ng-model="request.body.range[0]" class='form-control' placeholder='From'>
                     </div>
                     <div class='col-xs-6'>
-                      <input type='number' id='range-to' ng-model="to" ng-model-options="{getterSetter:true}" class='form-control' placeholder='To'>
+                      <input type='number' min="0" id='range-to' ng-model="request.body.range[1]" class='form-control' placeholder='To'>
                     </div>
                   </div>
                   <span class='help-block'>Requires a sort expression.</span>

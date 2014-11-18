@@ -65,8 +65,13 @@ dataManageDirectives.directive("lbJsonEditor", function() {
       $scope.$watch("model", function(newValue) {
         // Avoid updating the editor unnecessarily, which disrupts user input.
         // TODO: optimize? angular.equals is expensive, so is deep watch
-        if (angular.equals(newValue, editor.get())) {
-          return;
+        try {
+          if (angular.equals(newValue, editor.get())) {
+            return;
+          }
+        } catch (ignored) {
+          // Editor's current content is not valid JSON, fall through to 
+          // overwrite with new model value.
         }
 
         // TODO: deal with triggering change event, which redundantly sets view value on model
