@@ -14,85 +14,59 @@ var dataManageServices = angular.module("dataManageServices", []);
     return {};
   }
 
-  dataManageServices.factory("findService", function () {
-    var service = {};
+  function crudService(extendRequestBody) {
+    return function() {
+      var service = {};
 
-    service.newRequestBody = function() {
-      var body = initialRequestBody();
+      service.newRequestBody = function() {
+        var body = initialRequestBody();
 
-      body.query = {};
-      body.projection = {};
-      body.sort = {};
-      body.range = [];
+        extendRequestBody(body);
 
-      return body;
-    };
-
-    service.reset = function() { 
-      // Wrap in object so the body can be overwritten with a new object
-      // reference and we will still maintain our top level reference (request).
-      service.request = {
-        body: service.newRequestBody()
+        return body;
       };
 
-      return service;
-    };
+      service.reset = function() { 
+        // Wrap in object so the body can be overwritten with a new object
+        // reference and we will still maintain our top level reference (request).
+        service.request = {
+          body: service.newRequestBody()
+        };
 
-    service.response = initialResponse();
+        return service;
+      };
 
-    return service.reset();
-  });
+      service.response = initialResponse();
 
-  dataManageServices.factory("insertService", function () {
-    var request = initialRequestBody();
-    var response = initialResponse();
-
-    request.body.data = [{}];
-    request.body.projection = {};
-
-    return {
-      request: request,
-      response: response
+      return service.reset();
     }
-  });
+  }
 
-  dataManageServices.factory("saveService", function () {
-    var request = initialRequestBody();
-    var response = initialResponse();
+  dataManageServices.factory("findService", crudService(function (body) {
+    body.query = {};
+    body.projection = {};
+    body.sort = {};
+    body.range = [];
+  }));
 
-    request.body.data = [{}];
-    request.body.upsert = false;
-    request.body.projection = {};
+  dataManageServices.factory("insertService", crudService(function (body) {
+    body.data = [{}];
+    body.projection = {};
+  }));
 
-    return {
-      request: request,
-      response: response
-    }
-  });
+  dataManageServices.factory("saveService", crudService(function (body) {
+    body.data = [{}];
+    body.upsert = false;
+    body.projection = {};
+  }));
 
-  dataManageServices.factory("updateService", function () {
-    var request = initialRequestBody();
-    var response = initialResponse();
+  dataManageServices.factory("updateService", crudService(function (body) {
+    body.query = {};
+    body.update = {};
+    body.projection = {};
+  }));
 
-    request.body.query = {};
-    request.body.update = {};
-    request.body.projection = {};
-
-    return {
-      request: request,
-      response: response
-    }
-  });
-
-  dataManageServices.factory("deleteService", function () {
-    var request = initialRequestBody();
-    var response = initialResponse();
-
-    request.body.query = {};
-
-    return {
-      request: request,
-      response: response
-    }
-  });
+  dataManageServices.factory("deleteService", crudService(function (body) {
+    body.query = {};
+  }));
 })();
