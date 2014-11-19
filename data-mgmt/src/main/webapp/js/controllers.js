@@ -59,7 +59,6 @@ var dataManageControllers = angular.module("dataManageControllers", ["dataManage
           $scope.$watch("request.body.objectType", function(newEntity, oldEntity) {
             if (newEntity !== oldEntity) {
               delete $scope.versions;
-              $scope.request.body.version = "";
             }
 
             if (newEntity === "" || !angular.isDefined(newEntity)) {
@@ -70,11 +69,14 @@ var dataManageControllers = angular.module("dataManageControllers", ["dataManage
 
             metadataService.getVersions(newEntity).success(function(data) {
               $scope.versions = data;
-            });
-          });
 
-          $scope.$watch("request.body.version", function(newVersion) {
-            $scope.request.body.version = newVersion;
+              // Reset version value if not valid
+              if ($scope.request.body.version !== "" && 
+                data.map(function(v) { return v.version; })
+                    .indexOf($scope.request.body.version) === -1) {
+                $scope.request.body.version = "";
+              }
+            });
           });
 
           $scope.getMetadata = function() {
