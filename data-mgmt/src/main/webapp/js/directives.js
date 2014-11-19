@@ -46,19 +46,22 @@ dataManageDirectives.directive("lbJsonEditor", function() {
             $scope.aceConfig.onLoad(editor.editor);
           }
 
-          // Parsing model may fail if in text or code mode.
-          try {
-            $scope.model = editor.get();
-            ngModel.$setViewValue($scope.model);
-          } catch (e) {
-            return;
-          }
+          $scope.$evalAsync(read);
         },
         name: $scope.object,
         mode: $scope.mode,
         modes: $scope.modes ? $scope.modes.split(",") : undefined,
         search: angular.isDefined($scope.search) ? $scope.search : true
       });
+
+      function read() {
+        try {
+          $scope.model = editor.get();
+          ngModel.$setViewValue($scope.model);
+        } catch (e) {
+          return;
+        };
+      }
 
       if (editor.editor && $scope.aceConfig && $scope.aceConfig.onLoad) {
         $scope.aceConfig.onLoad(editor.editor);
