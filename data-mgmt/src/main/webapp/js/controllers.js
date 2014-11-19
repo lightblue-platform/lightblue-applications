@@ -62,6 +62,7 @@ var dataManageControllers = angular.module("dataManageControllers", ["dataManage
             }
 
             if (newEntity === "" || !angular.isDefined(newEntity)) {
+              $scope.request.body.version = "";
               return;
             }
 
@@ -107,8 +108,17 @@ var dataManageControllers = angular.module("dataManageControllers", ["dataManage
           }
 
           function setRequestRaw(requestBody) {
+            console.log("setRequestRaw");
             $scope.request.body.objectType = getOrDefault(requestBody, "objectType");
-            $scope.request.body.version = getOrDefault(requestBody, "version");
+            
+            // Only set version if it is valid
+            // This is mainly so debounced updates dont overwrite a version 
+            // selected on the ui.
+            if(!$scope.versions || !requestBody ||
+              $scope.versions.map(function(v) { return v.version; })
+                .indexOf(requestBody.version) >= 0) {
+              $scope.request.body.version = getOrDefault(requestBody, "version");
+            }
 
             properties.forEach(function(prop) {
               $scope.request.body[prop] = getOrDefault(requestBody, prop);

@@ -41,11 +41,19 @@ dataManageDirectives.directive("lbJsonEditor", function() {
             return;
           }
 
-          // Call ace on load call each time mode is switched
-          if (isNewMode("code") && editor.editor && $scope.aceConfig && $scope.aceConfig.onLoad) {
-            $scope.aceConfig.onLoad(editor.editor);
+          // Ace code editor is present
+          if (editor.editor) {
+            if (isNewMode("code") && $scope.aceConfig && $scope.aceConfig.onLoad) {
+              $scope.aceConfig.onLoad(editor.editor);
+            }
+
+            // Don't trigger model updates if not focused.
+            if (!editor.editor.isFocused()) {
+              return;
+            }
           }
 
+          console.log("change", attributes.ngModel);
           $scope.$evalAsync(read);
         },
         name: $scope.object,
@@ -85,6 +93,7 @@ dataManageDirectives.directive("lbJsonEditor", function() {
         }
 
         // TODO: deal with triggering change event, which redundantly sets view value on model
+        console.log("editor.set", attributes.ngModel);
         editor.set(newValue);
 
         if(editor.expandAll) {
