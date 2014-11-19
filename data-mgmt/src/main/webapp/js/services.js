@@ -16,7 +16,11 @@ var dataManageServices = angular.module("dataManageServices", []);
 
   function crudService(extendRequestBody) {
     return function() {
-      var service = {};
+      var service = { 
+        request: { 
+          body: {} 
+        } 
+      };
 
       service.newRequestBody = function() {
         var body = initialRequestBody();
@@ -26,12 +30,8 @@ var dataManageServices = angular.module("dataManageServices", []);
         return body;
       };
 
-      service.reset = function() { 
-        // Wrap in object so the body can be overwritten with a new object
-        // reference and we will still maintain our top level reference (request).
-        service.request = {
-          body: service.newRequestBody()
-        };
+      service.reset = function() {
+        service.request.body = service.newRequestBody()
 
         return service;
       };
