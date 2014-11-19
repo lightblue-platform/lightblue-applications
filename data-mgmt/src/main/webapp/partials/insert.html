@@ -32,7 +32,7 @@
             <div id="query-builder" ng-show="requestView=='builder'">
               <div class="form-group">
                 <label>Data</label>
-                <lb-json-editor ng-model="request.body.data" object="query"></lb-json-editor>
+                <lb-json-editor ng-model="request.body.data" object="data"></lb-json-editor>
               </div>
               <div class="form-group">
                 <label>Projection</label>
@@ -57,7 +57,7 @@
       <h1>Response</h1>
     </div>
 
-    <div id="response-raw" ui-ace="{mode: 'json', onLoad: configResponseAce}" ng-model="responseRaw"></div>
+    <lb-json-editor mode="code" id="response-raw" ace-config="{onLoad: configResponseAce}" ng-model="response"></lb-json-editor>
 
   </div>
 </div>

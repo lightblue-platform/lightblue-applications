@@ -3,17 +3,53 @@
 
     <!-- Request body -->
     <div class="col-md-12">
-      <div class="request-find">
+      <div class="request-update">
         <div class="page-header">
+          <div class="btn-group pull-right">
+            <label class="btn btn-default" ng-class="{active: requestView=='builder'}">
+              <input type="radio" name="find-view" id="request-builder" ng-model="requestView" value="builder">Builder
+            </label>
+            <label class="btn btn-default" ng-class="{active: requestView=='raw'}">
+              <input type="radio" name="find-view" id="request-raw" ng-model="requestView" value="raw">Raw
+            </label>
+          </div>
+
           <h1>Update</h1>
         </div>
 
-        <div id="query-raw" ui-ace="{mode: 'json', onLoad: configAce}" ng-model="requestRaw" ng-model-options="{ debounce: 750 }"></div>
+        <div class="row">
+          <request-common></request-common>
+
+          <!-- Find details -->
+          <div class="col-sm-9">
+            <div id="query-raw">
+              <div class="form-group wraps-json-editor" ng-show="requestView=='raw'">
+                <label>Request body</label>
+                <lb-json-editor ace-config="{onLoad: configAce}" ng-model="requestRaw" ng-model-options="{getterSetter:true}" mode="code"></lb-json-editor>
+              </div>
+            </div>
+
+            <div id="query-builder" ng-show="requestView=='builder'">
+              <div class="form-group">
+                <label>Query</label>
+                <lb-json-editor ng-model="request.body.query" object="query"></lb-json-editor>
+              </div>
+              <div class="form-group">
+                <label>Update</label>
+                <lb-json-editor ng-model="request.body.update" object="update"></lb-json-editor>
+              </div>
+              <div class="form-group">
+                <label>Projection</label>
+                <lb-json-editor ng-model="request.body.projection" object="projection"></lb-json-editor>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <button type="submit" class="btn btn-primary pull-right" ng-disabled="loading">
           <span class="glyphicon glyphicon-flash" ng-hide="loading"></span> {{!loading ? "Execute query" : "Executing..."}}
         </button>
-      </div>
+        <button type="button" ng-click="reset()" class="btn btn-danger pull-right">Reset</button>
     </div>
 
   </div>
@@ -25,7 +61,7 @@
       <h1>Response</h1>
     </div>
 
-    <div id="response-raw" ui-ace="{mode: 'json', onLoad: configResponseAce}" ng-model="responseRaw"></div>
+    <lb-json-editor mode="code" id="response-raw" ace-config="{onLoad: configResponseAce}" ng-model="response"></lb-json-editor>
 
   </div>
 </div>
