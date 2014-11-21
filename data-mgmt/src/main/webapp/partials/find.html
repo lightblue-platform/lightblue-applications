@@ -1,0 +1,82 @@
+<form role="form" ng-submit="executeQuery()">
+  <div class="row">
+
+    <!-- Request body -->
+    <div class="col-md-12">
+      <div class="request-find">
+        <div class="page-header">
+          <div class="btn-group pull-right">
+            <label class="btn btn-default" ng-class="{active: requestView=='builder'}">
+              <input type="radio" name="find-view" id="request-builder" ng-model="requestView" value="builder">Builder
+            </label>
+            <label class="btn btn-default" ng-class="{active: requestView=='raw'}">
+              <input type="radio" name="find-view" id="request-raw" ng-model="requestView" value="raw">Raw
+            </label>
+          </div>
+
+          <h1>Find</h1>
+        </div>
+
+        <div class="row">
+          <request-common></request-common>
+
+          <!-- Find details -->
+          <div class="col-sm-9">
+            <div id="query-raw">
+              <div class="form-group wraps-json-editor" ng-show="requestView=='raw'">
+                <label>Request body</label>
+                <lb-json-editor ace-config="{onLoad: configAce}" ng-model="requestRaw" ng-model-options="{getterSetter:true, debounce:500}" mode="code"></lb-json-editor>
+              </div>
+            </div>
+
+            <div id="query-builder" ng-show="requestView=='builder'">
+              <div class="form-group">
+                <label>Query</label>
+                <lb-json-editor ng-model="request.body.query" object="query"></lb-json-editor>
+              </div>
+              <div class="form-group">
+                <label>Projection</label>
+                <lb-json-editor ng-model="request.body.projection" object="projection"></lb-json-editor>
+              </div>
+              <div class='row'>
+                <div class='form-group col-md-6'>
+                  <label>Sort</label>
+                  <lb-json-editor search="false" ng-model="request.body.sort" object="sort"></lb-json-editor>
+                </div>
+                <div class='form-group col-md-6'>
+                  <label>Range</label>
+                  <div class='row'>
+                    <div class='col-xs-6'>
+                      <input type='number' min="0" id='range-from' ng-model="request.body.range[0]" class='form-control' placeholder='From'>
+                    </div>
+                    <div class='col-xs-6'>
+                      <input type='number' min="0" id='range-to' ng-model="request.body.range[1]" class='form-control' placeholder='To'>
+                    </div>
+                  </div>
+                  <span class='help-block'>Requires a sort expression.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary pull-right" ng-disabled="loading">
+          <span class="glyphicon glyphicon-flash" ng-hide="loading"></span> {{!loading ? "Execute query" : "Executing..."}}
+        </button>
+        <button type="button" ng-click="reset()" class="btn btn-danger pull-right">Reset</button>
+      </div>
+    </div>
+
+  </div>
+</form>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="page-header">
+      <h1>Response</h1>
+    </div>
+
+    <lb-json-editor mode="code" id="response-raw" ace-config="{onLoad: configResponseAce}" ng-model="response"></lb-json-editor>
+
+  </div>
+</div>
