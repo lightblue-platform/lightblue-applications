@@ -59,7 +59,7 @@ dataManageDirectives.directive("lbJsonEditor", ["util", function(util) {
               element.triggerHandler("change");
             }
 
-            $scope.$evalAsync(setViewValue);
+            $scope.$apply(trySetViewValue);
           }
         },
         name: $scope.object,
@@ -86,19 +86,43 @@ dataManageDirectives.directive("lbJsonEditor", ["util", function(util) {
               
         if (util.arrayContains(updateOn, "blur")) {
           aceEditor.on("blur", function() {
-            $scope.$evalAsync(setViewValue);
+            $scope.$apply(function () {
+              trySetViewValue();
+            });
             element.triggerHandler("blur");
           });
         }
       }
 
-      function setViewValue() {
+      function trySetViewValue() {
         try {
-          $scope.model = editor.get();
-          ngModel.$setViewValue($scope.model);
+          ngModel.$setViewValue(editor.get());
         } catch (e) {
+          // Editor is not valid json; ignore
           return;
         };
+      }
+
+      function trySetEditorValue(newValue) {
+        // Avoid updating the editor unnecessarily, which disrupts user input.
+        // TODO: optimize? angular.equals is expensive, so is deep watch
+        try {
+          if (angular.equals(newValue, editor.get())) {
+            return;
+          }
+        } catch (ignored) {
+          // Editor's current content is not valid JSON, fall through to 
+          // overwrite with new model value.
+        }
+
+        // TODO: deal with triggering change event, which redundantly sets view value on model
+        console.log("editor.set", attributes.ngModel);
+        editor.set(newValue);
+
+        // Editor in tree mode collapses nodes on call to `set`... expand them.
+        if(editor.expandAll) {
+          editor.expandAll();
+        }
       }
 
       // Set root element display to block so we can hide via CSS position
@@ -122,34 +146,15 @@ dataManageDirectives.directive("lbJsonEditor", ["util", function(util) {
       }
 
       // Called when our view needs to be updated. Does not do a deep watch so
-      // property updates on the model object will be missed. This is why we
-      // also do a deep watch below.
+      // property updates on the view value object will be missed. This is why 
+      // we also do a deep watch below.
       ngModel.$render = function() {
-        $scope.model = ngModel.$viewValue;
+        trySetEditorValue(ngModel.$viewValue);
       };
 
-      // Deep watch the model for property changes
-      $scope.$watch("model", function(newValue) {
-        // Avoid updating the editor unnecessarily, which disrupts user input.
-        // TODO: optimize? angular.equals is expensive, so is deep watch
-        try {
-          if (angular.equals(newValue, editor.get())) {
-            return;
-          }
-        } catch (ignored) {
-          // Editor's current content is not valid JSON, fall through to 
-          // overwrite with new model value.
-        }
-
-        // TODO: deal with triggering change event, which redundantly sets view value on model
-        console.log("editor.set", attributes.ngModel);
-        editor.set(newValue);
-
-        // Editor in tree mode collapses nodes on call to `set`... expand them.
-        if(editor.expandAll) {
-          editor.expandAll();
-        }
-      }, true);
+      // Deep watch the view value for property changes
+      $scope.$watch(function() { return ngModel.$viewValue }, 
+        trySetEditorValue, true);
     }
   };
 }])
