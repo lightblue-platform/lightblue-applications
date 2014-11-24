@@ -40,7 +40,7 @@ dataManageDirectives.directive("lbJsonEditor", ["util", function(util) {
             return;
           }
 
-          // Ace code editor is present
+          // Ace code editor is present on mode switch, reinitialize
           if (isNewMode("code") && editor.editor) {
             initAce(editor.editor);
           }
@@ -114,6 +114,12 @@ dataManageDirectives.directive("lbJsonEditor", ["util", function(util) {
       }
 
       editor = new JSONEditor(element[0], config);
+
+      oldMode = editor.mode;
+      
+      if (editor.editor) {
+        initAce(editor.editor);
+      }
 
       // Called when our view needs to be updated. Does not do a deep watch so
       // property updates on the model object will be missed. This is why we
