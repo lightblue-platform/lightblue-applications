@@ -25,7 +25,7 @@
             <div id="query-raw">
               <div class="form-group wraps-json-editor" ng-show="requestView=='raw'">
                 <label>Request body</label>
-                <lb-json-editor ace-config="{onLoad: configAce}" ng-model="requestRaw" ng-model-options="{getterSetter:true}" mode="code"></lb-json-editor>
+                <lb-json-editor ace-config="{onLoad: configAce}" ng-model="requestRaw" ng-model-options="{updateOn:'blur', getterSetter:true}" mode="code"></lb-json-editor>
               </div>
             </div>
 

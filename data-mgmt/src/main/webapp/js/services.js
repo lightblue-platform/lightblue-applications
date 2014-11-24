@@ -69,4 +69,11 @@ var dataManageServices = angular.module("dataManageServices", []);
   dataManageServices.factory("deleteService", crudService(function (body) {
     body.query = {};
   }));
+
+  function UtilityService() {}
+  UtilityService.prototype.arrayContains = function(array, contains) {
+    return array.indexOf(contains) >= 0;
+  };
+
+  dataManageServices.service("util", UtilityService);
 })();

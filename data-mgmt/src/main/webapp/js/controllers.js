@@ -44,8 +44,8 @@ var dataManageControllers = angular.module("dataManageControllers", ["dataManage
       return request;
     }
 
-    return ["$scope", "lightblueDataService", "lightblueMetadataService", getServiceForView(view), "emptyFilter",
-        function($scope, dataService, metadataService, viewService, emptyFilter) {
+    return ["$scope", "lightblueDataService", "lightblueMetadataService", getServiceForView(view), "emptyFilter", "util",
+        function($scope, dataService, metadataService, viewService, emptyFilter, util) {
           $scope.request = viewService.request;
           $scope.response = viewService.response;
 
@@ -109,14 +109,18 @@ var dataManageControllers = angular.module("dataManageControllers", ["dataManage
 
           function setRequestRaw(requestBody) {
             console.log("setRequestRaw");
+
+            var oldObjectType = $scope.request.body.objectType;
             $scope.request.body.objectType = getOrDefault(requestBody, "objectType");
             
-            // Only set version if it is valid
-            // This is mainly so debounced updates dont overwrite a version 
-            // selected on the ui.
-            if(!$scope.versions || !requestBody ||
-              $scope.versions.map(function(v) { return v.version; })
-                .indexOf(requestBody.version) >= 0) {
+            // Only set version if it is valid or if we've also changed the 
+            // objectType (in which case whether the version is valid or not is
+            // determined after the getVersions callback for the new objectType)
+            if(oldObjectType !== $scope.request.body.objectType || 
+              (!$scope.versions || !requestBody || 
+                util.arrayContains(
+                  $scope.versions.map(function(v) { return v.version; }),
+                  requestBody.version))) {
               $scope.request.body.version = getOrDefault(requestBody, "version");
             }
 
