@@ -92,6 +92,11 @@ dataManageDirectives.directive("lbJsonEditor", ["util", function(util) {
             element.triggerHandler("blur");
           });
         }
+
+        element.on("$destroy", function() {
+          aceEditor.session.$stopWorker();
+          aceEditor.destroy();
+        });
       }
 
       function trySetViewValue() {
