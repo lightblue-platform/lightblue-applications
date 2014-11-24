@@ -115,7 +115,8 @@ dataManageDirectives.directive("lbJsonEditor", ["util", function(util) {
           // overwrite with new model value.
         }
 
-        // TODO: deal with triggering change event, which redundantly sets view value on model
+        // TODO: deal with triggering change event, which redundantly sets view 
+        // value on model
         console.log("editor.set", attributes.ngModel);
         editor.set(newValue);
 
