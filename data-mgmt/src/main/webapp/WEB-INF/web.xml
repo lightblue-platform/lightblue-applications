@@ -2,16 +2,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 
-  <display-name>lightblue Metadata Management</display-name>
-
-  <servlet>
-      <servlet-name>health</servlet-name>
-      <jsp-file>/health.jsp</jsp-file>
-  </servlet>
-  <servlet-mapping>
-      <servlet-name>health</servlet-name>
-      <url-pattern>/health</url-pattern>
-  </servlet-mapping>
+  <display-name>Lightblue Data Management</display-name>
 
   <servlet>
     <servlet-name>rest-request</servlet-name>
@@ -20,15 +11,6 @@
   <servlet-mapping>
     <servlet-name>rest-request</servlet-name>
     <url-pattern>/rest-request/*</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <servlet-name>roles</servlet-name>
-    <servlet-class>com.redhat.lightblue.applications.RolesServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>roles</servlet-name>
-    <url-pattern>/js/lightblue-roles.js</url-pattern>
   </servlet-mapping>
 
 </web-app>
