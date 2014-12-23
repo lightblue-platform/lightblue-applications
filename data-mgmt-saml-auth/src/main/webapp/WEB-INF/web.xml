@@ -2,7 +2,16 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 
-  <display-name>Lightblue Detadata Management</display-name>
+  <display-name>Lightblue Data Management</display-name>
+
+  <servlet>
+    <servlet-name>health</servlet-name>
+    <jsp-file>/health.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>health</servlet-name>
+    <url-pattern>/health</url-pattern>
+  </servlet-mapping>
 
   <servlet>
     <servlet-name>rest-request</servlet-name>
@@ -12,6 +21,13 @@
     <servlet-name>rest-request</servlet-name>
     <url-pattern>/rest-request/*</url-pattern>
   </servlet-mapping>
+
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>Health check servlet (Unauth)</web-resource-name>
+      <url-pattern>/health</url-pattern>
+    </web-resource-collection>
+  </security-constraint>
 
   <security-constraint>
     <web-resource-collection>
