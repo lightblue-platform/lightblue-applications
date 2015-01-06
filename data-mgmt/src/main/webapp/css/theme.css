@@ -1,0 +1,37 @@
+body {
+  padding-top: 70px;
+  padding-bottom: 30px;
+}
+
+.jsoneditor {
+  margin-bottom: 1em;
+}
+
+div.btn-group > label.btn > input[type=radio] {
+  position: absolute;
+  z-index: -1;
+  filter: alpha(opacity=0);
+  opacity: 0;
+}
+
+.ng-hide.wraps-json-editor {
+  display: block !important;
+  height:0px !important;
+  margin:0px !important;
+  padding:0px !important;
+  visibility: hidden;
+}
+
+.ng-hide.wraps-json-editor lb-json-editor {
+  height:0px !important;
+  margin:0px !important;
+  padding:0px !important;
+}
+
+.ng-hide.wraps-json-editor .jsoneditor {
+  border:none !important;
+}
+
+.btn.pull-right + .btn.pull-right {
+  margin-right: .5em;
+}

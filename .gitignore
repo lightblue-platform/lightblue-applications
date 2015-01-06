@@ -27,3 +27,4 @@ mf.pom.xml
 bin
 bin/*
 *.bak
+*.sublime*

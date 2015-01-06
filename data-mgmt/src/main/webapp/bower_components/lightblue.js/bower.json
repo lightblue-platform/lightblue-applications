@@ -1,0 +1,26 @@
+{
+  "name": "lightblue.js",
+  "homepage": "https://github.com/alechenninger/lightblue.js",
+  "authors": [
+    "Alec Henninger <ahenning@redhat.com>"
+  ],
+  "description": "A lightblue client for javascript.",
+  "main": ["dist/lightblue.min.js", "dist/lightblue.map.json"],
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "lightblue",
+    "rest"
+  ],
+  "license": "GNU GPL v3",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

@@ -1,4 +1,4 @@
 <?xml version="1.0"?>
 <jboss-web>
-  <context-root>/data-mgmt</context-root>
+  <context-root>/app/data</context-root>
 </jboss-web>
