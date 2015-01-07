@@ -74,6 +74,11 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>com.redhat.lightblue.client</groupId>
+                <artifactId>lightblue-client-http</artifactId>
+                <version>1.2.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
                 <groupId>commons-lang</groupId>
                 <artifactId>commons-lang</artifactId>
                 <version>2.6</version>
@@ -148,7 +153,6 @@
         <sonar.jdbc.password>sonar</sonar.jdbc.password>
         <sonar.host.url>http://127.0.0.1:8080</sonar.host.url>
         <sonar.projectName>lightblue-applications</sonar.projectName>
-        <lightblue-client.version>1.2.0-SNAPSHOT</lightblue-client.version>
     </properties>
     <modules>
         <module>apps-common</module>
