@@ -44,9 +44,9 @@ datamgmt.config(["$routeProvider", function($routeProvider) {
 }]);
 
 datamgmt.config(["lightblueDataServiceProvider", function(dataServiceProvider) {
-  dataServiceProvider.setHost("/data/");
+  dataServiceProvider.setHost("/service/data/");
 }]);
 
 datamgmt.config(["lightblueMetadataServiceProvider", function(metadataServiceProvider) {
-  metadataServiceProvider.setHost("/metadata/");
+  metadataServiceProvider.setHost("/service/metadata/");
 }]);
