@@ -14,12 +14,21 @@
   </servlet-mapping>
 
   <servlet>
-    <servlet-name>rest-request</servlet-name>
-    <servlet-class>com.redhat.lightblue.client.http.LightblueProxyServlet</servlet-class>
+    <servlet-name>data</servlet-name>
+    <servlet-class>com.redhat.lightblue.client.http.servlet.LightblueDataProxyServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>rest-request</servlet-name>
-    <url-pattern>/rest-request/*</url-pattern>
+    <servlet-name>data</servlet-name>
+    <url-pattern>/data/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>metadata</servlet-name>
+    <servlet-class>com.redhat.lightblue.client.http.servlet.LightblueMetadataProxyServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>metadata</servlet-name>
+    <url-pattern>/metadata/*</url-pattern>
   </servlet-mapping>
 
   <servlet>
