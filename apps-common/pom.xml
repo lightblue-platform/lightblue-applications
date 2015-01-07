@@ -16,7 +16,7 @@
   <dependencies>
     <dependency>
       <groupId>com.redhat.lightblue.client</groupId>
-      <artifactId>lightblue-client-http</artifactId>
+      <artifactId>http</artifactId>
       <version>${lightblue-client.version}</version>
     </dependency>
     <dependency>
