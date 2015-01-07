@@ -28,6 +28,11 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.redhat.lightblue.client</groupId>
+            <artifactId>lightblue-client-http</artifactId>
+            <version>${lightblue-client.version}</version>
+        </dependency>
     </dependencies>
     <properties>
         <rpm.install.basedir>/usr/share/jbossas/standalone/deployments</rpm.install.basedir>
