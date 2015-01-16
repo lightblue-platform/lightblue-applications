@@ -3,16 +3,16 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.redhat.lightblue.applications</groupId>
-        <artifactId>pom</artifactId>
+        <artifactId>lightblue-applications-pom</artifactId>
         <version>1.2.0-SNAPSHOT</version>
     </parent>
-    <artifactId>data-mgmt-saml-auth</artifactId>
+    <artifactId>lightblue-applications-data-mgmt-saml-auth</artifactId>
     <packaging>war</packaging>
     <name>lightblue-applications: ${project.groupId}|${project.artifactId}</name>
     <dependencies>
         <dependency>
             <groupId>com.redhat.lightblue.applications</groupId>
-            <artifactId>data-mgmt</artifactId>
+            <artifactId>lightblue-applications-data-mgmt</artifactId>
             <version>${project.version}</version>
             <type>war</type>
         </dependency>
