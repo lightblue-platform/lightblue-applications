@@ -3,16 +3,16 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.redhat.lightblue.applications</groupId>
-        <artifactId>pom</artifactId>
+        <artifactId>lightblue-applications-pom</artifactId>
         <version>1.2.0-SNAPSHOT</version>
     </parent>
-    <artifactId>metadata-mgmt</artifactId>
+    <artifactId>lightblue-applications-metadata-mgmt</artifactId>
     <packaging>war</packaging>
     <name>lightblue-applications: ${project.groupId}|${project.artifactId}</name>
     <dependencies>
         <dependency>
             <groupId>com.redhat.lightblue.applications</groupId>
-            <artifactId>apps-common</artifactId>
+            <artifactId>lightblue-applications-common</artifactId>
             <version>${project.version}</version>
             <type>war</type>
         </dependency>
@@ -43,7 +43,7 @@
                     <overlays>
                         <overlay>
                             <groupId>com.redhat.lightblue.applications</groupId>
-                            <artifactId>apps-common</artifactId>
+                            <artifactId>lightblue-applications-common</artifactId>
                         </overlay>
                     </overlays>
                 </configuration>
