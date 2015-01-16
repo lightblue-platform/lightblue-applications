@@ -10,9 +10,6 @@
     <packaging>war</packaging>
     <name>lightblue-applications: ${project.groupId}|${project.artifactId}</name>
     <url>https://github.com/lightblue-platform/lightblue-applications</url>  
-    <properties>
-        <rpm.install.basedir>/usr/share/jbossas/standalone/deployments</rpm.install.basedir>
-    </properties>
     <dependencies>
         <dependency>
             <groupId>com.redhat.lightblue.client</groupId>
