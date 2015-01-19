@@ -3,29 +3,37 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.redhat.lightblue.applications</groupId>
-        <artifactId>pom</artifactId>
+        <artifactId>lightblue-applications-pom</artifactId>
         <version>1.2.0-SNAPSHOT</version>
     </parent>
-    <artifactId>data-mgmt</artifactId>
+    <artifactId>lightblue-applications-data-mgmt</artifactId>
     <packaging>war</packaging>
     <name>lightblue-applications: ${project.groupId}|${project.artifactId}</name>
     <dependencies>
         <dependency>
-            <groupId>com.redhat.lightblue.applications</groupId>
-            <artifactId>apps-common</artifactId>
-            <version>${project.version}</version>
-            <type>war</type>
+            <groupId>com.redhat.lightblue.client</groupId>
+            <artifactId>lightblue-client-http</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
-    <properties>
-        <rpm.install.basedir>/usr/share/jbossas/standalone/deployments</rpm.install.basedir>
-    </properties>
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>2.4</version>
+                <version>2.5</version>
             </plugin>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -79,18 +87,18 @@
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>rpm-maven-plugin</artifactId>
-                        <version>2.1-alpha-3</version>
+                        <version>2.1.1</version>
                         <extensions>true</extensions>
                         <executions>
                             <execution>
                                 <goals>
                                     <goal>attached-rpm</goal>
                                 </goals>
-                                <phase>verify</phase>
+                                <phase>install</phase>
                             </execution>
                         </executions>
                         <configuration>
-                            <name>lightblue-${project.artifactId}</name>
+                            <name>lightblue-data-mgmt</name>
                             <copyright>Red Hat</copyright>
                             <distribution>RHEL</distribution>
                             <group>Lightblue Platform</group>

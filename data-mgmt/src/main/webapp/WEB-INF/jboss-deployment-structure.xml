@@ -1,7 +1,6 @@
 <jboss-deployment-structure>
     <deployment>
         <dependencies>
-            <module name="org.picketlink"/>
             <module name="com.redhat.lightblue.client.data-mgmt"/>
         </dependencies>
     </deployment>
