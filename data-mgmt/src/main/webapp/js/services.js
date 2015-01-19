@@ -16,10 +16,10 @@ var dataManageServices = angular.module("dataManageServices", []);
 
   function crudService(extendRequestBody) {
     return function() {
-      var service = { 
-        request: { 
-          body: {} 
-        } 
+      var service = {
+        request: {
+          body: {}
+        }
       };
 
       service.newRequestBody = function() {
@@ -49,24 +49,24 @@ var dataManageServices = angular.module("dataManageServices", []);
     body.range = [];
   }));
 
-  dataManageServices.factory("insertService", crudService(function (body) {
+  dataManageServices.factory("insertService", crudService(function(body) {
     body.data = [{}];
     body.projection = {};
   }));
 
-  dataManageServices.factory("saveService", crudService(function (body) {
+  dataManageServices.factory("saveService", crudService(function(body) {
     body.data = [{}];
     body.upsert = false;
     body.projection = {};
   }));
 
-  dataManageServices.factory("updateService", crudService(function (body) {
+  dataManageServices.factory("updateService", crudService(function(body) {
     body.query = {};
     body.update = {};
     body.projection = {};
   }));
 
-  dataManageServices.factory("deleteService", crudService(function (body) {
+  dataManageServices.factory("deleteService", crudService(function(body) {
     body.query = {};
   }));
 
@@ -76,4 +76,12 @@ var dataManageServices = angular.module("dataManageServices", []);
   };
 
   dataManageServices.service("util", UtilityService);
+
+  dataManageServices.factory("localStorage", function() {
+    return window.localStorage;
+  })
+
+  dataManageServices.factory("sessionStorage", function() {
+    return window.sessionStorage;
+  })
 })();
