@@ -11,8 +11,9 @@ var dataManageControllers = angular.module("dataManageControllers", ["dataManage
     }]);
 
   // DataCtrl adds functions to scope that are shared among all views.
-  dataManageControllers.controller("DataCtrl", ["$scope",
-    function($scope) {
+  dataManageControllers.controller("DataCtrl", ["$scope", "$location", 
+      "environmentService", "lightblueDataService", "lightblueMetadataService",
+    function($scope, $location, environmentService, dataService, metadataService) {
       $scope.configAce = function(editor) {
         editor.setShowPrintMargin(false);
         editor.setOption("maxLines", Infinity);
@@ -22,7 +23,102 @@ var dataManageControllers = angular.module("dataManageControllers", ["dataManage
         editor.setReadOnly(true);
         $scope.configAce(editor);
       };
+
+      $scope.environments = environmentService.getEnvironments();
+
+      $scope.setEnvironment = function(env) {
+        $scope.environment = env;
+        dataService.setHost(env.dataHost);
+        metadataService.setHost(env.metadataHost);
+      };
+
+      $scope.unsetEnvironment = function() {
+        delete $scope.environment;
+        dataService.unsetHost();
+        metadataService.unsetHost();
+      }
+
+      $scope.setEnvironmentByAlias = function(alias) {
+        var envs = $scope.environments.filter(function(e) { return e.alias === alias; });
+
+        if (envs.length === 0) {
+          throw new Error("No environment defined by alias, " + alias);
+        }
+
+        $scope.setEnvironment(envs[0]);
+      };
+
+      $scope.populateEnvironmentsDropdown = function() {
+        $scope.environmentsDropdown = $scope.environments.map(function(e) {
+          return {
+            text: e.alias,
+            click: "setEnvironmentByAlias('" + e.alias + "')"
+          };
+        }).concat({ divider: true },
+            { text: "Manage environments", href: "#environments" });
+      };
+
+      $scope.populateEnvironmentsDropdown();
+
+      $scope.isEnvironmentSelected = function() {
+        return angular.isDefined($scope.environment);
+      };
+
+      $scope.redirectToManageEnvironments = function() {
+        $location.path("/environments");
+      };
     }]);
+
+  dataManageControllers.controller("EnvironmentsCtrl", ["$scope", "environmentService",
+    function($scope, environmentService) {
+      function getFormData() {
+        return {
+          alias: $scope.alias,
+          dataHost: $scope.dataHost,
+          metadataHost: $scope.metadataHost
+        };
+      }
+
+      function clearForm() {
+        delete $scope.alias;
+        delete $scope.dataHost;
+        delete $scope.metadataHost;
+      }
+
+      $scope.addEnvironment = function() {
+        var env = getFormData();
+
+        environmentService.addEnvironment(env);
+        $scope.environments.push(env);
+
+        $scope.environmentsDropdown.splice(-2, 0, {
+            text: env.alias,
+            click: "setEnvironmentByAlias('" + env.alias + "')"
+          });
+
+        if (!$scope.isEnvironmentSelected()) {
+          $scope.setEnvironment(env);
+        }
+
+        clearForm();
+      };
+
+      $scope.removeEnvironment = function(env) {
+        environmentService.removeEnvironment(env);
+        
+        $scope.environments.splice($scope.environments.indexOf(env), 1);
+
+        var indexInEnvironmentsDropdown = $scope.environmentsDropdown
+            .map(function(e) { return e.text; })
+            .indexOf(env.alias);
+
+        $scope.environmentsDropdown.splice(indexInEnvironmentsDropdown, 1);
+
+        if ($scope.isEnvironmentSelected() && $scope.environment.alias === env.alias) {
+          $scope.unsetEnvironment();
+        }
+      };
+  }]);
 
   dataManageControllers.controller("FindCtrl", crudController("find", ["query", "projection", "sort", "range"]));
   dataManageControllers.controller("InsertCtrl", crudController("insert", ["data", "projection"]));
@@ -46,14 +142,21 @@ var dataManageControllers = angular.module("dataManageControllers", ["dataManage
 
     return ["$scope", "lightblueDataService", "lightblueMetadataService", getServiceForView(view), "emptyFilter", "util",
         function($scope, dataService, metadataService, viewService, emptyFilter, util) {
+          if (!$scope.isEnvironmentSelected()) {
+            $scope.redirectToManageEnvironments();
+            return;
+          }
+
           $scope.request = viewService.request;
           $scope.response = viewService.response;
 
           $scope.loading = false;
           $scope.requestView = "builder";
 
-          metadataService.getNames().success(function(data) {
-            $scope.entities = data.entities;
+          $scope.$watch("environment", function() {
+            metadataService.getNames().success(function(data) {
+              $scope.entities = data.entities;
+            });
           });
 
           $scope.$watch("request.body.objectType", function(newEntity, oldEntity) {
@@ -72,7 +175,7 @@ var dataManageControllers = angular.module("dataManageControllers", ["dataManage
               $scope.versions = data;
 
               // Reset version value if not valid
-              if ($scope.request.body.version !== "" && 
+              if ($scope.request.body.version !== "" &&
                 data.map(function(v) { return v.version; })
                     .indexOf($scope.request.body.version) === -1) {
                 $scope.request.body.version = "";
@@ -91,7 +194,7 @@ var dataManageControllers = angular.module("dataManageControllers", ["dataManage
             $scope.loading = true;
 
             var config = makeLightblueRequest(emptyFilter($scope.request.body));
-            
+
             dataService[view](config)
               .success(function(data, status, headers) {
                 angular.copy(data, $scope.response);
@@ -112,12 +215,12 @@ var dataManageControllers = angular.module("dataManageControllers", ["dataManage
 
             var oldObjectType = $scope.request.body.objectType;
             $scope.request.body.objectType = getOrDefault(requestBody, "objectType");
-            
-            // Only set version if it is valid or if we've also changed the 
+
+            // Only set version if it is valid or if we've also changed the
             // objectType (in which case whether the version is valid or not is
             // determined after the getVersions callback for the new objectType)
-            if(oldObjectType !== $scope.request.body.objectType || 
-              (!$scope.versions || !requestBody || 
+            if(oldObjectType !== $scope.request.body.objectType ||
+              (!$scope.versions || !requestBody ||
                 util.arrayContains(
                   $scope.versions.map(function(v) { return v.version; }),
                   requestBody.version))) {

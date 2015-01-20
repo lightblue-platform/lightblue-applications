@@ -70,6 +70,52 @@ var dataManageServices = angular.module("dataManageServices", []);
     body.query = {};
   }));
 
+  dataManageServices.factory("environmentService", ["localStorage",
+    function(localStorage) {
+      var envsStorageKey = "environments";
+
+      function getEnvironments() {
+        var envs = localStorage.getItem(envsStorageKey);
+
+        if (envs === null) {
+          return [];
+        }
+
+        return JSON.parse(envs);
+      }
+
+      function addEnvironment(env) {
+        var envs = getEnvironments();
+        envs.push(env);
+        updateEnvironments(envs);
+      }
+
+      function removeEnvironment(env) {
+        var envs = getEnvironments()
+            .filter(function(e) { return e.alias !== env.alias; });
+        updateEnvironments(envs);
+      }
+
+      function updateEnvironment(env) {
+        var envs = getEnvironments()
+            .filter(function(e) { return e.alias !== env.alias; });
+        envs.push(env);
+        updateEnvironments(env);
+      }
+
+      // Not publically exposed
+      function updateEnvironments(envs) {
+        localStorage.setItem(envsStorageKey, JSON.stringify(envs));
+      }
+
+      return {
+        getEnvironments: getEnvironments,
+        addEnvironment: addEnvironment,
+        removeEnvironment: removeEnvironment,
+        updateEnvironment: updateEnvironment
+      }
+  }])
+
   function UtilityService() {}
   UtilityService.prototype.arrayContains = function(array, contains) {
     return array.indexOf(contains) >= 0;

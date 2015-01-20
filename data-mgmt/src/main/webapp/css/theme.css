@@ -35,3 +35,15 @@ div.btn-group > label.btn > input[type=radio] {
 .btn.pull-right + .btn.pull-right {
   margin-right: .5em;
 }
+
+.navbar-inverse .navbar-nav > .environment > a {
+  color: #fff;
+}
+
+.dropdown-menu {
+  min-width: 13em;
+}
+
+.table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
+  vertical-align: middle;
+}
