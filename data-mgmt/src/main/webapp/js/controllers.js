@@ -83,6 +83,7 @@ var dataManageControllers = angular.module("dataManageControllers", ["dataManage
         delete $scope.alias;
         delete $scope.dataHost;
         delete $scope.metadataHost;
+        $scope.addEnvironmentForm.$setPristine();
       }
 
       $scope.addEnvironment = function() {
@@ -105,7 +106,7 @@ var dataManageControllers = angular.module("dataManageControllers", ["dataManage
 
       $scope.removeEnvironment = function(env) {
         environmentService.removeEnvironment(env);
-        
+
         $scope.environments.splice($scope.environments.indexOf(env), 1);
 
         var indexInEnvironmentsDropdown = $scope.environmentsDropdown

@@ -4,19 +4,19 @@
 </div>
 <div class="row">
   <div class="col-md-12">
-    <form class="form" ng-submit="addEnvironment()">
+    <form name="addEnvironmentForm" class="form" ng-submit="addEnvironment()">
       <div class="row">
         <div class="form-group col-sm-2">
           <label for="alias" class="label-control">Alias</label>
-          <input type="text" class="form-control" id="alias" placeholder="Dev" ng-model="alias">
+          <input type="text" class="form-control" id="alias" placeholder="Dev" ng-model="alias" required>
         </div>
         <div class="form-group col-sm-5">
           <label for="data-host">Data host</label>
-          <input type="text" class="form-control" id="data-host" placeholder="https://lightblue.dev.company.com/data" ng-model="dataHost">
+          <input type="text" class="form-control" id="data-host" placeholder="https://lightblue.dev.company.com/data" ng-model="dataHost" required>
         </div>
         <div class="form-group col-sm-5">
           <label for="metadata-host">Data host</label>
-          <input type="text" class="form-control" id="metadata-host" placeholder="https://lightblue.dev.company.com/metadata" ng-model="metadataHost">
+          <input type="text" class="form-control" id="metadata-host" placeholder="https://lightblue.dev.company.com/metadata" ng-model="metadataHost" required>
         </div>
       </div>
       <div class="row">
