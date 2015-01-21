@@ -158,6 +158,7 @@
     <modules>
         <module>common</module>
         <module>data-mgmt</module>
+        <module>data-mgmt-saml-auth</module>
         <module>metadata-mgmt</module>
         <module>metadata-mgmt-saml-auth</module>
     </modules>
