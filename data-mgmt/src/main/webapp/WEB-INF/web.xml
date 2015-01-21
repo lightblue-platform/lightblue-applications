@@ -13,22 +13,4 @@
     <url-pattern>/health</url-pattern>
   </servlet-mapping>
 
-  <servlet>
-    <servlet-name>data-service</servlet-name>
-    <servlet-class>com.redhat.lightblue.client.http.servlet.LightblueDataProxyServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>data-service</servlet-name>
-    <url-pattern>/service/data/*</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
-    <servlet-name>metadata-service</servlet-name>
-    <servlet-class>com.redhat.lightblue.client.http.servlet.LightblueMetadataProxyServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>metadata-service</servlet-name>
-    <url-pattern>/service/metadata/*</url-pattern>
-  </servlet-mapping>
-
 </web-app>
