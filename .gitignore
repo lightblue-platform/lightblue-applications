@@ -28,3 +28,4 @@ bin
 bin/*
 *.bak
 *.sublime*
+**/overlay*
