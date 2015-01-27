@@ -15,8 +15,7 @@
             <artifactId>lightblue-client-http</artifactId>
         </dependency>
         <dependency>
-            <groupI
-d>commons-lang</groupId>
+            <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
         </dependency>
         <dependency>
