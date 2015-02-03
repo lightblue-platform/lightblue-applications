@@ -25,6 +25,7 @@
       <web-resource-name>Application access</web-resource-name>
       <url-pattern>/*</url-pattern>
       <http-method>GET</http-method>
+      <http-method>POST</http-method>
     </web-resource-collection>
     <auth-constraint>
       <role-name>authenticated</role-name>
