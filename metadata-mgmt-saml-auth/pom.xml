@@ -53,6 +53,12 @@
                             <artifactId>lightblue-applications-common</artifactId>
                         </overlay>
                     </overlays>
+                    <webResources>
+                      <resource>
+                        <directory>src/main/web</directory>
+                        <filtering>true</filtering>
+                      </resource>
+                    </webResources>
                 </configuration>
             </plugin>
             <plugin>
