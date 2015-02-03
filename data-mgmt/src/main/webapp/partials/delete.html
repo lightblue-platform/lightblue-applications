@@ -39,7 +39,8 @@
         </div>
 
         <button type="submit" class="btn btn-primary pull-right" ng-disabled="loading">
-          <span class="glyphicon glyphicon-flash" ng-hide="loading"></span> {{!loading ? "Execute query" : "Executing..."}}
+          <span class="glyphicon glyphicon-flash" ng-hide="loading"></span>
+          <span ng-bind-html="!loading ? 'Delete in <strong>' + environment.alias + '</strong>': 'Deleting in <strong>' + environment.alias + '</strong>...'"</span>
         </button>
         <button type="button" ng-click="reset()" class="btn btn-danger pull-right">Reset</button>
     </div>
