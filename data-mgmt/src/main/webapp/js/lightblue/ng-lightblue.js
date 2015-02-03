@@ -21,22 +21,22 @@ function NgLightblueDataClient($http) {
     return _execute(_client.find(config));
   }
 
-  this.insert = function(data) {
+  this.insert = function(config) {
     _checkClient()
     return _execute(_client.insert(config));
   }
 
-  this.save = function(data) {
+  this.save = function(config) {
     _checkClient()
     return _execute(_client.save(config));
   }
 
-  this.update = function(data) {
+  this.update = function(config) {
     _checkClient()
     return _execute(_client.update(config));
   }
 
-  this.delete = function(data) {
+  this.delete = function(config) {
     _checkClient()
     return _execute(_client.delete(config));
   }
