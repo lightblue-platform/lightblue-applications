@@ -252,7 +252,7 @@
 
       var request = $.ajax({
           type: "GET",
-          url: metadataServicePath + "version",
+          url: metadataServicePath + "health",
       });
 
       request.done(function( msg ) {
