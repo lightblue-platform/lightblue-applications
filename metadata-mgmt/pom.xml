@@ -17,6 +17,10 @@
             <type>war</type>
         </dependency>
         <dependency>
+            <groupId>com.redhat.lightblue.client</groupId>
+            <artifactId>lightblue-client-http</artifactId>
+        </dependency>
+        <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
         </dependency>

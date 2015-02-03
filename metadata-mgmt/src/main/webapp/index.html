@@ -12,7 +12,6 @@
         <link rel="stylesheet" href="framework/bootstrap/css/bootstrap.min.css" type="text/css" />
         <link rel="stylesheet" href="framework/flexi-json-editor/jsoneditor.css" type="text/css" />
         <link rel="stylesheet" href="css/lightblue-apps.css" type="text/css" />
-        <link href="sticky-footer-navbar.css" rel="stylesheet">
 
         <script src="framework/jquery/jquery.min.js" type="text/javascript"></script>
         <script src="framework/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
@@ -259,7 +258,10 @@
 	    </div>
       <footer class="footer">
       <div class="container">
-        <p class="text-muted">App Version: ${project.version}</p>
+        <p class="text-muted">
+          <div class="text-muted" id="app-version">App Version: ${project.version} </div>
+          <div class="text-muted" id="metadata-service-version">Metadata Service Version: </div> 
+        </p>
       </div>
     </footer>
     </body>
