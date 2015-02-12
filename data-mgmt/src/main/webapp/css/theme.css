@@ -35,3 +35,25 @@ div.btn-group > label.btn > input[type=radio] {
 .btn.pull-right + .btn.pull-right {
   margin-right: .5em;
 }
+
+.navbar-inverse .navbar-nav > .environment > a {
+  color: #fff;
+}
+
+.dropdown-menu {
+  min-width: 13em;
+}
+
+.table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
+  vertical-align: middle;
+}
+
+/*.ng-touched.ng-invalid {
+  background-image: -webkit-linear-gradient(bottom, #f2dede 0%, #e7c3c3 100%);
+  background-image:      -o-linear-gradient(bottom, #f2dede 0%, #e7c3c3 100%);
+  background-image: -webkit-gradient(linear, left bottom, left top, from(#f2dede), to(#e7c3c3));
+  background-image:         linear-gradient(to top, #f2dede 0%, #e7c3c3 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffe7c3c3', endColorstr='#fff2dede', GradientType=0);
+  background-repeat: repeat-x;
+  border-color: #dca7a7;
+}*/
