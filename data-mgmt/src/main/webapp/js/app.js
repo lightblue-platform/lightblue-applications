@@ -13,7 +13,8 @@ var datamgmt = angular.module("datamgmt", [
   "lightblueServices",
 
   // 3rd party
-  "ui.select"
+  "ui.select",
+  "mgcrea.ngStrap"
 ]);
 
 datamgmt.config(["$routeProvider", function($routeProvider) {
@@ -38,15 +39,18 @@ datamgmt.config(["$routeProvider", function($routeProvider) {
       templateUrl: "partials/delete.html",
       controller: "DeleteCtrl"
     })
+    .when("/environments", {
+      templateUrl: "partials/environments.html",
+      controller: "EnvironmentsCtrl"
+    })
     .otherwise({
       redirectTo: "/find"
     });
 }]);
 
-datamgmt.config(["lightblueDataServiceProvider", function(dataServiceProvider) {
-  dataServiceProvider.setHost("/service/data/");
+// Use in production
+/*
+datamgmt.config(['$compileProvider', function ($compileProvider) {
+  $compileProvider.debugInfoEnabled(false);
 }]);
-
-datamgmt.config(["lightblueMetadataServiceProvider", function(metadataServiceProvider) {
-  metadataServiceProvider.setHost("/service/metadata/");
-}]);
+*/

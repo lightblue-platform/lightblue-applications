@@ -246,14 +246,39 @@
           showErrorMessage( textStatus );
       });
   }
+  
+  function loadVersions() {
+      "use strict";
+
+      var request = $.ajax({
+          type: "GET",
+          url: metadataServicePath + "health",
+          dataType: "html"
+      });
+
+      request.done(function( msg ) {
+          if (msg.objectType === 'error') {
+              showLightblueErrorMessage(msg);
+          }
+          else {
+        	  $("#metadata-service-version").text("Metadata Service Version: " + msg);
+          }
+      });
+
+      request.fail(function( jqXHR, textStatus ) {
+          showErrorMessage( textStatus );
+      });
+  }
 
   $(document).ready(function() {
       "use strict";
 
       if (!isAdmin()) {
           $(".role-user-admin").hide();
-      }
-
+      }   
+      
+      loadVersions();
+      
       var entitySelect = $("#entities");
       var versionSelect = $("#versions");
       var submitButton = $("#load-content-btn");
