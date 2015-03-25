@@ -33,16 +33,10 @@ public class RolesServlet extends HttpServlet {
 
         List<String> userRoles = new ArrayList<>();
 
-        if (noAuth) {
-            userRoles.add("authenticated");
-            userRoles.add("lightblue-metadata-admin");
-            userRoles.add("lightblue-data-admin");
-        }
-        else {
-            for (String role : ROLES) {
-                if (req.isUserInRole(role)) {
-                    userRoles.add(role);
-                }
+        for (String role : ROLES) {
+            // if noAuth, give the user all roles defined in ROLES
+            if (noAuth || req.isUserInRole(role)) {
+                userRoles.add(role);
             }
         }
 
