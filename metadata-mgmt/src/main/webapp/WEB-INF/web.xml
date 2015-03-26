@@ -25,6 +25,10 @@
   <servlet>
     <servlet-name>roles</servlet-name>
     <servlet-class>com.redhat.lightblue.applications.RolesServlet</servlet-class>
+    <init-param>
+        <param-name>noAuth</param-name>
+        <param-value>true</param-value>
+    </init-param>
   </servlet>
   <servlet-mapping>
     <servlet-name>roles</servlet-name>
