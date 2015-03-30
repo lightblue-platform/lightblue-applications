@@ -1,19 +1,35 @@
   function showErrorMessage(message) {
       "use strict";
-      // TODO: show it on page
-      alert("Error: " + message);
+
+      $('#alert-box').append(createBoostrapAlertDiv('alert-danger', "<strong>Error!</strong> "+message));
   }
 
   function showLightblueErrorMessage(jsonMessage) {
       "use strict";
-      // TODO: show it on page
-      alert("Lightblue error: "+ jsonMessage.errorCode);
+      console.error(JSON.stringify(jsonMessage));
+      showErrorMessage(jsonMessage.errorCode);
   }
 
   function showSuccessMessage(message) {
       "use strict";
-      // TODO: show it on page
-      alert(message);
+
+      var div = createBoostrapAlertDiv('alert-success', "<strong>Success!</strong> "+message);
+
+      $('#alert-box').append(div);
+
+      // remove success message after 3s
+      setTimeout(function() {
+         div.slideUp('slow', function() { $(this).remove(); });
+      }, 3000);
+  }
+
+  function createBoostrapAlertDiv(clazz, htmlMessage) {
+      "use strict";
+
+      return $(document.createElement('div'))
+          .addClass('alert')
+          .addClass(clazz)
+          .html("<a href='#' class='close' data-dismiss='alert'>&times;</a>"+htmlMessage);
   }
 
   function isAdmin() {
@@ -237,7 +253,8 @@
               showLightblueErrorMessage(msg);
           }
           else {
-              showSuccessMessage( "Data Saved: " + JSON.stringify(msg) );
+              console.debug("Data Saved: "+JSON.stringify(msg));
+              showSuccessMessage("Data Saved");
               // TODO: update entity list
           }
       });
