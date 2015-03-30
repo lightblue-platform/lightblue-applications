@@ -336,6 +336,8 @@
           $(".role-user-admin").hide();
       }
       
+      loadVersions();
+
       var entitySelect = $("#entities");
       var versionSelect = $("#versions");
       var submitButton = $("#load-content-btn");
