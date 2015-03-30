@@ -229,6 +229,7 @@
       var request = $.ajax({
           type: method,
           url: metadataServicePath + uri,
+          contentType: "application/json",
           data: JSON.stringify(jsonData)
       });
 
@@ -253,6 +254,7 @@
       var request = $.ajax({
           type: "GET",
           url: metadataServicePath + "health",
+          contentType: "application/json",
           dataType: "html"
       });
 
