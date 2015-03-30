@@ -255,7 +255,7 @@
           else {
               console.debug("Data Saved: "+JSON.stringify(msg));
               showSuccessMessage("Data Saved");
-              // TODO: update entity list
+              loadEntities();
           }
       });
 
@@ -287,14 +287,54 @@
       });
   }
 
+  function loadEntities() {
+      "use strict";
+
+      var entitySelect = $("#entities");
+      $.getJSON( metadataServicePath, function( json ) {
+          var entities = json.entities;
+          entitySelect.empty();
+          entitySelect.append("<option value='' disabled selected>Entity:</option>");
+          $.each( entities, function(index, entity) {
+              entitySelect.append("<option value='" + entity + "'>" + entity + "</option>");
+          });
+          loadEntityVersions(null);
+      }).fail(function( jqxhr, textStatus, error ) {
+          showErrorMessage(textStatus + " "+error);
+      });
+  }
+
+  function loadEntityVersions(entity) {
+      "use strict";
+
+      var versionSelect = $("#versions");
+      versionSelect.empty();
+      versionSelect.append("<option value='' disabled selected>Version:</option>");
+
+      if (entity == null || entity == "") {
+          // just clear the selection dropdown
+          return;
+      }
+
+      $.getJSON( metadataServicePath + entity, function( json ) {
+          var versions = json;
+          versions.sort(function(v1, v2) {
+             return v1.version.localeCompare(v2.version);
+          });
+          $.each( versions, function( index, version ) {
+              versionSelect.append("<option value='" + version.version + "'>" + version.version + "</option>");
+          });
+      }).fail(function( jqxhr, textStatus, error ) {
+          showErrorMessage(textStatus + " "+error);
+      });
+  }
+
   $(document).ready(function() {
       "use strict";
 
       if (!isAdmin()) {
           $(".role-user-admin").hide();
-      }   
-      
-      loadVersions();
+      }
       
       var entitySelect = $("#entities");
       var versionSelect = $("#versions");
@@ -303,26 +343,10 @@
       var jsonTextArea = $("#json");
       var jsonTreeEditor = $("#editor");
 
-      $.getJSON( metadataServicePath, function( json ) {
-          var entities = json.entities;
-          entities.sort();
-          $.each( entities, function(index, entity) {
-              entitySelect.append("<option value='" + entity + "'>" + entity + "</option>");
-          });
-       });
+      loadEntities();
 
       entitySelect.change(function() {
-          versionSelect.empty();
-          versionSelect.append("<option value='' disabled selected>Version:</option>");
-          $.getJSON( metadataServicePath + entitySelect.val(), function( json ) {
-              var versions = json;
-              versions.sort(function(v1, v2) {
-                 return v1.version.localeCompare(v2.version);
-              });
-              $.each( versions, function( index, version ) {
-                  versionSelect.append("<option value='" + version.version + "'>" + version.version + "</option>");
-              });
-           });
+          loadEntityVersions($(this).val());
       });
 
       submitButton.click(function() {
