@@ -287,10 +287,10 @@
       var jsonTreeEditor = $("#editor");
 
       $.getJSON( metadataServicePath, function( json ) {
-          $.each( json, function( key, val ) {
-              $.each( val, function( arrayVal ) {
-                  entitySelect.append("<option value='" + val[arrayVal] + "'>" + val[arrayVal] + "</option>");
-              });
+          var entities = json.entities;
+          entities.sort();
+          $.each( entities, function(index, entity) {
+              entitySelect.append("<option value='" + entity + "'>" + entity + "</option>");
           });
        });
 
@@ -298,7 +298,11 @@
           versionSelect.empty();
           versionSelect.append("<option value='' disabled selected>Version:</option>");
           $.getJSON( metadataServicePath + entitySelect.val(), function( json ) {
-              $.each( json, function( versions, version ) {
+              var versions = json;
+              versions.sort(function(v1, v2) {
+                 return v1.version.localeCompare(v2.version);
+              });
+              $.each( versions, function( index, version ) {
                   versionSelect.append("<option value='" + version.version + "'>" + version.version + "</option>");
               });
            });
