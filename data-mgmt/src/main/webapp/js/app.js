@@ -14,7 +14,7 @@ var datamgmt = angular.module("datamgmt", [
 
   // 3rd party
   "ui.select",
-  "mgcrea.ngStrap"
+  "ui.bootstrap"
 ]);
 
 datamgmt.config(["$routeProvider", function($routeProvider) {
