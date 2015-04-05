@@ -196,10 +196,22 @@ var dataManageControllers = angular.module("dataManageControllers", ["dataManage
 
             var config = makeLightblueRequest(emptyFilter($scope.request.body));
 
-            dataService[view](config)
-              .success(function(data, status, headers) {
+            function updateResponse(data, status, headers) {
+              var contentType = headers("Content-Type");
+
+              if (typeof contentType === "string" 
+                  && contentType.indexOf("application/json") === 0) {
                 angular.copy(data, $scope.response);
-              })
+              } else {
+                $scope.response = "Non-json response received, status code: " + status + "\n" +
+                    "This usually indicates a problem with the application.\n" +
+                    "Please open an issue: https://github.com/lightblue-platform/lightblue-applications/issues/new";
+              }
+            }
+
+            dataService[view](config)
+              .success(updateResponse)
+              .error(updateResponse)
               .finally(function() {
                 $scope.loading = false;
               });
