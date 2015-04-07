@@ -212,8 +212,6 @@ var dataManageControllers = angular.module("dataManageControllers", ["dataManage
           }
 
           function setRequestRaw(requestBody) {
-            console.log("setRequestRaw");
-
             var oldObjectType = $scope.request.body.objectType;
             $scope.request.body.objectType = getOrDefault(requestBody, "objectType");
 

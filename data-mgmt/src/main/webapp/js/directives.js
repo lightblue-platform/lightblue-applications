@@ -50,8 +50,6 @@ dataManageDirectives.directive("lbJsonEditor", ["util", function(util) {
             return;
           }
 
-          console.log("change", attributes.ngModel);
-
           if (util.arrayContains(updateOn, "default") || 
             util.arrayContains(updateOn, "change")) {
 
@@ -122,7 +120,6 @@ dataManageDirectives.directive("lbJsonEditor", ["util", function(util) {
 
         // TODO: deal with triggering change event, which redundantly sets view 
         // value on model
-        console.log("editor.set", attributes.ngModel);
         editor.set(newValue);
 
         // Editor in tree mode collapses nodes on call to `set`... expand them.
