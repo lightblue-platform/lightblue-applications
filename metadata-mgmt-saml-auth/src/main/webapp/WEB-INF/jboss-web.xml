@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <jboss-web>
-    <context-root>/metadata-mgmt</context-root>
+    <context-root>/app/metadata</context-root>
     <security-domain>lightblue-saml</security-domain>
     <valve>
         <class-name>

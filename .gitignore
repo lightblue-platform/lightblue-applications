@@ -27,3 +27,7 @@ mf.pom.xml
 bin
 bin/*
 *.bak
+*.sublime*
+**/overlay*
+rhc-port-forward-status
+etc/rhc-port-forward-status

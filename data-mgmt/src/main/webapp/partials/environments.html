@@ -1,0 +1,56 @@
+<div class="alert alert-danger" ng-hide="environment.alias"><strong>No environment selected.</strong> Please select an environment to continue.</div>
+<div class="page-header">
+  <h1>Manage environments</h1>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <form name="addEnvironmentForm" class="form" ng-submit="addEnvironment()">
+      <div class="row">
+        <div class="form-group col-sm-2">
+          <label for="alias" class="label-control">Alias</label>
+          <input type="text" class="form-control" id="alias" placeholder="Dev" ng-model="alias" required>
+        </div>
+        <div class="form-group col-sm-5">
+          <label for="data-host">Data host</label>
+          <input type="text" class="form-control" id="data-host" placeholder="https://lightblue.dev.company.com/data" ng-model="dataHost" required>
+        </div>
+        <div class="form-group col-sm-5">
+          <label for="metadata-host">Metadata host</label>
+          <input type="text" class="form-control" id="metadata-host" placeholder="https://lightblue.dev.company.com/metadata" ng-model="metadataHost" required>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <button type="submit" class="btn btn-default pull-right">Add environment</button>
+        </div>
+      </div>
+    </form>
+  </div><!--/.col-md-12 -->
+</div><!--/.row -->
+
+<h2>Environments</h2>
+<div class="table-responsive">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th width="15%">Alias</th>
+        <th width="34.5%">Data host</th>
+        <th width="34.5%">Metadata host</th>
+        <th width="8%"></th>
+        <th width="8%"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-show="environments.length == 0">
+        <td colspan="5">You have no saved environments. Please add an environment.</td>
+      </tr>
+      <tr ng-repeat="env in environments">
+        <td>{{env.alias}}</td>
+        <td>{{env.dataHost}}</td>
+        <td>{{env.metadataHost}}</td>
+        <td><button type="button" class="btn btn-primary btn-sm" ng-click="setEnvironment(env)" ng-disabled="environment.alias == env.alias">{{environment.alias == env.alias ? 'Selected' : 'Select'}}</button></td>
+        <td><button type="button" class="btn btn-danger btn-sm" ng-click="removeEnvironment(env)"><span class="glyphicon glyphicon-remove"></span></button></td>
+      </tr>
+    </tbody>
+  </table>
+</div><!--/.table-responsive -->

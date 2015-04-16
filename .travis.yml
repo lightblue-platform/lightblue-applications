@@ -1,18 +1,26 @@
 language: java
 jdk:
-  - openjdk7
-  - oraclejdk8
-
+    - openjdk7
+    - oraclejdk8
 before_install:
-  - cp ./settings.xml ~/.m2/
-
-after_success:
-  - mvn clean test jacoco:report coveralls:jacoco
-
+    - cp ./etc/settings.xml ~/.m2/
+    - cp ./etc/onFailure.sh  ~/
+    - cp ./etc/onSuccess.sh  ~/
+    - chmod 777 ~/onFailure.sh
+    - chmod 777 ~/onSuccess.sh
+script:
+    - mvn -B clean verify
+after_failure: ~/onFailure.sh
+after_success: ~/onSuccess.sh
+after_script:
+    - mvn -B cobertura:cobertura coveralls:report
 notifications:
-  email: false
-  irc:
-    channels:
-      - "chat.freenode.net#lightblue"
+    email: false
+    irc:
+        channels:
+            - chat.freenode.net#lightblue
     on_success: always
-
+env:
+    global:
+        - secure: LJ81UAIhNKKBvEvI9S3FxOUlyPSUlBOmU/z67BSGTHCRq1/kdXhMoXK09xH8sZLy+g6/Iz3sdEPyGSxltG4sdQVsPweTf3gi17iuBX0jSMCMqL3KUckOL+9WmZjcARRtniHMhCPxZ2Uh4UVbf2tYtFlUMKK7w4vUgTJw4+YZ1fs=
+        - secure: YGHzq+bCJ0StYDlkCS2P1B6Knx1foui/xEP26uYA/QhDdiwTGNRzhmGEkruw1i1XQ3fWXRWkgC6HPdOIca3+aUJS5Vjs1vkTXwQ/sVI7c+ZCi4FT4jwLbCxaAoQygZuBtRuLMHy1u537O59uQ2R4cIghHlxfCBWtDX9P5aoG6FY=

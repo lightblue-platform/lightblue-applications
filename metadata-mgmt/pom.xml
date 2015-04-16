@@ -1,43 +1,39 @@
 <?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.redhat.lightblue.applications</groupId>
-        <artifactId>pom</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <artifactId>lightblue-applications-pom</artifactId>
+        <version>1.3.0-SNAPSHOT</version>
     </parent>
-    <artifactId>metadata-mgmt</artifactId>
+    <artifactId>lightblue-applications-metadata-mgmt</artifactId>
     <packaging>war</packaging>
     <name>lightblue-applications: ${project.groupId}|${project.artifactId}</name>
     <dependencies>
         <dependency>
             <groupId>com.redhat.lightblue.applications</groupId>
-            <artifactId>apps-common</artifactId>
+            <artifactId>lightblue-applications-common</artifactId>
             <version>${project.version}</version>
             <type>war</type>
         </dependency>
         <dependency>
+            <groupId>com.redhat.lightblue.client</groupId>
+            <artifactId>lightblue-client-http</artifactId>
+        </dependency>
+        <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
-            <version>2.6</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.4</version>
         </dependency>
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.11</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <properties>
-        <rpm.install.basedir>/usr/share/jbossas/standalone/deployments</rpm.install.basedir>
-    </properties>
     <build>
         <plugins>
             <plugin>
@@ -48,9 +44,15 @@
                     <overlays>
                         <overlay>
                             <groupId>com.redhat.lightblue.applications</groupId>
-                            <artifactId>apps-common</artifactId>
+                            <artifactId>lightblue-applications-common</artifactId>
                         </overlay>
                     </overlays>
+                    <webResources>
+                      <resource>
+                        <directory>src/main/webapp</directory>
+                        <filtering>true</filtering>
+                      </resource>
+                    </webResources>
                 </configuration>
             </plugin>
             <plugin>
@@ -79,6 +81,7 @@
                             </execution>
                         </executions>
                         <configuration>
+                            <name>lightblue-metadata-mgmt</name>
                             <copyright>Red Hat</copyright>
                             <distribution>RHEL</distribution>
                             <group>Lightblue Platform</group>
