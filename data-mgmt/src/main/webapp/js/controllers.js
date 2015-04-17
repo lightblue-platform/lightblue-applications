@@ -3,6 +3,7 @@
 var dataManageControllers = angular.module("dataManageControllers", ["dataManageFilters"]);
 
 (function() {
+
   dataManageControllers.controller("NavCtrl", ["$scope", "$location",
     function($scope, $location) {
       $scope.isActive = function(path) {
@@ -48,18 +49,6 @@ var dataManageControllers = angular.module("dataManageControllers", ["dataManage
         $scope.setEnvironment(envs[0]);
       };
 
-      $scope.populateEnvironmentsDropdown = function() {
-        $scope.environmentsDropdown = $scope.environments.map(function(e) {
-          return {
-            text: e.alias,
-            click: "setEnvironmentByAlias('" + e.alias + "')"
-          };
-        }).concat({ divider: true },
-            { text: "Manage environments", href: "#environments" });
-      };
-
-      $scope.populateEnvironmentsDropdown();
-
       $scope.isEnvironmentSelected = function() {
         return angular.isDefined($scope.environment);
       };
@@ -92,11 +81,6 @@ var dataManageControllers = angular.module("dataManageControllers", ["dataManage
         environmentService.addEnvironment(env);
         $scope.environments.push(env);
 
-        $scope.environmentsDropdown.splice(-2, 0, {
-            text: env.alias,
-            click: "setEnvironmentByAlias('" + env.alias + "')"
-          });
-
         if (!$scope.isEnvironmentSelected()) {
           $scope.setEnvironment(env);
         }
@@ -108,12 +92,6 @@ var dataManageControllers = angular.module("dataManageControllers", ["dataManage
         environmentService.removeEnvironment(env);
 
         $scope.environments.splice($scope.environments.indexOf(env), 1);
-
-        var indexInEnvironmentsDropdown = $scope.environmentsDropdown
-            .map(function(e) { return e.text; })
-            .indexOf(env.alias);
-
-        $scope.environmentsDropdown.splice(indexInEnvironmentsDropdown, 1);
 
         if ($scope.isEnvironmentSelected() && $scope.environment.alias === env.alias) {
           $scope.unsetEnvironment();
