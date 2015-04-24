@@ -2,7 +2,7 @@
 <jboss-deployment-structure>
     <deployment>
         <dependencies>
-            <module name="com.redhat.lightblue"/>
+            <module name="com.redhat.lightblue.client.metadata-mgmt"/>
         </dependencies>
     </deployment>
 </jboss-deployment-structure>
