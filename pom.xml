@@ -8,7 +8,7 @@
     </parent>
     <groupId>com.redhat.lightblue.applications</groupId>
     <artifactId>lightblue-applications-pom</artifactId>
-    <version>1.2.0-SNAPSHOT</version>
+    <version>1.3.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>lightblue-applications: ${project.groupId}|${project.artifactId}</name>
     <description>Management applications for lightblue-powered services</description>
@@ -76,7 +76,7 @@
             <dependency>
                 <groupId>com.redhat.lightblue.client</groupId>
                 <artifactId>lightblue-client-http</artifactId>
-                <version>1.2.0-SNAPSHOT</version>
+                <version>1.3.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>commons-lang</groupId>

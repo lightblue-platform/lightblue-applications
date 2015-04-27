@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.redhat.lightblue.applications</groupId>
         <artifactId>lightblue-applications-pom</artifactId>
-        <version>1.2.0-SNAPSHOT</version>
+        <version>1.3.0-SNAPSHOT</version>
     </parent>
     <artifactId>lightblue-applications-data-mgmt</artifactId>
     <packaging>war</packaging>
