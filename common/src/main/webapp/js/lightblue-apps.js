@@ -299,7 +299,8 @@ $(document).ready(function() {
         versionSelect.append("<option value='' disabled selected>Version:</option>");
         $.getJSON( metadataServicePath + entitySelect.val(), function( json ) {
             $.each( json, function( versions, version ) {
-                versionSelect.append("<option value='" + version.version + "'>" + version.version + "</option>");
+                if(version.status == "active")
+                    versionSelect.append("<option value='" + version.version + "'>" + version.version + "</option>");
             });
          });
     });
