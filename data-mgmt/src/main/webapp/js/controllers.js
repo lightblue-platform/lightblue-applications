@@ -3,6 +3,7 @@
 var dataManageControllers = angular.module("dataManageControllers", ["dataManageFilters"]);
 
 (function() {
+
   dataManageControllers.controller("NavCtrl", ["$scope", "$location",
     function($scope, $location) {
       $scope.isActive = function(path) {
@@ -48,18 +49,6 @@ var dataManageControllers = angular.module("dataManageControllers", ["dataManage
         $scope.setEnvironment(envs[0]);
       };
 
-      $scope.populateEnvironmentsDropdown = function() {
-        $scope.environmentsDropdown = $scope.environments.map(function(e) {
-          return {
-            text: e.alias,
-            click: "setEnvironmentByAlias('" + e.alias + "')"
-          };
-        }).concat({ divider: true },
-            { text: "Manage environments", href: "#environments" });
-      };
-
-      $scope.populateEnvironmentsDropdown();
-
       $scope.isEnvironmentSelected = function() {
         return angular.isDefined($scope.environment);
       };
@@ -92,11 +81,6 @@ var dataManageControllers = angular.module("dataManageControllers", ["dataManage
         environmentService.addEnvironment(env);
         $scope.environments.push(env);
 
-        $scope.environmentsDropdown.splice(-2, 0, {
-            text: env.alias,
-            click: "setEnvironmentByAlias('" + env.alias + "')"
-          });
-
         if (!$scope.isEnvironmentSelected()) {
           $scope.setEnvironment(env);
         }
@@ -108,12 +92,6 @@ var dataManageControllers = angular.module("dataManageControllers", ["dataManage
         environmentService.removeEnvironment(env);
 
         $scope.environments.splice($scope.environments.indexOf(env), 1);
-
-        var indexInEnvironmentsDropdown = $scope.environmentsDropdown
-            .map(function(e) { return e.text; })
-            .indexOf(env.alias);
-
-        $scope.environmentsDropdown.splice(indexInEnvironmentsDropdown, 1);
 
         if ($scope.isEnvironmentSelected() && $scope.environment.alias === env.alias) {
           $scope.unsetEnvironment();
@@ -196,10 +174,22 @@ var dataManageControllers = angular.module("dataManageControllers", ["dataManage
 
             var config = makeLightblueRequest(emptyFilter($scope.request.body));
 
-            dataService[view](config)
-              .success(function(data, status, headers) {
+            function updateResponse(data, status, headers) {
+              var contentType = headers("Content-Type");
+
+              if (typeof contentType === "string" 
+                  && contentType.indexOf("application/json") === 0) {
                 angular.copy(data, $scope.response);
-              })
+              } else {
+                $scope.response = "Non-json response received, status code: " + status + "\n" +
+                    "This usually indicates a problem with the application.\n" +
+                    "Please open an issue: https://github.com/lightblue-platform/lightblue-applications/issues/new";
+              }
+            }
+
+            dataService[view](config)
+              .success(updateResponse)
+              .error(updateResponse)
               .finally(function() {
                 $scope.loading = false;
               });
@@ -212,8 +202,6 @@ var dataManageControllers = angular.module("dataManageControllers", ["dataManage
           }
 
           function setRequestRaw(requestBody) {
-            console.log("setRequestRaw");
-
             var oldObjectType = $scope.request.body.objectType;
             $scope.request.body.objectType = getOrDefault(requestBody, "objectType");
 

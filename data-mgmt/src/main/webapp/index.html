@@ -15,7 +15,7 @@
 
     <!-- Custom styles for this template -->
     <link href="bower_components/bootstrap/dist/css/bootstrap-theme.css" rel="stylesheet">
-    <link href='bower_components/jsoneditor/jsoneditor.css' rel='stylesheet'>
+    <link href='bower_components/jsoneditor/dist/jsoneditor.css' rel='stylesheet'>
     <link href="bower_components/angular-ui-select/dist/select.css" rel="stylesheet">
 
     <link href="css/theme.css" rel="stylesheet">
@@ -38,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Lightblue Data Management</a>
+          <p class="navbar-brand">Lightblue Data Management</p>
         </div><!--/.navbar-header -->
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
@@ -48,9 +48,19 @@
             <li ng-class="{active: isActive('/update')}"><a href="#/update">Update</a></li>
             <li ng-class="{active: isActive('/delete')}"><a href="#/delete">Delete</a></li>
           </ul>
+          <!-- Right aligned nav items -->
           <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown">
-              <a href="" class="dropdown-toggle" bs-dropdown="environmentsDropdown">{{isEnvironmentSelected() ? environment.alias : "Select an environment"}} <span class="caret"></span></a>
+            <li class="dropdown" dropdown>
+              <a href class="dropdown-toggle" dropdown-toggle ng-cloak>
+                {{isEnvironmentSelected() ? environment.alias : "Select an environment"}} <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" role="menu">
+                <li ng-repeat="env in environments" ng-click="setEnvironmentByAlias(env.alias)">
+                  <a href>{{env.alias}}</a>
+                </li>
+                <li class="divider"></li>
+                <li><a href="#/environments">Manage environments</a></li>
+              </ul>
             </li>
             <li ng-class="{active: isActive('/environments')}"><a href="#/environments">Manage environments</a></li>
           </ul>
@@ -70,15 +80,12 @@
 
     <!-- Angular directives -->
     <script src="bower_components/angular-ui-select/dist/select.js"></script>
+    <script src="bower_components/angular-ui-bootstrap-bower/ui-bootstrap-tpls.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-    <script src="bower_components/angular-strap/dist/angular-strap.js"></script>
-    <script src="bower_components/angular-strap/dist/angular-strap.tpl.js"></script>
 
     <!-- Other components -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
-    <script src="bower_components/jsoneditor/jsoneditor.js"></script>
-    <script src="bower_components/jsoneditor/asset/ace/ace.js"></script>
-    <script src="bower_components/jsoneditor/asset/jsonlint/jsonlint.js"></script>
+    <script src="bower_components/jsoneditor/dist/jsoneditor.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="bower_components/lightblue.js/dist/lightblue.min.js"></script>
 
