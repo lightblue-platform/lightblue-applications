@@ -229,6 +229,7 @@ function callLightblue(uri, jsonData, method) {
     var request = $.ajax({
         type: method,
         url: metadataServicePath + uri,
+          contentType: "application/json",
         data: JSON.stringify(jsonData)
     });
 
@@ -253,6 +254,7 @@ function loadVersions() {
     var request = $.ajax({
         type: "GET",
         url: metadataServicePath + "health",
+          contentType: "application/json",
         dataType: "html"
     });
 
