@@ -1,19 +1,35 @@
 function showErrorMessage(message) {
     "use strict";
-    // TODO: show it on page
-    alert("Error: " + message);
+
+      $('#alert-box').append(createBoostrapAlertDiv('alert-danger', "<strong>Error!</strong> "+message));
 }
 
 function showLightblueErrorMessage(jsonMessage) {
     "use strict";
-    // TODO: show it on page
-    alert("Lightblue error: "+ jsonMessage.errorCode);
+      console.error(JSON.stringify(jsonMessage));
+      showErrorMessage(jsonMessage.errorCode);
 }
 
 function showSuccessMessage(message) {
     "use strict";
-    // TODO: show it on page
-    alert(message);
+
+      var div = createBoostrapAlertDiv('alert-success', "<strong>Success!</strong> "+message);
+
+      $('#alert-box').append(div);
+
+      // remove success message after 3s
+      setTimeout(function() {
+         div.slideUp('slow', function() { $(this).remove(); });
+      }, 3000);
+  }
+
+  function createBoostrapAlertDiv(clazz, htmlMessage) {
+      "use strict";
+
+      return $(document.createElement('div'))
+          .addClass('alert')
+          .addClass(clazz)
+          .html("<a href='#' class='close' data-dismiss='alert'>&times;</a>"+htmlMessage);
 }
 
 function isAdmin() {
@@ -238,8 +254,9 @@ function callLightblue(uri, jsonData, method) {
             showLightblueErrorMessage(msg);
         }
         else {
-            showSuccessMessage( "Data Saved: " + JSON.stringify(msg) );
-            // TODO: update entity list
+              console.debug("Data Saved: "+JSON.stringify(msg));
+              showSuccessMessage("Data Saved");
+              loadEntities();
         }
     });
 
@@ -272,6 +289,49 @@ function loadVersions() {
     });
 }
 
+  function loadEntities() {
+      "use strict";
+
+      var entitySelect = $("#entities");
+      $.getJSON( metadataServicePath, function( json ) {
+          var entities = json.entities;
+          entitySelect.empty();
+          entitySelect.append("<option value='' disabled selected>Entity:</option>");
+          $.each( entities, function(index, entity) {
+              entitySelect.append("<option value='" + entity + "'>" + entity + "</option>");
+          });
+          loadEntityVersions(null);
+      }).fail(function( jqxhr, textStatus, error ) {
+          showErrorMessage(textStatus + " "+error);
+      });
+  }
+
+  function loadEntityVersions(entity) {
+      "use strict";
+
+      var versionSelect = $("#versions");
+      versionSelect.empty();
+      versionSelect.append("<option value='' disabled selected>Version:</option>");
+
+      if (entity == null || entity == "") {
+          // just clear the selection dropdown
+          return;
+      }
+
+      $.getJSON( metadataServicePath + entity, function( json ) {
+          var versions = json;
+          versions.sort(function(v1, v2) {
+             return v1.version.localeCompare(v2.version);
+          });
+          $.each( versions, function( index, version ) {
+              if(version.status == "active")
+                  versionSelect.append("<option value='" + version.version + "'>" + version.version + "</option>");
+          });
+      }).fail(function( jqxhr, textStatus, error ) {
+          showErrorMessage(textStatus + " "+error);
+      });
+  }
+
 $(document).ready(function() {
     "use strict";
 
@@ -288,23 +348,10 @@ $(document).ready(function() {
     var jsonTextArea = $("#json");
     var jsonTreeEditor = $("#editor");
 
-    $.getJSON( metadataServicePath, function( json ) {
-        $.each( json, function( key, val ) {
-            $.each( val, function( arrayVal ) {
-                entitySelect.append("<option value='" + val[arrayVal] + "'>" + val[arrayVal] + "</option>");
-            });
-        });
-     });
+    loadEntities();
 
     entitySelect.change(function() {
-        versionSelect.empty();
-        versionSelect.append("<option value='' disabled selected>Version:</option>");
-        $.getJSON( metadataServicePath + entitySelect.val(), function( json ) {
-            $.each( json, function( versions, version ) {
-                if(version.status == "active")
-                    versionSelect.append("<option value='" + version.version + "'>" + version.version + "</option>");
-            });
-         });
+          loadEntityVersions($(this).val());
     });
 
     submitButton.click(function() {
