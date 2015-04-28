@@ -245,6 +245,7 @@ function callLightblue(uri, jsonData, method) {
     var request = $.ajax({
         type: method,
         url: metadataServicePath + uri,
+          contentType: "application/json",
         data: JSON.stringify(jsonData)
     });
 
@@ -270,6 +271,7 @@ function loadVersions() {
     var request = $.ajax({
         type: "GET",
         url: metadataServicePath + "health",
+          contentType: "application/json",
         dataType: "html"
     });
 
@@ -322,7 +324,8 @@ function loadVersions() {
              return v1.version.localeCompare(v2.version);
           });
           $.each( versions, function( index, version ) {
-              versionSelect.append("<option value='" + version.version + "'>" + version.version + "</option>");
+              if(version.status == "active")
+                  versionSelect.append("<option value='" + version.version + "'>" + version.version + "</option>");
           });
       }).fail(function( jqxhr, textStatus, error ) {
           showErrorMessage(textStatus + " "+error);

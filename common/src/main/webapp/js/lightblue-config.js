@@ -1,1 +1,1 @@
-var metadataServicePath = "/app/metadata/rest-request/";
+var metadataServicePath = "rest-request/";

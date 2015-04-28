@@ -15,7 +15,7 @@
 
   <servlet>
     <servlet-name>rest-request</servlet-name>
-    <servlet-class>com.redhat.lightblue.client.http.LightblueProxyServlet</servlet-class>
+    <servlet-class>com.redhat.lightblue.client.http.servlet.LightblueMetadataProxyServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>rest-request</servlet-name>
