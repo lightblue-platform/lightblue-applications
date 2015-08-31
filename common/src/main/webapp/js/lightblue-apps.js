@@ -265,6 +265,28 @@ function callLightblue(uri, jsonData, method) {
     });
 }
 
+// Show a description of the action
+function loadActionDescription(entity) {
+    if (entity == null || entity == "") {
+        return;
+    }
+    switch(entity) {
+	    case "view":
+	        break;
+	    case "edit":
+	        break;
+	    case "new":
+	        break;
+	    case "version":
+	        break;
+	    case "roles":
+	        break;
+	    case "summary":
+	        break;
+	    default:    
+    }
+}
+
 function loadVersions() {
     "use strict";
 
@@ -342,6 +364,7 @@ $(document).ready(function() {
     loadVersions();
 
     var entitySelect = $("#entities");
+    var actionSelect = $("#action");
     var versionSelect = $("#versions");
     var submitButton = $("#load-content-btn");
 
@@ -350,6 +373,10 @@ $(document).ready(function() {
 
     loadEntities();
 
+    actionSelect.change(function() {
+        loadActionDescription($(this).val());
+    });
+    
     entitySelect.change(function() {
           loadEntityVersions($(this).val());
     });
