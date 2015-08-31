@@ -276,35 +276,35 @@ function loadActionDescription(entity) {
     
     switch(entity) {
 	    case "view":
-	    	desc = "View all <a href='" 
+	    	desc = "View all global <a target='_blank' href='" 
 	    		+ gitbook 
-	    		+ "/language_specification/metadata.html'>entity information</a> and schemas associated with the entity."; 
+	    		+ "/language_specification/metadata.html'>information</a> associated with the selected entity."; 
 	        break;
 	    case "edit":
-	    	desc = "Edit the <a href='" 
+	    	desc = "Edit the <a target='_blank' href='" 
 	    		+ gitbook 
 	    		+ "/rest_specification/put_update_entity_info.html'>information</a> of a specific entity."; 
 	    	break;
 	    case "new":
-	    	desc = "Create a <a href='" 
+	    	desc = "Create a <a target='_blank' href='" 
 	    		+ gitbook 
 	    		+ "/rest_specification/put_create_new_metadata.html'>new entity</a> by defining new metadata.";
 	    	break;
 	    case "version":
-	    	desc = "Create a new <a href='"
+	    	desc = "Create a new <a target='_blank' href='"
 	    		+ gitbook 
 	    		+ "/rest_specification/put_create_new_schema.html'>schema</a>, representing a new version of an existing entity.";
 	    	break;
 	    case "roles":
-	    	desc = "View all <a href='" 
+	    	desc = "View all <a target='_blank' href='" 
 	    		+ gitbook 
 	    		+ "/rest_specification/get_entity_roles.html'>roles</a> and the entities they allow access to.  If an entity is slected, view all roles for that entity. If a version is seleceted, view all roles for that entity at the specified version.";
 	    	break;
 	    case "summary":
-	    	desc = "";
+	    	desc = "View an overall summary of the available entities, including their versions.";
 	    	break;
     }
-    $('#alert-box').html(desc);
+    $('#action-desc').html(desc);
 }
 
 function loadVersions() {
@@ -384,7 +384,7 @@ $(document).ready(function() {
     loadVersions();
 
     var entitySelect = $("#entities");
-    var actionSelect = $("#action");
+    var actionSelect = $("#actions");
     var versionSelect = $("#versions");
     var submitButton = $("#load-content-btn");
 
