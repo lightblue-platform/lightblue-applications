@@ -270,21 +270,41 @@ function loadActionDescription(entity) {
     if (entity == null || entity == "") {
         return;
     }
+    
+    var desc = "";
+    var gitbook = "http://jewzaam.gitbooks.io/lightblue-specifications/content"
+    
     switch(entity) {
 	    case "view":
+	    	desc = "View all <a href='" 
+	    		+ gitbook 
+	    		+ "/language_specification/metadata.html'>entity information</a> and schemas associated with the entity."; 
 	        break;
 	    case "edit":
-	        break;
+	    	desc = "Edit the <a href='" 
+	    		+ gitbook 
+	    		+ "/rest_specification/put_update_entity_info.html'>information</a> of a specific entity."; 
+	    	break;
 	    case "new":
-	        break;
+	    	desc = "Create a <a href='" 
+	    		+ gitbook 
+	    		+ "/rest_specification/put_create_new_metadata.html'>new entity</a> by defining new metadata.";
+	    	break;
 	    case "version":
-	        break;
+	    	desc = "Create a new <a href='"
+	    		+ gitbook 
+	    		+ "/rest_specification/put_create_new_schema.html'>schema</a>, representing a new version of an existing entity.";
+	    	break;
 	    case "roles":
-	        break;
+	    	desc = "View all <a href='" 
+	    		+ gitbook 
+	    		+ "/rest_specification/get_entity_roles.html'>roles</a> and the entities they allow access to.  If an entity is slected, view all roles for that entity. If a version is seleceted, view all roles for that entity at the specified version.";
+	    	break;
 	    case "summary":
-	        break;
-	    default:    
+	    	desc = "";
+	    	break;
     }
+    $('#alert-box').html(desc);
 }
 
 function loadVersions() {
