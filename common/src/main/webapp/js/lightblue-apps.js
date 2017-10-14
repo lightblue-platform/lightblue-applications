@@ -265,6 +265,48 @@ function callLightblue(uri, jsonData, method) {
     });
 }
 
+// Show a description of the action
+function loadActionDescription(entity) {
+    if (entity == null || entity == "") {
+        return;
+    }
+    
+    var desc = "";
+    var gitbook = "http://jewzaam.gitbooks.io/lightblue-specifications/content"
+    
+    switch(entity) {
+	    case "view":
+	    	desc = "View all global <a target='_blank' href='" 
+	    		+ gitbook 
+	    		+ "/language_specification/metadata.html'>information</a> associated with the selected entity."; 
+	        break;
+	    case "edit":
+	    	desc = "Edit the <a target='_blank' href='" 
+	    		+ gitbook 
+	    		+ "/rest_specification/put_update_entity_info.html'>information</a> of a specific entity."; 
+	    	break;
+	    case "new":
+	    	desc = "Create a <a target='_blank' href='" 
+	    		+ gitbook 
+	    		+ "/rest_specification/put_create_new_metadata.html'>new entity</a> by defining new metadata.";
+	    	break;
+	    case "version":
+	    	desc = "Create a new <a target='_blank' href='"
+	    		+ gitbook 
+	    		+ "/rest_specification/put_create_new_schema.html'>schema</a>, representing a new version of an existing entity.";
+	    	break;
+	    case "roles":
+	    	desc = "View all <a target='_blank' href='" 
+	    		+ gitbook 
+	    		+ "/rest_specification/get_entity_roles.html'>roles</a> and the entities they allow access to.  If an entity is slected, view all roles for that entity. If a version is seleceted, view all roles for that entity at the specified version.";
+	    	break;
+	    case "summary":
+	    	desc = "View an overall summary of the available entities, including their versions.";
+	    	break;
+    }
+    $('#action-desc').html(desc);
+}
+
 function loadVersions() {
     "use strict";
 
@@ -342,6 +384,7 @@ $(document).ready(function() {
     loadVersions();
 
     var entitySelect = $("#entities");
+    var actionSelect = $("#actions");
     var versionSelect = $("#versions");
     var submitButton = $("#load-content-btn");
 
@@ -350,6 +393,10 @@ $(document).ready(function() {
 
     loadEntities();
 
+    actionSelect.change(function() {
+        loadActionDescription($(this).val());
+    });
+    
     entitySelect.change(function() {
           loadEntityVersions($(this).val());
     });
