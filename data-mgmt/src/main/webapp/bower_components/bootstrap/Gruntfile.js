@@ -377,7 +377,7 @@ module.exports = function (grunt) {
     'saucelabs-qunit': {
       all: {
         options: {
-          build: process.env.TRAVIS_JOB_ID,
+          build: process.env.JOB_ID,
           concurrency: 10,
           maxRetries: 3,
           urls: ['http://127.0.0.1:3000/js/tests/index.html'],
@@ -416,7 +416,7 @@ module.exports = function (grunt) {
   }
   // Skip HTML validation if running a different subset of the test suite
   if (runSubset('validate-html') &&
-      // Skip HTML5 validator on Travis when [skip validator] is in the commit message
+      // Skip HTML5 validator when [skip validator] is in the commit message
       isUndefOrNonZero(process.env.TWBS_DO_VALIDATOR)) {
     testSubtasks.push('validate-html');
   }
@@ -424,7 +424,7 @@ module.exports = function (grunt) {
   if (typeof process.env.SAUCE_ACCESS_KEY !== 'undefined' &&
       // Skip Sauce if running a different subset of the test suite
       runSubset('sauce-js-unit') &&
-      // Skip Sauce on Travis when [skip sauce] is in the commit message
+      // Skip Sauce when [skip sauce] is in the commit message
       isUndefOrNonZero(process.env.TWBS_DO_SAUCE)) {
     testSubtasks.push('connect');
     testSubtasks.push('saucelabs-qunit');
@@ -462,7 +462,7 @@ module.exports = function (grunt) {
     generateRawFiles(grunt, banner);
   });
 
-  // Task for updating the cached npm packages used by the Travis build (which are controlled by test-infra/npm-shrinkwrap.json).
+  // Task for updating the cached npm packages used by the build (which are controlled by test-infra/npm-shrinkwrap.json).
   // This task should be run and the updated file should be committed whenever Bootstrap's dependencies change.
   grunt.registerTask('update-shrinkwrap', ['exec:npmUpdate', '_update-shrinkwrap']);
   grunt.registerTask('_update-shrinkwrap', function () {
